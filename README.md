@@ -1,151 +1,151 @@
 # Learn Anything · by Nar
 
-> **让 AI 真正带你学会，而不只是讲给你听。**
+**English** · [简体中文](README.zh-CN.md)
 
-从学习路线、逐课讲解，到练习、纠错、迁移和复习，Learn Anything 会根据你的目标与表现持续调整，带你把一个新主题真正学会。
+> **Help AI teach you to truly learn—not just explain things to you.**
 
-Learn Anything 是一个运行在 Codex、Claude Code、Cursor 等 Agent 环境中的**自适应学习 Skill**，不是独立 Agent 或应用。
+Learn Anything is an adaptive learning Skill for agent environments. It turns a serious learning goal into a source-grounded, adjustable course, then uses practice, feedback, transfer, and delayed review to test whether the learner can actually use what they learned.
+
+It runs inside Codex, Claude Code, Cursor, and other environments that support Agent Skills. It is a Skill, not a standalone agent or application.
 
 **Created by [Nar / 那不然](https://github.com/Nar101)** · Official repository: [`Nar101/learn-anything`](https://github.com/Nar101/learn-anything)
 
-> Learn Anything 最初由 **Nar / 那不然** 设计并开源。欢迎在 MIT License 下使用、修改和再发布；再分发本项目的全部或实质性部分时，请保留原始版权声明与许可证。
+> Learn Anything was designed and open-sourced by **Nar / 那不然**. You may use, modify, and redistribute it under the MIT License. When redistributing all or a substantial part of the project, keep the original copyright notice and license.
 
----
+## Choose your learning scenario
 
-## 先选择你的学习场景
+After installation, describe your goal in natural language. You do not need to learn a complex command system.
 
-Learn Anything 支持四种常见场景。安装后不需要学习复杂命令，直接用自然语言说明目标即可。
+### You already have learning material
 
-### 场景一：你已经有学习资料
-
-你可以直接上传 PDF、文章、课程讲义、字幕、转录或笔记，也可以发送可访问的网页链接。Tutor 会以这份材料为学习边界，先讲清原内容，再连接你的使用场景。
+Upload a PDF, article, lecture note, transcript, or your own notes, or share an accessible web link. The Tutor treats the material as the boundary of the course, explains what it says, and then connects it to your use case.
 
 ```text
-用 learn-anything 带我系统学习我上传的 PDF。
-我希望最终能独立运用其中的方法分析真实案例。
-请先告诉我整份材料的结构和学习路线，
-然后一次只教一个学习段。
+Use learn-anything to help me systematically learn the PDF I uploaded.
+I want to apply its methods independently to real cases.
+First show me the structure and learning route,
+then teach only one lesson segment at a time.
 ```
 
-如果材料很长，Tutor 只会读取当前一课所需要的章节，不会一次把整份材料塞进对话。
+For long material, the Tutor reads only the sections needed for the current lesson instead of loading the entire document into the conversation.
 
-### 场景二：你没有准备任何资料
+### You are starting from a goal
 
-你只需要说想学什么、准备用在哪里。Tutor 会为当前学习段研究可靠来源，建立课程路线，而不是要求你先去找教材。
+Tell the Tutor what you want to learn and where you will use it. It researches reliable sources for the current lesson and builds a course route instead of asking you to collect a complete textbook first.
 
 ```text
-用 learn-anything 带我从零学习 OAuth 2.0。
-我希望最终能独立评审一个第三方登录方案。
-我没有指定教材，请你为当前学习段研究可靠来源。
+Use learn-anything to teach me OAuth 2.0 from scratch.
+I want to independently review a third-party login design.
+I have no textbook in mind, so research reliable sources for the current lesson.
 ```
 
-### 场景三：你已经学过，只想检查自己是否真会
+### You have studied it and want to test yourself
 
 ```text
-用 learn-anything 检查我是否真正掌握了机会成本。
-不要先告诉我答案，直接给我一个现实案例，
-根据我的表现判断需不需要补课。
+Use learn-anything to check whether I really understand opportunity cost.
+Do not tell me the answer first. Give me a realistic case,
+then decide from my response whether I need a refresher.
 ```
 
-### 场景四：继续一门长期课程
+### You want to continue a long-term course
 
-如果之前已经保存课程状态，直接说：
+If a course state has already been saved, say:
 
 ```text
-继续上次的学习。
-先检查有没有到期复习，
-再从上次停下的位置或最早未稳定的知识点开始。
+Continue my previous course.
+Check for any due reviews first,
+then resume from where I stopped or from the earliest unstable concept.
 ```
 
-## 30 秒开始
+## Start in 30 seconds
 
 ```bash
 npx skills add Nar101/learn-anything
 ```
 
-安装后，直接对 Agent 说出你对应的场景。最短可以只说：
+Then tell your Agent what you want to learn. The shortest useful prompt is:
 
 ```text
-我上传了一份资料。用 learn-anything 带我系统学会它，
-先给我可调整的课程地图，然后一次只教一个学习段。
+I uploaded some material. Use learn-anything to help me truly learn it.
+Start with an adjustable course map, then teach one lesson segment at a time.
 ```
 
-## 它和普通 AI 问答有什么不同？
+## What makes it different from ordinary AI Q&A?
 
-普通 AI 擅长把一个问题解释清楚。Learn Anything 要继续往前一步：它会带你建立路线、完成练习、纠正误区，并用新场景和延迟复习检查你是否真的会用。
+Ordinary AI is good at making an answer clear. Learn Anything goes further: it builds a route, asks you to apply ideas, corrects misconceptions, and checks whether you can use the knowledge in a new context and after a delay.
 
-- **有资料时，忠实学资料**：区分原作者主张、Tutor 综合和你的应用假设。
-- **没资料时，主动找来源**：只研究当前学习段，不要求你先搜集整套教材。
-- **先定标准，再让你作答**：题目的答案或评分规则必须事先固定。
-- **不用“看过”冒充“掌握”**：提示下会做、独立完成、换场景仍会和延迟后仍会分开记录。
-- **没学稳就先不赶进度**：核心误区还在时，“继续”意味着继续补强，不是直接跳到下一课。
+- **With material, stay faithful to the source:** distinguish the author's claims, the Tutor's synthesis, and your application assumptions.
+- **Without material, research the current lesson:** do not require a complete reading list before starting.
+- **Freeze the standard before the answer:** define the expected answer or rubric before asking you to respond.
+- **Do not confuse exposure with mastery:** track prompted performance, independent performance, transfer, and delayed recall separately.
+- **Do not rush unstable knowledge:** when a core misconception remains, “continue” means strengthening it before moving on.
 
-学习证据会经过：
+Evidence of learning progresses through:
 
 ```text
-接触过 → 提示下会做 → 独立完成 → 换场景仍会 → 延迟后仍能调用
+seen → can do with hints → can do independently → can transfer → can recall later
 ```
 
-## 它如何工作？
+## How it works
 
 ```text
-学习目标
-→ 掌握标准
-→ 可调整课程地图
-→ 只准备当前课
-→ 导航与教材讲解
-→ 应用到你的场景
-→ 事先固定标准的练习
-→ 反馈、重试与掌握闸门
-→ 本课即时回忆与迁移
-→ 延迟复习
+Learning goal
+→ mastery standard
+→ adjustable course map
+→ current lesson only
+→ navigation and source-grounded teaching
+→ application to your context
+→ pre-committed assessment
+→ feedback, retry, and mastery gate
+→ immediate recall and transfer
+→ delayed review
 ```
 
-具体协议见 [`SKILL.md`](./SKILL.md)。
+The detailed protocol is documented in [`SKILL.md`](./SKILL.md).
 
-## 手动安装
+## Manual installation
 
-将本仓库克隆到 Agent 可读取的 Skills 目录，或把整个仓库复制到项目级 `.agents/skills/learn-anything/`。不要只复制 `SKILL.md`：课程模板、评测规则和验证器也是这个 Skill 的一部分。
+Clone this repository into a Skills directory that your Agent can read, or copy the repository into a project-level `.agents/skills/learn-anything/` directory. Do not copy only `SKILL.md`: the course templates, evaluation rubrics, and validator are part of the Skill.
 
-## 兼容性
+## Compatibility
 
-本仓库遵循 Agent Skills 的 `SKILL.md` 结构，可用于支持 Agent Skills 的 Codex、Claude Code、Cursor 等 Agent。不同 Agent 对本地文件、网络搜索和子 Agent 的能力不同；当运行环境不允许写入时，Skill 仍可以在当前对话中按同一教学协议运行，但不会假装已保存跨会话状态。
+This repository follows the Agent Skills `SKILL.md` structure and can be used by Codex, Claude Code, Cursor, and other compatible Agents. Capabilities differ by environment: when an environment cannot write files, the Skill can still follow the teaching protocol in the current conversation, but it will not pretend that cross-session state was saved.
 
-## 验证
+## Validation
 
-验证 Skill 结构：
+Validate the Skill structure:
 
 ```bash
 python3 /path/to/skill-creator/scripts/quick_validate.py .
 ```
 
-运行课程验证器回归测试：
+Run the course-validator regression tests:
 
 ```bash
 python3 -B scripts/test_validate_course.py
 ```
 
-验证一个持久化课程包：
+Validate a persisted course package:
 
 ```bash
 python3 -B scripts/validate_course.py /path/to/course
 ```
 
-## 设计边界
+## Design boundaries
 
-- 这是学习 Tutor，不是快速问答的强制路由；一次性问题会直接回答。
-- 不会为了显得完整而预先生成全部课件。
-- 用户说“懂了”、课程已经讲过，都不等于掌握。
-- 高风险领域的对话练习不代表专业资格或现实操作能力。
-- 没有读取到原文时，不把 Tutor 的理解冒充为作者原意。
+- This is a learning Tutor, not a forced router for every quick question; one-off questions can be answered directly.
+- It does not pre-generate every lesson just to look complete.
+- Saying “I understand” or finishing an explanation does not count as mastery.
+- Practice in a high-risk domain is not a professional qualification or permission for real-world action.
+- When the source text was not read, the Tutor does not present its own interpretation as the author's intent.
 
-## 作者
+## Author
 
 **[Nar / 那不然](https://github.com/Nar101)**
 
-我在持续实践一件事：如何让 AI 从一次性问答，走向真正参与学习、思考和工作。Learn Anything 是这项实践中的一个开源作品。
+I am exploring how AI can move beyond one-off answers and participate in real learning, thinking, and work. Learn Anything is one open-source result of that practice.
 
-本项目的唯一官方源仓库是 [`Nar101/learn-anything`](https://github.com/Nar101/learn-anything)。如果你在其他仓库、网站或安装包中看到 Learn Anything，可以回到这里确认原始作者和最新版本。
+This repository is the official source for Learn Anything: [`Nar101/learn-anything`](https://github.com/Nar101/learn-anything). If you find Learn Anything in another repository, website, or package, return here to verify the original author and latest version.
 
 ## License
 
