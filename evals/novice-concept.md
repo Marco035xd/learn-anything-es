@@ -1,86 +1,86 @@
-# Eval 01｜完全新手学习概念
+# Evaluación 01 · Enseñanza de un concepto a principiantes
 
-## 测试目标
+## Objetivo de la evaluación
 
-验证 Skill 是否能把一个抽象主题转换成可应用的概念能力，同时避免：
+Verifica si Skill puede transformar un tema abstracto en una habilidad conceptual aplicable, evitando:
 
-- 一开始生成百科大纲；
-- 让完全新手盲答复杂问题；
-- 只讲定义、不检查应用；
-- 因用户说“懂了”就判定掌握。
+- Inicialmente, se genera un esquema enciclopédico.
+- Permitir que los principiantes absolutos respondan preguntas complejas ciegamente.
+- Define solo sin comprobar aplicaciones.
+- Porque cuando los usuarios dicen "Lo entiendo", se les considera dominados.
 
-## 场景
+## Escenario
 
-用户完全不了解“机会成本”，希望用于自己的现实选择。
+Los usuarios no tienen ningún entendimiento del "coste de oportunidad" y quieren utilizarlo para sus propias decisiones prácticas.
 
-## 初始 Prompt
+## Solicitud inicial
 
-> 我完全不懂机会成本。带我学会它，我主要想用它判断：周末到底该继续学 AI，还是写文章。一次别讲太多。
+> No tengo ningún entendimiento del coste de oportunidad. Para ayudarme a aprenderlo, principalmente quiero usarlo para juzgar: ¿debería seguir aprendiendo IA los fines de semana o escribir artículos? No hables demasiado de golpe.
 
-## 预期首轮行为
+## Espera comportamiento en la primera ronda
 
-必须：
+Debe:
 
-1. 将目标暂定为：能在现实选择中识别“放弃的最佳替代方案及其价值”，而非背诵定义；
-2. 识别用户是概念新手，先给一个贴近周末选择的最小例子；
-3. 只展示简洁路线，例如“理解含义 → 识别常见误区 → 用自己的选择练习”；
-4. 不只给路线后停下，应立即开始第一步；
-5. 第一个主动输出应足够简单，例如让用户指出选择写文章时放弃的最佳替代是什么；
-6. 一轮只问一个主要问题。
+1. Estableció provisionalmente el objetivo como: identificar la "mejor alternativa y el valor del abandono" en las decisiones de la vida real, en lugar de memorizar definiciones.
+2. Identificar usuarios es un concepto de principiante, así que empecemos con un ejemplo mínimo de una elección relacionada con el fin de semana.
+3. Muestra solo rutas concisas, como "Entiende el significado → Identifica malentendidos comunes → practica con tus propias elecciones".
+4. No pares después de dar la ruta; comienza el primer paso inmediatamente.
+5. El primer resultado proactivo debería ser lo suficientemente sencillo, por ejemplo, pidiendo a los usuarios que señalen la mejor alternativa a abandonar al redactar el artículo.
+6. Cada ronda plantea solo una pregunta principal.
 
-不得：
+No se permite:
 
-- 一次讲完经济学完整章节；
-- 用“机会成本就是所有失去的东西”作为不准确简化；
-- 第一轮就要求用户分析复杂商业案例；
-- 宣称用户已经掌握。
+- Cubriendo todo el capítulo de economía de una sola vez.
+- Usar "coste de oportunidad es todo perdido" es una simplificación inexacta.
+- La primera ronda requirió que los usuarios analizaran casos de negocio complejos.
+- Afirma que el usuario lo ha dominado.
 
-## 第二轮输入
+## Segunda ronda de aportaciones
 
-> 我理解机会成本就是做一件事花掉的钱。比如写文章的成本是咖啡钱和电费。
+> Entiendo el coste de oportunidad como el dinero gastado en hacer algo. Por ejemplo, el coste de escribir un artículo es el café y la electricidad.
 
-## 预期反馈
+## Retroalimentación esperada
 
-必须：
+Debe:
 
-1. 不泛泛说“很接近”；
-2. 可以指出用户已经注意到“选择有代价”，但关键误区是把机会成本缩成显性金钱；
-3. 用当前场景说明：如果选择写文章，机会成本通常是被放弃的最佳替代方案——继续学 AI 所能带来的价值；
-4. 给 L1—L2 级提示，让用户重新回答同一场景；
-5. 当前状态最多为 `guided`。
+1. No digas "muy cerca" en general.
+2. Cabe señalar que los usuarios han notado que "las decisiones tienen un coste", pero el principal error es reducir los costes de oportunidad a dinero explícito.
+3. Para ilustrar con el escenario actual: si eliges escribir artículos, el coste de oportunidad suele ser la mejor alternativa a abandonar: seguir aprendiendo el valor que la IA puede aportar.
+4. Da L1 a L2 nivel de indicaciones, que incitan a los usuarios a responder de nuevo al mismo escenario.
+5. El estado actual depende de `guided`.
 
-## 第三轮输入
+## Tercera ronda de aportaciones
 
-> 那如果我选择写文章，机会成本就是这几个小时本来可以学到的 AI 知识和进度。不是咖啡钱。
+> Si elijo escribir artículos, el coste de oportunidad es el conocimiento y progreso de IA que podría haber aprendido en esas pocas horas. No dinero para el café.
 
-## 预期反馈与迁移
+## Retroalimentación anticipada y transferencia
 
-必须：
+Debe:
 
-1. 具体指出正确点：识别了被放弃的最佳替代及其价值；
-2. 补一个边界：若周末还有多个替代，只取最佳被放弃方案，不把所有选项相加；
-3. 给一个变化后的任务，例如“如果学 AI 是最佳替代，而休息不是，选择写文章时机会成本是什么”；
-4. 用户完成变式前，不标记为 `transferable`；
-5. 即使完成，也只能说即时独立或迁移得到验证，不能说 `durable`；
-6. 重要内容进入后续复习建议。
+1. Señalar específicamente los puntos correctos: identificar las mejores alternativas abandonadas y su valor.
+2. Añade un límite: si hay varias alternativas durante el fin de semana, solo se elige la mejor opción sin sumar todas las opciones.
+3. Asigna una tarea modificada, por ejemplo: "Si aprender IA es la mejor alternativa y descansar no, ¿cuál es el coste de oportunidad al elegir escribir un artículo?".
+4. Antes de que el usuario complete la variante, no la marque como `transferable`.
+5. Incluso si se completa, solo puede decirse que se verifica la independencia o transferencia inmediata, no la `durable`.
+6. Se proporciona contenido importante para sugerencias de revisión posteriores.
 
-## 评分重点
+## Puntos clave de la clasificación
 
-- 掌握目标与起点诊断；
-- concept 教学路由；
-- 最小讲解与主动输出；
-- 错误模型定位；
-- 变式迁移；
-- 状态证据纪律。
+- Domina el diagnóstico de objetivos y puntos de partida.
+- concepto de Ruta de Enseñanza.
+- Explicación mínima y producción activa.
+- Localización incorrecta del modelo.
+- transferencia de variantes.
+- Disciplina de evidencia de estado.
 
-## Critical Fail
+## Fallos graves
 
-- 将“花掉的钱”判为正确完整定义；
-- 用户未输出任何应用就被宣布掌握；
-- 第一轮输出长篇经济学课程；
-- 当场授予 `durable`；
-- 只问“懂了吗”而没有可观察任务。
+- Juez "gastó dinero" como la definición correcta y completa.
+- Se declara dominio de los usuarios sin producir ninguna aplicación.
+- La primera ronda de producción es un curso de economía de formato largo.
+- `durable` otorgado en el acto.
+- Solo pregunta "¿Entendido?" sin ninguna tarea visible.
 
-## 通过标准
+## Criterio de aprobación
 
-按 `tutor-quality-rubric.md` 的适用维度换算得分 ≥ 80，且无 Critical Fail。
+Puntuación ≥ 80 según las dimensiones aplicables de `tutor-quality-rubric.md`, sin Fallo Crítico.

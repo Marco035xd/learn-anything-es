@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Regression tests for learn-anything course runtime validation."""
+"""Pruebas de regresión del validador de cursos de Learn Anything."""
 
 from __future__ import annotations
 
@@ -66,7 +66,7 @@ def valid_course_data() -> dict[str, dict]:
                 "current_status": "unknown",
                 "current_evidence": [],
                 "active_misconceptions": [],
-                "promotion_blockers": ["representative task not attempted"],
+                "promotion_blockers": ["tarea representativa pendiente"],
                 "advance_allowed": False,
             }
         ],
@@ -80,7 +80,7 @@ def valid_course_data() -> dict[str, dict]:
                 "lesson_id": "L01",
                 "review_type": "immediate",
                 "retrieval_before_summary": True,
-                "transfer_task": "new scenario",
+                "transfer_task": "situación nueva",
                 "result": "not_attempted",
                 "misconceptions_reactivated": [],
                 "next_action": "reinforce",
@@ -102,12 +102,12 @@ def valid_course_data() -> dict[str, dict]:
                 "status": "planned",
                 "material_path": None,
                 "navigation": {
-                    "position": "L01-P01 / 当前课第 1 段",
-                    "lesson_question": "核心问题",
-                    "previous_part_resolved": "这是本课起点",
-                    "why_this_part_now": "先建立前置判断",
-                    "source_focus": "原教材当前主张",
-                    "success_criterion": "能独立解释核心关系",
+                    "position": "L01-P01 / segmento 1 de la lección actual",
+                    "lesson_question": "Pregunta central",
+                    "previous_part_resolved": "Este es el inicio de la lección",
+                    "why_this_part_now": "Primero comprobamos el requisito previo",
+                    "source_focus": "Afirmación de la fuente",
+                    "success_criterion": "Explicar por cuenta propia la relación central",
                 },
                 "source_layer": {},
                 "tutor_synthesis": {},
@@ -135,15 +135,15 @@ def valid_course_data() -> dict[str, dict]:
                 "assessment_id": "A-L01-01",
                 "target_node_id": "node-001",
                 "question_type": "open_response",
-                "question": "请解释核心关系。",
-                "correct_answer": "按冻结 rubric 判断",
+                "question": "Explica la relación central.",
+                "correct_answer": "Aplicar la rúbrica prefijada",
                 "acceptable_variants": [],
-                "rationale": "测量当前节点",
+                "rationale": "Evaluar el concepto actual",
                 "grading_rule": {
-                    "correct": ["核心关系与依据均正确"],
-                    "partially_correct": ["结论正确但依据不完整"],
-                    "incorrect": ["核心关系错误"],
-                    "ungradable": ["题目或标准不足"],
+                    "correct": ["La relación central y su justificación son correctas"],
+                    "partially_correct": ["La conclusión es correcta y su justificación es incompleta"],
+                    "incorrect": ["La relación central es incorrecta"],
+                    "ungradable": ["La pregunta o el criterio son insuficientes"],
                 },
                 "preflight": {
                     "target_node_is_explicit": True,
@@ -183,10 +183,10 @@ def build_course(root: Path, overrides: dict[str, dict] | None = None) -> Path:
         data[path] = value
     for relative, value in data.items():
         write_yaml(root / relative, value)
-    (root / "课程入口.md").write_text("# 课程入口\n", encoding="utf-8")
+    (root / "inicio-del-curso.md").write_text("# Inicio del curso\n", encoding="utf-8")
     lesson_dir = root / "lessons/L01"
-    (lesson_dir / "02-user-notes.md").write_text("# 用户笔记\n", encoding="utf-8")
-    (lesson_dir / "03-tutor-summary.md").write_text("# Tutor 总结\n", encoding="utf-8")
+    (lesson_dir / "02-user-notes.md").write_text("# Notas del estudiante\n", encoding="utf-8")
+    (lesson_dir / "03-tutor-summary.md").write_text("# Resumen del tutor\n", encoding="utf-8")
     return root
 
 
@@ -199,6 +199,26 @@ class ValidateCourseV4Tests(unittest.TestCase):
 
     def test_valid_v4_course_passes(self) -> None:
         self.assertEqual(self.validate(), [])
+
+    def test_localized_lesson_template_passes_strict_longform_checks(self) -> None:
+        template_path = VALIDATOR_PATH.parent.parent / "templates" / "lesson-pack.md"
+        template = template_path.read_text(encoding="utf-8")
+        paragraph = "El ejercicio usa un ejemplo para aplicar el concepto a una situación práctica. " * 3
+        text = template.replace("{{teacherly_longform_material}}", "\n\n".join([paragraph] * 12))
+        with tempfile.TemporaryDirectory() as temp_dir:
+            path = Path(temp_dir) / "segmento.md"
+            path.write_text(text, encoding="utf-8")
+            errors: list[str] = []
+            warnings: list[str] = []
+            VALIDATOR.validate_longform(path, errors, warnings, require_v4_protocol=True)
+            self.assertEqual(errors + warnings, [])
+
+    def test_legacy_course_home_still_passes(self) -> None:
+        with tempfile.TemporaryDirectory() as temp_dir:
+            course = build_course(Path(temp_dir))
+            (course / "inicio-del-curso.md").rename(course / "课程入口.md")
+            errors, _warnings = VALIDATOR.validate_course(course, strict=False)
+            self.assertEqual(errors, [])
 
     def test_assessment_preflight_failure_is_blocked(self) -> None:
         assessment = deepcopy(valid_course_data()["assessments/01.yaml"])
@@ -215,24 +235,24 @@ class ValidateCourseV4Tests(unittest.TestCase):
                 "mastery_change": {"from": "guided", "to": "independent"},
                 "promotion_evidence": {
                     "grading_result": "correct",
-                    "criteria_met": ["final answer"],
-                    "criteria_unmet": ["independent evidence"],
+                    "criteria_met": ["respuesta final"],
+                    "criteria_unmet": ["evidencia de desempeño independiente"],
                     "active_misconceptions": [],
                     "historical_highest_status": "guided",
                     "current_status": "guided",
                     "advance_allowed": False,
-                    "promotion_blockers": ["L4 hint used"],
+                    "promotion_blockers": ["se usó una pista de nivel L4"],
                 },
             }
         ]
         errors = self.validate({"learner-state.yaml": learner})
-        self.assertIn("hinted evidence cannot promote beyond guided", errors)
+        self.assertIn("Una respuesta con pistas solo permite alcanzar el nivel guided", errors)
 
     def test_next_lesson_requires_immediate_review_and_transfer(self) -> None:
         plan = deepcopy(valid_course_data()["lessons/L01/00-lesson-plan.yaml"])
         plan["lesson_completion_gate"]["next_lesson_generation_allowed"] = True
         errors = self.validate({"lessons/L01/00-lesson-plan.yaml": plan})
-        self.assertTrue(any("allows next lesson" in error for error in errors))
+        self.assertTrue(any("permite la siguiente lección" in error for error in errors))
 
     def test_next_lesson_requires_cross_file_review_evidence(self) -> None:
         data = valid_course_data()
@@ -260,7 +280,7 @@ class ValidateCourseV4Tests(unittest.TestCase):
                 "learner-state.yaml": learner,
             }
         )
-        self.assertIn("next lesson allowed without completed immediate review evidence", errors)
+        self.assertIn("Se autorizó la siguiente lección sin evidencia de repaso inmediato completo", errors)
 
 
 if __name__ == "__main__":

@@ -1,11 +1,11 @@
-# {{lesson_id}}｜我的学习笔记
+# {{lesson_id}} · Mis notas de estudio
 
-这里保存学习者自己的理解、问题、例子和摘录。AI 不把课后总结写进这里，也不在未经要求时改写学习者原话。
+Aquí se guardan las ideas, preguntas, ejemplos y citas del estudiante. Sus palabras se conservan textualmente. El tutor guarda su resumen en un archivo aparte.
 
-## 用户原话
+## Palabras del estudiante
 
 {{learner_words}}
 
-## AI 协助整理（仅在学习者要求时使用）
+## Notas organizadas con IA a petición del estudiante
 
 {{ai_assisted_organization}}

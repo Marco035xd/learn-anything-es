@@ -35,12 +35,12 @@ activity_sequence:
     phase: recall_or_attempt
     activity: ""
     evidence_to_observe: ""
-    skip_condition: "完全新手且任务复杂，需要先看示例"
+    skip_condition: "El principiante necesita un ejemplo antes de abordar una tarea compleja"
   - order: 2
     phase: minimum_explanation
     activity: ""
     key_points: []
-    load_limit: "一次只处理一个主要障碍"
+    load_limit: "Aborda un obstáculo principal a la vez"
   - order: 3
     phase: example_or_demonstration
     activity: ""
@@ -98,13 +98,13 @@ immediate_review:
   next_action: reinforce
 
 adaptation:
-  if_correct_with_no_hint: "进入迁移或提高复杂度"
-  if_correct_with_high_hint: "保持 guided，降低提示后再试"
-  if_partially_correct: "保留正确部分，修第一个关键断点"
-  if_same_error_repeats: "检查前置知识、负荷和错误模型"
-  if_transfer_fails: "回到最早薄弱节点，不推进新内容"
-  if_user_requests_direct_answer: "直接回答，再用一个小变式检查理解"
-  if_user_is_fatigued: "缩小任务，但保留一次主动输出"
+  if_correct_with_no_hint: "Pasa a una tarea de transferencia o aumenta la dificultad"
+  if_correct_with_high_hint: "Mantén el nivel guided y repite con menos ayuda"
+  if_partially_correct: "Conserva lo acertado y corrige el primer error decisivo"
+  if_same_error_repeats: "Comprueba los conocimientos previos, la carga cognitiva y la idea equivocada"
+  if_transfer_fails: "Vuelve al primer concepto frágil antes de introducir contenido"
+  if_user_requests_direct_answer: "Responde directamente y comprueba la comprensión con una variante breve"
+  if_user_is_fatigued: "Acorta la tarea y conserva una actividad que requiera una respuesta"
 
 closing_contract:
   capability_formed: ""

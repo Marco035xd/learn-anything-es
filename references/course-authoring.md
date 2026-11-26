@@ -1,28 +1,28 @@
-# 课程地图与当前课编写协议
+# Plan de estudio y redacción de la lección actual
 
-## 核心判断
+## Juicio fundamental
 
-系统学习先建立完整路线，再逐课生产教材。
+El aprendizaje sistemático establece primero una ruta completa y luego produce materiales didácticos para cada lección.
 
-课程地图解决“最终学到哪里、为什么按这个顺序”；当前课包解决“现在具体学什么、依据是什么、如何证明学会”。两者不要一次性全部生成。
+El mapa del curso resuelve «dónde acabas aprendiendo y por qué sigues este orden»; el paquete actual de cursos resuelve «qué se está aprendiendo exactamente ahora, cuál es la base y cómo demostrar el dominio». No generes ambas cosas a la vez.
 
 ```text
-学习目标
-→ 可调整课程地图
-→ 当前课计划
-→ 当前学习段长文与来源
-→ 讲解、练习与反馈
-→ 下一学习段
-→ 题目展示前冻结评测
-→ 调整未来路线
-→ 下一课
+Objetivos de aprendizaje
+→ Los mapas de los recorridos pueden ajustarse
+→ Plan de lección actual
+→ Pasaje de estudio actual y fuentes
+→ Explicación, ejercicios y retroalimentación
+→ Siguiente párrafo de aprendizaje
+→ Las preguntas quedan congeladas antes de que se muestre la revisión
+→ Ajustar los cursos futuros
+→ Próxima lección
 ```
 
-## 一、先建立可调整课程地图
+## 1. Primero, crea un mapa de ruta ajustable
 
-系统学习、进入领域、备考或建立技能时，先准备 3—12 课路线。小概念可以只有 1—3 课。
+Al aprender sistemáticamente, entrar en un campo, prepararse para exámenes o desarrollar habilidades, primero prepara una ruta de 3–12 lecciones. Los conceptos pequeños solo pueden ser de 1 a 3 lecciones.
 
-每一课只需要写清：
+Cada lección solo necesita estar claramente indicada:
 
 ```yaml
 lesson_id:
@@ -37,16 +37,16 @@ delivery_status:
 mastery_status:
 ```
 
-按“达到目标所需的最短前置关系”排序，不按教科书目录平铺。未来课默认是可调整占位，不需要提前准备正文和题目。
+Ordena el plan por la secuencia más corta de requisitos que permita alcanzar la meta. Registra las próximas lecciones como provisionales y prepara sus textos y preguntas cuando corresponda.
 
-对用户展示课程标题、每课解决的问题、当前课和最终能力。明确说明：未来课程会根据本课表现和用户反馈调整。
+Muestre a los usuarios el título del curso, los problemas resueltos en cada lección, la lección actual y la competencia final. Aclare que los cursos futuros se ajustarán en función del rendimiento de la lección y de la retroalimentación de los usuarios.
 
-## 二、只为当前课创建独立课包
+## 2. Crear un paquete de cursos separado solo para la lección actual
 
-当前课包包含：
+El paquete actual de cursos incluye:
 
 ```text
-../../assessments/01-{lesson-slug}.yaml
+../../evaluaciones/01-{lesson-slug}.yaml
 00-lesson-plan.yaml
 parts/
   01-{part-slug}.md
@@ -55,39 +55,39 @@ parts/
 03-tutor-summary.md
 ```
 
-一课只解决一个清楚的主问题，通常拆成 3—4 个学习段。先冻结学习段计划，只生成当前学习段；学习者完成互动或提出反馈后，再生成下一段。这样当前课也可以随真实理解状态调整。
+Cada lección resuelve solo un problema principal claro, normalmente dividido en 3–4 segmentos de aprendizaje. Primero, el plan del segmento de aprendizaje queda congelado y solo se genera el segmento actual; Después de que el alumno complete la interacción o retroalimentación, se genera el siguiente segmento. De este modo, la lección actual puede ajustarse según el estado real de comprensión.
 
-## 三、把教材写成老师讲课的长文
+## 3. Convierte el material didáctico en un pasaje largo para la clase docente
 
-### 学习段先给学习者定位
+### La sección de aprendizaje posiciona primero al aprendiz
 
-每个学习段的用户可见内容先用六行以内完成导航，再进入正文：
+Para cada segmento de aprendizaje, el contenido visible para el usuario se navega primero dentro de seis líneas o menos, y luego pasa al texto principal:
 
 ```text
-当前位置：L01-P02 / 当前课第 2 段
-本课总问题：
-上一段已经解决：
-这一段为什么接着学：
-原教材这一段主要讲：
-本段结束时你要能做到：
+Posición actual: L01-P02 / segundo segmento de la lección actual
+Pregunta central de la lección:
+Qué resolvió el segmento anterior:
+Por qué sigue este segmento:
+Qué explica la fuente en este segmento:
+Qué podrás hacer al terminar:
 ```
 
-导航是长对话中的重新定位，不是重复整张课程地图。不得只报“第几段”，也不得从一道局部问题直接开始。第一次学习段没有上一段时，写明“这是本课起点”和它为何是起点。
+La navegación es un proceso de reposicionamiento en una conversación larga, no una repetición de todo el mapa del curso. No solo informes "qué párrafo", ni empieces directamente desde una única pregunta local. Si no se ha completado el primer segmento de aprendizaje, indica "Este es el punto de partida de esta lección" y por qué es el punto de partida.
 
-教材正文必须是能独立阅读的教学长文，不能是“定义 + 表格 + 三条总结”的提纲扩写，也不能按固定栏目机械填空。
+El texto principal del material didáctico debe ser un texto didáctico extenso que pueda leerse de forma independiente, no un esquema ampliado de "definiciones + tablas + tres resúmenes", ni debe rellenarse mecánicamente con columnas fijas.
 
-每个学习段沿一条逻辑主线自然展开：
+Cada segmento de aprendizaje se desarrolla de forma natural a lo largo de un hilo conductor lógico:
 
-1. 从一个真实问题、矛盾或案例切入，让学习者先获得直觉；
-2. 逐步解释现象背后的机制，讲清“为什么”，再给术语和定义；
-3. 用同一个贯穿案例继续推演，必要时加入一个反例或边界例；
-4. 在关键转折处暂停，要求学习者预测、解释、判断或操作；
-5. 根据回答纠错，再把当前概念连接到下一学习段；
-6. 在文末保留来源锚点和适用边界。
+1. Comenzar con un problema real, una contradicción o un caso, permitiendo que los aprendices primero obtengan una intuición.
+2. Explicar gradualmente los mecanismos detrás del fenómeno, aclarar el “por qué” y luego proporcionar los términos y definiciones.
+3. Continuar desarrollando con el mismo caso a lo largo de todo el recorrido, agregando un contraejemplo o un caso límite si es necesario.
+4. Hacer pausas en los puntos clave de inflexión, pidiendo a los aprendices que predigan, expliquen, juzguen o actúen.
+5. Corregir según las respuestas y luego conectar el concepto actual con la siguiente fase de aprendizaje.
+6. Al final del texto, conservar los puntos de anclaje de la fuente y los límites de aplicabilidad.
 
-### 把来源、Tutor 综合和用户应用分开
+### Separar la fuente, la síntesis del tutor y la aplicación del usuario.
 
-当前课计划和学习段元数据必须保存三层：
+El plan actual de la lección y los metadatos de la fase de aprendizaje deben conservar tres niveles:
 
 ```yaml
 source_layer:
@@ -102,47 +102,47 @@ application_layer:
   evidence_needed: []
 ```
 
-正文先用白话忠实讲清原教材或来源，再明确标注 Tutor 的综合判断，最后才连接用户场景。没有原作者的 `agent_researched` 课程，也要把直接来源支持的结论与 Tutor 综合区分。用户场景中的判断若尚未验证，必须称为假设并说明需要什么证据，不能倒写成教材结论。
+El texto principal debe primero explicar fielmente en lenguaje sencillo el material o fuente original, luego señalar claramente el juicio sintético del tutor, y finalmente conectar con el escenario del usuario. Incluso si no hay un curso `agent_researched` del autor original, se deben distinguir las conclusiones apoyadas directamente por la fuente de la síntesis del tutor. Las decisiones en el escenario del usuario que aún no se hayan verificado deben denominarse hipótesis y explicar qué evidencia se necesita; no se debe reescribir como conclusión del material.
 
-`source_layer` 是证据声明，不是排版标签。只有 Tutor 实际读取的来源才能写入 `author_claims`，`source_location` 必须能定位到当前主张。原文不可访问时，不写伪原书教材：显式降级为主题讲解或停在来源门禁，不得用“原书说”“作者举例”掩盖缺失。
+`source_layer` es una declaración de evidencia, no una etiqueta de formato. Solo las fuentes realmente consultadas por el tutor pueden escribirse en `author_claims`, y `source_location` debe poder localizar la afirmación actual. Si el texto original no está disponible, no se debe crear un falso material del libro: degradar explícitamente a explicación temática o detenerse en la puerta de la fuente, y no usar “el libro dice” o “el autor da un ejemplo” para cubrir la ausencia.
 
-贯穿案例只帮助理解当前目标：不得引入尚未教学的核心概念作为答题前提，不得让用户业务问题取代本课问题，也不得把案例中的偶然结论推广成原教材主张。
+Usa el caso conductor para aclarar el objetivo actual. Apóyate en conceptos ya enseñados, mantén el foco en la pregunta de la lección y atribuye a la fuente solo las afirmaciones que esta sostiene.
 
-标题只服务叙事。允许 2—5 个自然小节，不规定统一标题。表格和清单可以用于归纳，但必须放在解释之后，不能替代解释。
+El título solo sirve para la narrativa. Se permiten de 2 a 5 secciones naturales, no se exige un título unificado. Las tablas y listas pueden usarse para resumir, pero deben colocarse después de la explicación y no reemplazarla.
 
-“言简意赅”表示删除废话、重复和空洞鼓励，不表示把教材压成摘要。默认每个学习段可写约 1800—3500 个中文字；概念简单时更短，复杂案例可更长。以“目标学习者脱离聊天也能读懂并完成练习”为质量门槛，不为凑字数灌水。
+Elimina las repeticiones y el relleno. Como orientación, un segmento en español puede tener entre 700 y 1400 palabras. Ajusta la longitud a la complejidad del tema. El estudiante debe poder entender el texto y completar la actividad fuera de la conversación.
 
-### 长文质量 Gate
+### Criterios de calidad de la explicación
 
-交付当前学习段前逐项检查：
+Comprueba estos criterios antes de mostrar el segmento.
 
-- 是否有一个具体问题或案例贯穿，而不是连续堆定义；
-- 是否解释了因果、机制或判断过程，而不只是给结论；
-- 是否把抽象术语翻译成学习者熟悉的场景；
-- 是否包含至少一个完整推演、示范、反例或边界例；
-- 是否在恰当位置安排了一个需要学习者主动输出的小练习；
-- 是否说明这段内容何时适用、何时不适用；
-- 是否有可追溯来源，同时没有让引用破坏阅读；
-- 删掉表格和总结后，正文是否仍然是一篇完整教材。
+- ¿Hay un problema concreto o un caso conductor que conecte las ideas?
+- ¿Se explica el mecanismo, la relación causal o el proceso de decisión?
+- ¿Los términos abstractos se explican en situaciones conocidas por el estudiante?
+- ¿Hay al menos un razonamiento completo, una demostración, un contraejemplo o un caso límite?
+- ¿Hay una actividad breve que requiere una respuesta del estudiante?
+- ¿Queda claro en qué condiciones se aplica lo aprendido?
+- Si hay fuentes rastreables y las citas no dificultan la lectura.
+- Si se eliminan tablas y resúmenes, el texto permanece como un material de enseñanza completo.
 
-任一关键项为否，先重写，不进入教学。
+Si alguna de estas claves es negativa, reescribir antes de pasar a la enseñanza.
 
-定义型内容先建立直觉再命名；程序型内容给完整示范并逐步淡出提示；判断型内容用真实案例展示目标、证据、假设和取舍；创作型内容用作品对比和具体修改过程教学。
+El contenido de definición primero establece la intuición antes de nombrar; el contenido procedimental muestra ejemplos completos y disminuye gradualmente las pistas; el contenido de juicio utiliza casos reales para mostrar objetivos, evidencias, supuestos y decisiones; el contenido creativo enseña mediante comparación de obras y procesos concretos de modificación.
 
-## 四、控制学习段的颗粒度
+## 4. controlar la granularidad del segmento de aprendizaje
 
-一课通常使用：
+Una lección normalmente incluye:
 
-1. 建立直觉与问题意识；
-2. 解释核心机制并做一次小练习；
-3. 用案例、反例或完整示范加深；
-4. 独立应用、评测与迁移。
+1. Establecer intuición y conciencia de problemas.
+2. Explicar el mecanismo central y hacer un pequeño ejercicio.
+3. Profundizar con casos, contraejemplos o demostraciones completas.
+4. Aplicación independiente, evaluación y transferencia.
 
-一次只生成和呈现一个学习段。用户提出问题后回答并回到原位置。用户觉得困难时，优先降低抽象度、换贯穿案例或缩小任务，不继续堆新概念。用户认为方向不对时，未生成的学习段可以直接改版。
+Solo generar y presentar un segmento de aprendizaje a la vez. Después de que el usuario haga una pregunta, responder y volver a la posición original. Si el usuario encuentra dificultad, primero reducir la abstracción, cambiar el caso de referencia o reducir la tarea, sin introducir nuevos conceptos. Si el usuario considera que la dirección es incorrecta, los segmentos no generados pueden modificarse directamente.
 
-## 五、教材来源与事实可靠性
+## 5. fuentes del material y fiabilidad de los hechos
 
-当前课必须建立来源清单：
+La lección actual debe establecer una lista de fuentes:
 
 ```yaml
 source_id:
@@ -154,89 +154,89 @@ confidence:
 known_limits:
 ```
 
-先按 `safety-and-sources.md` 选择 `agent_researched / source_bounded / source_augmented`。用户未提供材料时使用 `agent_researched`，围绕当前学习段自主搜集资料，不要求用户先上传教材。
+Primero, pulsa `safety-and-sources.md` para seleccionar `agent_researched / source_bounded / source_augmented`. Usa `agent_researched` cuando el usuario no haya proporcionado materiales, recopila de forma independiente los materiales del segmento de aprendizaje actual, sin requerir que el usuario suba primero el material didáctico.
 
-来源优先级：
+Prioridad de fuente:
 
-1. 官方文档、标准、原始研究、权威教材；
-2. 可靠机构和高质量二手资料；
-3. 多来源一致的综合整理；
-4. 普通博客、社区讨论和搜索摘要只补充案例。
+1. Documentos oficiales, normas, investigaciones originales, materiales didácticos autorizados.
+2. Instituciones fiables y materiales de segunda mano de alta calidad.
+3. Compilación exhaustiva consistente en múltiples fuentes.
+4. Los blogs regulares, los debates comunitarios y los resúmenes de búsqueda solo complementan los estudios de caso.
 
-当教材由 AI 综合生成时，标明“基于来源的整理”。近期事实、软件版本、争议概念或专业问题先核实。无法核实的内容标为不确定，不用于闭合题唯一答案。
+Cuando los materiales didácticos sean sintetizados por IA, indique "compilación basada en fuentes". Primero deben verificarse hechos recientes, versiones de software, conceptos en disputa o cuestiones profesionales. El contenido que no puede ser verificado se marca como incierto y no se utiliza como única respuesta a preguntas cerradas.
 
-当前学习段不能从 `draft` 直接进入教学。按下列顺序检查：
+El segmento de aprendizaje actual no puede accederse directamente desde `draft` a la instrucción. Comprobar en el siguiente orden:
 
 ```text
 draft
-→ source_checked：实际采用的来源真实、适用，关键结论可定位
-→ fact_checked：教材没有歪曲来源，数字、条件、版本和争议处理正确
-→ pedagogy_checked：教材对目标学习者讲得懂，案例、推演、边界和练习有效
-→ frozen：已开始教学或用于评测
+→ source_checked: Las fuentes reales utilizadas son auténticas y aplicables, y se pueden señalar conclusiones clave
+→ fact_checked: El material didáctico no distorsiona las fuentes, y los números, condiciones, versiones y disputas se gestionan correctamente
+→ pedagogy_checked: El material didáctico explica claramente a los alumnos objetivo, y los casos, simulaciones, límites y ejercicios son efectivos
+→ congelado: La enseñanza o la revisión han comenzado
 ```
 
-来源检查与事实检查关注“有没有教错”；教学质量检查关注“有没有真正教会”。三者不能合并成一句“已检查”。任一关键项失败就修订；证据问题无法解决时缩小结论，不靠增加文字掩盖。
+Las verificaciones de fuentes y de hechos se centran en "si hay un error de enseñanza"; La comprobación de calidad docente se centra en "si existe una iglesia genuina". Estas tres no pueden combinarse en una sola frase "comprobada". Si algún punto clave falla, debe revisarse; Si no se pueden resolver problemas de evidencia, acota la conclusión sin añadir texto que la encubra.
 
-不要在建课阶段解析所有来源全文。围绕当前课目标读取必要页码、章节或时间段。
+No analice todas las fuentes durante la fase de creación del curso. Lee las páginas, capítulos o periodos de tiempo necesarios en torno a los objetivos actuales de la lección.
 
-## 六、截图和视觉材料
+## 6. Capturas de pantalla y materiales visuales
 
-仅在能显著降低理解成本时使用：
+Úsalo solo cuando el coste de comprensión pueda reducirse significativamente:
 
-- 软件界面和具体操作路径；
-- 空间、结构、流程或因果关系；
-- 图表、公式变化或类别比较；
-- 学习者需要识别的真实页面、设计或作品。
+- Interfaz de software y ruta de operación específica.
+- Espacio, estructura, proceso o relaciones causales.
+- Gráficos, cambios de fórmula o comparaciones de categorías.
+- Los alumnos deben identificar páginas, diseños o obras reales.
 
-每张图说明“看哪里、说明什么、与本课目标有什么关系”。无法获得可靠截图时用文字或结构图，不编造界面。
+Cada imagen explica "dónde mirar, qué ilustra y cómo se relaciona con los objetivos de la lección." Si no hay capturas de pantalla fiables disponibles, utiliza diagramas de texto o estructurales sin fabricar interfaces.
 
-## 七、未来路线可以改，历史标准不能漂移
+## 7. Las rutas futuras pueden cambiarse, pero los estándares históricos no deben desviarse
 
-根据表现可以：
+Dependiendo del rendimiento, puedes:
 
-- 降低或提高后续难度；
-- 增加补充课；
-- 跳过已有证据支持的课；
-- 更换案例；
-- 调整未来顺序或删减课程。
+- Reducir o aumentar la dificultad de las tareas posteriores.
+- Se añadieron clases complementarias.
+- saltar las clases respaldadas por la evidencia existente.
+- Estuches de reemplazo.
+- Ajusta el orden futuro o recorta los cursos.
 
-只修改 `provisional` 课次，并记录路线版本。已开始教学的教材和答案标准必须可追溯。
+Solo `provisional` lecciones se modifican y se registran las versiones de ruta. Los materiales didácticos y los estándares de respuesta que hayan comenzado deben ser rastreables.
 
-发现历史内容错误时：
+Cuando se detectan errores de contenido histórico:
 
-1. 指出具体错误；
-2. 标记旧教材版本失效；
-3. 撤销受影响题目和判分；
-4. 创建修正版；
-5. 不把教材错误归咎于学习者。
+1. Señalar errores específicos.
+2. Marcar versiones antiguas de los materiales didácticos como inválidas.
+3. Revocar preguntas y puntuaciones afectadas.
+4. Crear una versión revisada.
+5. No culpes a los alumnos por los errores de los materiales didácticos.
 
-## 八、课程入口只展示必要信息
+## 8. En la entrada del curso solo se muestra la información necesaria
 
-课程入口默认展示：
+Visualización de la entrada al curso por defecto:
 
-- 最终能力；
-- 当前路线版本；
-- 当前一课；
-- 内容进度与掌握进度；
-- 用户可用操作；
-- 下一步。
+- Habilidad suprema.
+- Versión actual de la ruta.
+- Lección actual.
+- progreso en el contenido y progreso en dominio.
+- Acciones disponibles por el usuario.
+- Siguiente paso.
 
-未来课程只展示标题、目标和“暂定”状态，不展示尚未生成的教材链接。
+Los cursos futuros solo muestran títulos, objetivos y el estatus de "tentativo", y no muestran enlaces a materiales que aún no se hayan generado.
 
-## 九、完成当前课后再决定下一课
+## 9. Tras completar la lección actual, decide la siguiente lección
 
-当前课最后一个学习段结束后，先执行即时复习：一句话收束本课后合上教材，让学习者主动回忆；再给一个表面形式或场景变化的迁移任务；纠正复发误区并更新证据。只有核心节点满足 Gate，才能生成下一课核心教材。
+Tras terminar el último segmento de aprendizaje de la lección actual, realizar una repaso inmediato: resumir la lección en una sola frase, cerrar el material didáctico tras la lección y animar a los alumnos a recordar activamente; luego asignar una tarea de transferencia basada en cambios superficiales o de escena; corregir malentendidos recurrentes y actualizar la evidencia. Solo cuando el nodo central alcanza la Puerta puede generarse el principio de Material de la siguiente lección.
 
-即时复习不得先展示旧答案、Tutor 总结、原文摘要或学习者此前的正确表达。它验证当下提取与迁移，不授予 `durable`；延迟保持仍由 review queue 中的真实延期任务验证。
+En el repaso inmediato, pide al estudiante que recuerde y aplique lo aprendido antes de mostrar respuestas, resúmenes o formulaciones previas. Acredita `durable` solo mediante un repaso programado tras un intervalo real.
 
-结束当前课时检查：
+Finalizar la comprobación actual de la clase:
 
 ```text
-目标是否仍然成立？
-当前课是太难、太浅还是方向偏了？
-哪些表现是独立证据，哪些依赖提示？
-哪个误区会影响下一课？
-下一课应按原路线、补前置、换案例、跳过还是改方向？
+¿El objetivo sigue siendo válido?
+¿La lección actual es demasiado difícil, demasiado simple o va en una dirección equivocada?
+¿Qué actuaciones son evidencia independiente y cuáles dependen de indicaciones?
+¿Qué error afectará la próxima lección?
+¿La próxima lección debería seguir la ruta original, reforzar prerrequisitos, cambiar ejemplos, saltarse contenido o cambiar de dirección?
 ```
 
-先更新路线与状态，再生成下一课。不要在用户尚未完成当前课时预写后续教材。
+Primero actualiza la ruta y el estado, luego genera la próxima lección. No crees material futuro antes de que el usuario complete la lección actual.

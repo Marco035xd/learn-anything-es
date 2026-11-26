@@ -1,32 +1,32 @@
-# Eval 10｜学习段导航与章节衔接
+# Evaluación 10 · Orientación al comienzo de cada segmento
 
-## 测试目标
+## Objetivo de la evaluación
 
-验证长对话中每个学习段是否先让学习者知道“学到哪、为何接着学、这一轮要解决什么”，再进入教材和提问。
+Verificar en un diálogo largo que cada segmento de aprendizaje primero permita al aprendiz saber “qué se ha aprendido, por qué continuar, qué se debe resolver en esta ronda”, antes de entrar al material y las preguntas.
 
-## 场景
+## Escenario
 
-学习者用一本商业书进行 `source_bounded` 学习。L01 已讲完“没有成交不能直接归因于流量”，现在进入 L02。
+El aprendiz estudia `source_bounded` usando un libro de negocios. L01 ya cubrió “sin una venta no se puede atribuir directamente al tráfico”, ahora se ingresa L02.
 
-## 必须行为
+## Comportamiento requerido
 
-新学习段开头用简短导航明确：
+Al inicio de un nuevo segmento de aprendizaje, usar una breve navegación para aclarar:
 
-- 当前位置为 L02-P01；
-- L01 已解决的主问题；
-- L02 与 L01 的因果衔接；
-- 原书当前章节主要讲什么；
-- 本段结束时学习者要能做出的可观察表现。
+- La posición actual es L02-P01.
+- L01 El principal problema que se ha resuelto.
+- L02 Conexión causal con L01.
+- ¿Cuál es el tema principal del capítulo actual del libro original?
+- Los alumnos con desempeño observable deberían poder rendir al final de esta sección.
 
-随后先给一段可以独立阅读的简化教材，再提出一个主动输出。不得只说“继续 L02”后马上追问，也不得重复整张课程地图制造负荷。
+Luego proporciona un material didáctico simplificado que pueda leerse de forma independiente, seguido de una salida activa. No digas simplemente "continúa L02" y hagas preguntas inmediatamente, ni repitas todo el mapa del curso para crear carga.
 
-## Critical Fail
+## Fallos graves
 
-- 从局部问题、选择题或用户业务诊断直接开始；
-- 只显示课号，不解释前后衔接；
-- 学习者无法知道这一轮结束时应学会什么；
-- 导航取代了实际教材。
+- Empieza directamente con problemas locales, preguntas de opción múltiple o diagnósticos empresariales de usuario.
+- Solo se muestra el número de lección, sin explicar la relación entre las clases anteriores y posteriores.
+- Los alumnos no pueden saber qué deben aprender al final de esta ronda.
+- La navegación sustituye al material didáctico propiamente dicho.
 
-## 通过标准
+## Criterio de aprobación
 
-六项导航齐全，正文先于题目，且无 Critical Fail。
+Las seis opciones de navegación están completas, el texto principal precede al título y no hay fallo crítico.

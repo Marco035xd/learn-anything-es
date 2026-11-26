@@ -1,110 +1,110 @@
-# 教材质量约束下的成本与模型路由
+# Selección de modelos y control de costos sin perder calidad
 
-## 核心判断
+## Juicio fundamental
 
-优化目标不是“让每一步都用便宜模型”，而是在教材、答案与教学判断不降级的前提下，降低完成一段有效学习所需的总成本。
+El objetivo de optimización no es "usar modelos baratos para cada paso", sino reducir el coste total necesario para completar una sesión de aprendizaje eficaz sin rebajar la calificación de materiales didácticos, respuestas o juicios docentes.
 
-分别记录三件事：
+Anota tres cosas por separado:
 
-- 总 Token：主 Tutor、子 Agent、重试和重复读取的 Token 总和；
-- 费用：不同模型、推理档位和工具调用产生的实际成本；
-- 质量成本：错误教材、返工、重复研究和用户纠正造成的额外消耗。
+- Token total: La suma del tutor principal, los agentes hijos, los reintentos y las lecturas repetidas.
+- Coste: costes reales incurridos por diferentes modelos, niveles de inferencia y llamadas a herramientas.
+- Coste de calidad: consumo adicional causado por errores en los materiales didácticos, retrabajo, investigaciones duplicadas y correcciones de usuarios.
 
-便宜模型可能降低单次费用，但子 Agent 会增加独立上下文和调用。只有包含复核与重试后的总成本下降，才算真正节省。
+Los modelos más baratos pueden reducir los costes por sesión, pero los subagentes añaden contexto y llamadas independientes. Solo cuando se reduce el coste total tras la revisión y el reintento se ahorra realmente.
 
-## 一、默认执行顺序
+## 1. Orden de ejecución predeterminado
 
 ```text
-确定性脚本或工具
-→ 当前主 Tutor 的短任务
-→ 单个低成本资料 Agent
-→ 主 Tutor 复核与最终裁决
-→ 仅在冲突、高风险或失败时提高推理档位
+Scripts o herramientas deterministas
+→ Tareas cortas para el tutor principal actual
+→ Agente de datos único de bajo coste
+→ Revisión del tutor jefe y decisión final
+→ Aumentar los umbrales de inferencia solo durante conflictos, alto riesgo o fracaso
 ```
 
-不要为了“用了多 Agent”而拆任务。满足以下全部条件才委派：
+No dividas tareas solo porque "se usan demasiados agentes". Delega solo si se cumplen todas las siguientes condiciones:
 
-1. 子任务边界清楚，不需要理解完整学习关系；
-2. 输出可以压缩成短小、结构化的中间产物；
-3. 主 Tutor 能用来源或规则快速验收；
-4. 失败不会直接教错用户；
-5. 预计节省大于新增上下文、汇总和重试成本。
+1. Los límites de las subtareas son claros, así que no necesitas entender la relación de aprendizaje completa.
+2. La salida puede comprimirse en intermedios cortos y estructurados.
+3. El tutor principal puede aceptar rápidamente usando fuentes o reglas.
+4. El fracaso no enseña directamente al usuario equivocado.
+5. Los ahorros esperados superan los costes de añadir nuevo contexto, agregación y repetir.
 
-默认最多使用一个资料 Agent，顺序执行，不并行搜索同一问题。只有来源可独立分区且当前课确实需要时才考虑并行。
+Por defecto, se utiliza como máximo un Agente de información, ejecutándose en orden, sin buscar en paralelo el mismo problema. Solo se considera la paralelización si la fuente puede particionarse de manera independiente y el curso actual realmente lo requiere.
 
-## 二、四级路由
+## 2. Enrutamiento de nivel cuatro
 
-### L0：不用模型
+### L0: No usar modelo
 
-使用脚本、解析器或已有工具完成：
+Usar scripts, parser o herramientas existentes para completar:
 
-- 文件格式解析、哈希、去重和分块；
-- YAML/JSON 语法和 schema 校验；
-- 引用格式化、路径检查和状态枚举检查；
-- 复习日期计算、文件创建和确定性状态更新。
+- Análisis de formatos de archivo, hashes, eliminación de duplicados y fragmentación.
+- Validación de sintaxis y esquema YAML/JSON.
+- Formateo de referencias, verificación de rutas y revisión de enumeración de estados.
+- Cálculo de fechas de repaso, creación de archivos y actualización determinista de estados.
 
-不要让模型重复执行可以稳定编码的工作。
+No hacer que el modelo repita trabajos que pueden codificarse de manera estable.
 
-### L1：低成本资料 Agent
+### L1: Agente de información de bajo costo
 
-可用于：
+Puede usarse para:
 
-- 根据当前学习问题搜集候选来源；
-- 提取标题、作者、机构、日期、版本和相关章节；
-- 从指定范围提取明确主张和短证据定位；
-- 去除重复来源并生成候选资料清单；
-- 标记明显缺少作者、日期或原始出处的低质量来源。
+- Recolectar fuentes candidatas según el problema de aprendizaje actual.
+- Extraer títulos, autores, instituciones, fechas, versiones y capítulos relacionados.
+- Extraer afirmaciones claras y evidencia breve de los rangos especificados.
+- Eliminar fuentes duplicadas y generar una lista de fuentes candidatas.
+- Marcar fuentes de baja calidad que claramente carecen de autor, fecha o fuente original.
 
-禁止它：
+Prohibido:
 
-- 宣称候选来源已经足够权威；
-- 解决可靠来源之间的冲突；
-- 独立综合成最终教材；
-- 冻结标准答案、评分 rubric 或掌握结论；
-- 对医疗、法律、投资等高风险内容作最终判断。
+- Afirmar que las fuentes candidatas son lo suficientemente autorizadas.
+- Resolver conflictos entre fuentes confiables.
+- Sintetizar de manera independiente para formar el material final.
+- Congelar la respuesta estándar, rubrica de evaluación o conclusión de dominio.
+- Emitir juicios finales sobre contenido de alto riesgo como médico, legal o financiero.
 
-Codex 环境中优先使用项目角色 `learning_researcher`。该角色不可用、模型不可用或委派失败时，主 Tutor 在当前线程内进行窄范围检索；不得因此中断课程或要求用户代替 Agent 找资料。
+En el entorno Codex se da prioridad al rol de proyecto `learning_researcher`. Si este rol no está disponible, el modelo no está disponible o la delegación falla, el tutor principal realiza una búsqueda de alcance limitado en el hilo actual; no se debe interrumpir el curso ni requerir que el usuario busque información en lugar del Agente.
 
-### L2：主 Tutor 常规档
+### L2: Archivo habitual del tutor principal
 
-负责：
+Responsable de:
 
-- 确认掌握目标和课程路线；
-- 选择进入教材的来源与结论；
-- 编写当前老师式长文学习段；
-- 设计案例、练习、反馈和课程调整；
-- 完成一般领域的来源、事实和教学质量 Gate。
+- Confirmar los objetivos de dominio y la ruta del curso.
+- Seleccionar las fuentes y conclusiones que ingresarán al material didáctico.
+- Redactar segmentos de aprendizaje extensos al estilo del profesor actual.
+- Diseñar casos, ejercicios, retroalimentación y ajustes de curso.
+- Completa el ámbito general de fuentes, datos y puertas de calidad docente.
 
-通常使用平衡型模型和 `medium` 或 `high` 推理。不要因为当前线程配置为最高档，就把每个机械步骤都留给主 Tutor。
+Normalmente se usan modelos equilibrados y razonamiento `medium` o `high`. No dejes cada paso mecánico al tutor principal solo porque el hilo actual esté configurado al nivel más alto.
 
-### L3：强审校档
+### L3: Revisión y corrección forzadas
 
-仅在以下情况提高到 `high / xhigh` 或同等强度：
+Aumentar a `high / xhigh` o intensidad equivalente solo bajo las siguientes condiciones:
 
-- 可靠来源实质冲突；
-- 关键结论依赖复杂因果、数学、代码或跨来源综合；
-- 教材用于高风险专业领域；
-- 评测答案是否唯一存在疑问；
-- 用户质疑教材或判分，并提供了新证据；
-- 低成本候选资料未通过主 Tutor 检查。
+- Fuentes fiables con conflictos sustantivos.
+- Las conclusiones clave se basan en una causalidad compleja, matemáticas, código o síntesis cruzada.
+- El material didáctico se utiliza en campos profesionales de alto riesgo.
+- Existe duda sobre si la respuesta es única.
+- Los usuarios cuestionan materiales didácticos o califican juicios y aportan nuevas pruebas.
+- Los materiales de candidato de bajo coste no superaron la prueba principal del tutor.
 
-提高档位不能替代查证。没有证据时应收缩结论、标记不确定或暂停使用，而不是增加推理后猜答案。
+Elevar el nivel no puede sustituir la verificación. Cuando no hay pruebas, se deben contraer conclusiones, poner las etiquetas en incertidumbre o suspender el uso en lugar de añadir razonamientos y adivinar la respuesta.
 
-## 三、低成本资料 Agent 的交付合同
+## 3. Contrato de entrega de agentes de datos de bajo coste
 
-委派时只提供当前学习段所需的最小上下文：
+Proporcione solo el contexto mínimo requerido para el segmento de aprendizaje actual al delegar:
 
 ```yaml
-learning_question: 当前学习段需要讲清的问题
-learner_context: 只保留会影响资料选择的背景
+learning_question: Cuestiones que deben aclararse en el segmento actual de aprendizaje
+learner_context: Conserva solo el contexto que afecta a la selección del material
 claim_types: definition | mechanism | current_fact | dispute | example
 preferred_sources: official_doc | standard | primary_research | textbook
 date_or_version_scope: ""
-exclusions: 不需要研究的未来课程范围
-output_limit: 候选来源数量和摘要长度上限
+exclusions: Ámbito de curso futuro que no requiere investigación
+output_limit: Número máximo de fuentes candidatas y longitud resumida
 ```
 
-要求返回：
+Solicitud de devolución:
 
 ```yaml
 candidates:
@@ -120,25 +120,25 @@ candidates:
 unresolved_questions: []
 ```
 
-只返回候选清单，不返回完整教材。主 Tutor必须重新打开实际采用的来源，确认关键主张后才能写入 `00-source-manifest.yaml`。
+Solo se devuelve la lista de candidatos, no el material didáctico completo. El tutor principal debe reabrir la fuente adoptada y confirmar las afirmaciones clave antes de escribir `00-source-manifest.yaml`.
 
-## 四、升级与停止条件
+## 4. Cuándo escalar o detenerse
 
-出现任一情况，停止低成本路径并回到主 Tutor：
+En cualquier caso, detenga el camino de bajo coste y vuelva al tutor principal:
 
-- 找不到一手或足够权威的来源；
-- 来源日期、版本、研究对象或定义不一致；
-- 候选结论无法定位到原文范围；
-- 需要从相关关系推导因果；
-- 结论将用于闭合题唯一答案；
-- 涉及高风险个体行动；
-- 连续一次返工后仍未通过来源检查。
+- Incapaz de encontrar fuentes primarias o suficientemente autorizadas.
+- Fechas de fuente, versiones, temas de investigación o definiciones inconsistentes.
+- Las conclusiones candidatas no pueden situarse dentro del ámbito del texto original.
+- La causalidad debe derivarse de las relaciones relevantes.
+- La conclusión se utilizará como única respuesta a la pregunta cerrada.
+- Acciones que involucran a personas de alto riesgo.
+- Sigue fallando la inspección de fuente tras una reestructuración consecutiva.
 
-不要反复调用便宜模型碰运气。一次失败后升级，通常比多次低质量重试更省。
+No pruebes repetidamente modelos baratos y ten suerte. Actualizar tras un fallo suele ser más rentable que varios intentos de baja calidad.
 
-## 五、成本策略
+## 5. Estrategia de costes
 
-默认使用 `balanced`，无需让用户填写模式问卷。只有预算会实质改变课程范围时才确认。
+Por defecto, se utiliza `balanced`, por lo que los usuarios no necesitan rellenar cuestionarios modales. La confirmación solo se realiza cuando el presupuesto cambia sustancialmente el alcance del curso.
 
 ```yaml
 cost_policy:
@@ -149,27 +149,27 @@ cost_policy:
   record_usage: true
 ```
 
-- `budget`：课程更短、来源范围更窄，但不降低关键事实和答案标准；
-- `balanced`：低风险资料整理降配，主 Tutor 负责教学和审校；
-- `quality`：争议、高风险或高价值课程增加独立核查，接受更高成本。
+- `budget`: Cursos más cortos y fuentes más limitadas, pero sin bajar los estándares de los hechos clave y las respuestas.
+- `balanced`: Los materiales de bajo riesgo se organizan y se rebajan de categoría, siendo el tutor principal responsable de la enseñanza y la corrección de textos.
+- `quality`: Los cursos controvertidos, de alto riesgo o de alto valor requieren verificación independiente y aceptan costes más altos.
 
-预算不足时优先缩小课程范围、减少非必要扩展和延后未来课，不把未经核验的便宜教材交给用户。
+Cuando el presupuesto sea insuficiente, priorice reducir el alcance de los cursos, reducir ampliaciones innecesarias y posponer futuras lecciones, y no entregue materiales didácticos baratos no verificados a los usuarios.
 
-## 六、是否采用分级路由
+## 6. Si se utiliza enrutamiento jerárquico
 
-先用同一组冻结任务比较：
+Primero, compáralo con el mismo conjunto de tareas congeladas:
 
 ```text
-A：主 Tutor 完成全部步骤
-B：L0 工具 + 单个 L1 资料 Agent + 主 Tutor 裁决
+R: El tutor principal completa todos los pasos
+B: herramienta L0 + agente de perfil L1 único + adjudicación principal del tutor
 ```
 
-记录：
+Récord:
 
-- 输入、输出和推理 Token；
-- 工具调用与延迟；
-- 来源检查、事实检查和教学质量检查是否一次通过；
-- 返工次数；
-- 教材 rubric、题目一致性和用户修改量。
+- Tokens de entrada, salida e inferencia.
+- Llamadas de herramientas y retrasos.
+- Ya sea que las comprobaciones de fuentes, verificaciones de hechos y comprobaciones de calidad docente se pasen de una sola vez.
+- Número de retrabajos.
+- Rúbrica del material didáctico, consistencia de las preguntas y volumen de revisiones por parte del usuario.
 
-只有 B 在冻结用例与留出用例中保持质量、没有新增严重失败，并且包含返工后的总成本更低，才把它设为默认。否则保留单 Agent 路径。
+B solo se establece como predeterminado si mantiene la calidad entre casos de uso congelados y reservados, no presenta nuevos fallos críticos e incluye un coste total más bajo tras el retrabajo. De lo contrario, se conserva una única ruta del Agente.

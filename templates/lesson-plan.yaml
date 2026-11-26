@@ -27,7 +27,7 @@ teaching_layers:
 generation_policy:
   mode: current_part_only
   ungenerated_parts_are_editable: true
-  default_part_length_zh_chars: "1800-3500"
+  default_part_length_es_words: "700-1400"
   narrative_required: true
   table_cannot_replace_explanation: true
   one_active_output_per_part: true
@@ -58,9 +58,9 @@ parts:
     source_ids: []
     active_output: ""
     navigation:
-      position: "L01-P01 / 当前课第 1 段"
+      position: "L01-P01 / segmento 1 de la lección actual"
       lesson_question: ""
-      previous_part_resolved: "这是本课起点"
+      previous_part_resolved: "Este es el inicio de la lección"
       why_this_part_now: ""
       source_focus: ""
       success_criterion: ""
@@ -87,7 +87,7 @@ parts:
     source_ids: []
     active_output: ""
     navigation:
-      position: "L01-P02 / 当前课第 2 段"
+      position: "L01-P02 / segmento 2 de la lección actual"
       lesson_question: ""
       previous_part_resolved: ""
       why_this_part_now: ""
@@ -128,7 +128,7 @@ current_position:
   next_action: ""
 
 quality_gate:
-  benchmark: "老师式分段长文"
+  benchmark: "Explicación didáctica desarrollada por segmentos"
   passed: false
   evidence: []
   current_part_id: L01-P01

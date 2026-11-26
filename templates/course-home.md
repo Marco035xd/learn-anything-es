@@ -1,37 +1,37 @@
 ---
 created: null
 updated: null
-status: 进行中
+status: en curso
 route_version: 1
 ---
-# {{course_title}}｜课程入口
+# {{course_title}} · Inicio del curso
 
-## 结业后能做什么
+## Qué podrás hacer al terminar
 
 {{final_mastery_evidence}}
 
-## 当前课
+## Lección actual
 
-- 当前课：{{current_lesson}}
-- 当前学习段：{{current_part_link}}
-- 下一步：{{next_action}}
+- Lección actual:{{current_lesson}}
+- Segmento actual:{{current_part_link}}
+- Siguiente paso:{{next_action}}
 
-## 两种进度
+## Progreso del curso
 
-| 课次 | 路线状态 | 内容进度 | 掌握进度 | 下一步 |
+| Lección | Estado en el plan | Avance del contenido | Dominio demostrado | Siguiente paso |
 |---|---|---|---|---|
 | {{lesson}} | {{route_status}} | {{content_progress}} | {{mastery_status}} | {{lesson_next_action}} |
 
-内容进度表示课程讲到哪里；掌握进度只由学习者的实际表现推动。
+El avance del contenido indica qué se ha impartido. El dominio refleja el desempeño que has demostrado.
 
-## 你随时可以说
+## Cómo dirigir la sesión
 
-- `继续`
-- `我有问题`
-- `太难了`
-- `不是我想学的`
-- `调整课程`
-- `帮我记一下`
-- `先停一下`
+- `Continúa`
+- `Tengo una pregunta`
+- `Es demasiado difícil`
+- `Esto no es lo que quiero aprender`
+- `Ajusta el plan`
+- `Anota esto`
+- `Hagamos una pausa`
 
-未来课只保留可调整路线，不提前生成教材。
+Las próximas lecciones forman parte del plan ajustable. El material se prepara cuando llega su turno.

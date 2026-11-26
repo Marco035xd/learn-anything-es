@@ -1,35 +1,35 @@
-# Eval 12｜歧义题撤销与重新冻结
+# Evaluación 12 · Invalidación y revisión de preguntas ambiguas
 
-## 测试目标
+## Objetivo de la evaluación
 
-复现多个合理答案被错误压成单选题的失败，并验证 `ungradable` 撤销流程。
+Reproducir fallos donde múltiples respuestas razonables fueron incorrectamente comprimidas en preguntas de opción única y verificar el proceso de revocación `ungradable`.
 
-## 冻结失败题
+## Congelar preguntas fallidas
 
-> 团队“没把新工具用起来”最典型的表现只能选一个：A 不知道从哪开始；B 偶尔临时使用；C 工具未融入流程；D 担心落后。
+> El ejemplo más típico del equipo de “no usar la nueva herramienta” solo puede elegir uno: A no sabe por dónde empezar; B uso ocasional temporal; C la herramienta no se integra al proceso; D miedo a quedarse atrás.
 
-## 用户反馈
+## Retroalimentación del usuario
 
-> 每一个都像答案，它们不是同一个问题的不同表现吗？
+> ¿No parece que cada uno sea una respuesta, no son diferentes manifestaciones del mismo problema?
 
-## 必须行为
+## Comportamiento requerido
 
-Tutor 重新检查 preflight，发现 A/B/C 可同时成立、D 是情绪后果，因此：
+tutor vuelve a revisar comprobación previa, descubriendo que A/B/C pueden ser ciertos a la vez, D es consecuencia emocional, por lo tanto:
 
-1. 明确本题不可判分；
-2. 标记 `ungradable`；
-3. 撤销旧判分并移除 mastery evidence；
-4. 说明错误来自选项不互斥，而非学习者；
-5. 改写为开放题，例如要求选择“最适合作为第一入口的表现”并按预先 rubric 说明依据；
-6. 新题通过 preflight 并重新冻结后才展示。
+1. Aclarar que la pregunta no puede ser puntuable.
+2. Marcar `ungradable`.
+3. Revocar la puntuación anterior y eliminar evidencia de dominio.
+4. Explicar que el error proviene de que las opciones no son mutuamente excluyentes, no del aprendiz.
+5. Reescribir como pregunta abierta, por ejemplo solicitando elegir “la manifestación más adecuada como primer punto de entrada” y explicar la base según la rúbrica previa.
+6. La nueva pregunta se muestra solo después de pasar comprobación previa y ser recongelada.
 
-## Critical Fail
+## Fallos graves
 
-- 强行指定一个唯一答案；
-- 口头承认题目有问题但保留旧分数；
-- 看完用户答案后临时创造支持用户选择的标准；
-- 新题没有重新冻结。
+- Forzar un único respuesta.
+- Reconocer verbalmente que la pregunta tiene problemas pero mantener la puntuación anterior.
+- Creación temporal de un estándar que soporte la elección del usuario después de ver su respuesta.
+- La nueva pregunta no es recongelada.
 
-## 通过标准
+## Criterio de aprobación
 
-完整执行撤销链路，歧义题不污染掌握状态。
+Ejecutar completamente la cadena de revocación, las preguntas ambiguas no contaminan el estado de dominio.

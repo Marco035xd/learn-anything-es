@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Validate a learn-anything v2 course runtime."""
+"""Valida la estructura y el estado de un curso de Learn Anything."""
 
 from __future__ import annotations
 
@@ -10,8 +10,8 @@ from pathlib import Path
 
 try:
     import yaml
-except ImportError as exc:  # pragma: no cover - environment failure
-    raise SystemExit("PyYAML is required: python3 -m pip install pyyaml") from exc
+except ImportError as exc:  # pragma: no cover - fallo del entorno
+    raise SystemExit("Se requiere PyYAML. Instálalo con python3 -m pip install pyyaml") from exc
 
 
 REQUIRED_FILES = (
@@ -54,7 +54,21 @@ READY_PART_STATUSES = {
 }
 SOURCE_MODES = {"agent_researched", "source_bounded", "source_augmented"}
 PASSED_REVIEW = {"passed", "complete", "completed"}
-FIXED_OUTLINE_HEADINGS = ("核心教材", "正例与反例", "容易混淆的边界")
+COURSE_HOME_NAMES = ("inicio-del-curso.md", "课程入口.md", "00-课程入口.md")
+FIXED_OUTLINES = (
+    ("Material principal", "Ejemplos y contraejemplos", "Límites fáciles de confundir"),
+    ("核心教材", "正例与反例", "容易混淆的边界"),
+)
+SPANISH_TASK_HEADING = "## Tu turno"
+LEGACY_TASK_HEADING = "## 轮到你"
+NAVIGATION_LABELS = (
+    ("Posición actual:", "当前位置："),
+    ("Pregunta central de la lección:", "本课总问题："),
+    ("Qué resolvió el segmento anterior:", "上一段已经解决："),
+    ("Por qué sigue este segmento:", "这一段为什么接着学："),
+    ("Qué explica la fuente en este segmento:", "原教材这一段主要讲："),
+    ("Qué podrás hacer al terminar:", "本段结束时你要能做到："),
+)
 REQUIRED_GRADING_RULES = ("correct", "partially_correct", "incorrect", "ungradable")
 REQUIRED_PREFLIGHT = (
     "target_node_is_explicit",
@@ -79,8 +93,8 @@ def load_yaml(path: Path, errors: list[str]):
     try:
         with path.open("r", encoding="utf-8") as handle:
             return yaml.safe_load(handle)
-    except Exception as exc:  # noqa: BLE001 - validator must collect all failures
-        errors.append(f"YAML parse failed: {path}: {exc}")
+    except Exception as exc:  # noqa: BLE001 - el validador reúne todos los fallos
+        errors.append(f"No se pudo leer el YAML: {path}: {exc}")
         return None
 
 
@@ -125,41 +139,49 @@ def validate_longform(
     ]
     table_lines = [line for line in text.splitlines() if line.lstrip().startswith("|")]
 
-    if chinese_chars < 1200:
+    if SPANISH_TASK_HEADING in text or not chinese_chars:
+        words = len(re.findall(r"\b[^\W\d_]+\b", " ".join(prose_lines)))
+        if words < 400:
+            warnings.append(f"El material podría ser demasiado breve ({words} palabras): {path}")
+    elif chinese_chars < 1200:
         warnings.append(
-            f"Longform may be too thin ({chinese_chars} Chinese chars): {path}"
+            f"El material podría ser demasiado breve ({chinese_chars} caracteres chinos): {path}"
         )
+
     if len(prose_lines) < 12:
-        errors.append(f"Material lacks sustained prose: {path}")
+        errors.append(f"Falta una explicación desarrollada en prosa: {path}")
     if table_lines and len(table_lines) >= len(prose_lines):
-        errors.append(f"Tables appear to replace explanation: {path}")
-    if all(f"## {heading}" in text for heading in FIXED_OUTLINE_HEADINGS):
-        errors.append(f"Fixed outline template detected instead of narrative: {path}")
-    if "## 轮到你" not in text:
-        errors.append(f"Missing active learner output: {path}")
-    if "来源" not in text:
-        errors.append(f"Missing source anchors or limits: {path}")
+        errors.append(f"Las tablas parecen reemplazar la explicación: {path}")
+    if any(all(f"## {heading}" in text for heading in headings) for headings in FIXED_OUTLINES):
+        errors.append(f"Se detectó un esquema fijo en lugar de una explicación narrativa: {path}")
+
+    task_positions = [
+        position
+        for heading in (SPANISH_TASK_HEADING, LEGACY_TASK_HEADING)
+        if (position := text.find(heading)) >= 0
+    ]
+    if not task_positions:
+        errors.append(f"Falta una actividad para el estudiante: {path}")
+    if "## Fuentes y límites" not in text and "来源" not in text:
+        errors.append(f"Faltan referencias a las fuentes o sus límites: {path}")
+
     if require_v4_protocol:
         navigation = metadata.get("navigation")
         if not isinstance(navigation, dict):
-            errors.append(f"v4 material is missing navigation metadata: {path}")
+            errors.append(f"Faltan los metadatos navigation del material v4: {path}")
         for layer in REQUIRED_TEACHING_LAYERS:
             if not isinstance(metadata.get(layer), dict):
-                errors.append(f"v4 material is missing {layer} metadata: {path}")
-        output_position = text.find("## 轮到你")
-        for label in (
-            "当前位置：",
-            "本课总问题：",
-            "上一段已经解决：",
-            "这一段为什么接着学：",
-            "原教材这一段主要讲：",
-            "本段结束时你要能做到：",
-        ):
-            label_position = text.find(label)
-            if label_position < 0:
-                errors.append(f"v4 material is missing visible navigation {label}: {path}")
-            elif output_position >= 0 and label_position > output_position:
-                errors.append(f"v4 material shows {label} after learner task: {path}")
+                errors.append(f"Faltan los metadatos {layer} del material v4: {path}")
+        for label, legacy_label in NAVIGATION_LABELS:
+            label_positions = [
+                position
+                for candidate in (label, legacy_label)
+                if (position := text.find(candidate)) >= 0
+            ]
+            if not label_positions:
+                errors.append(f"Falta el rótulo de navegación «{label}» en el material v4: {path}")
+            elif task_positions and min(label_positions) > min(task_positions):
+                errors.append(f"El rótulo «{label}» aparece después de la actividad: {path}")
 
 
 def validate_assessments(
@@ -171,81 +193,81 @@ def validate_assessments(
     assessment_config = plan.get("assessment")
     if not isinstance(assessment_config, dict):
         if plan_version >= 3:
-            errors.append("v3 lesson plan is missing assessment configuration")
+            errors.append("Falta la configuración de evaluación en el plan de lección v3")
         return
 
     assessment_path = resolve(plan_path.parent, assessment_config.get("path"))
     if not assessment_path or not assessment_path.is_file():
-        errors.append("Assessment file is missing")
+        errors.append("Falta el archivo de evaluación")
         return
 
     assessment_data = load_yaml(assessment_path, errors) or {}
     assessment_version = assessment_data.get("version", 1)
     assessments = assessment_data.get("assessments")
     if not isinstance(assessments, list) or not assessments:
-        errors.append("Assessment file must contain a non-empty assessments list")
+        errors.append("El archivo de evaluación debe contener una lista assessments con al menos un elemento")
         return
 
     assessment_ids = [item.get("assessment_id") for item in assessments]
     if any(not assessment_id for assessment_id in assessment_ids):
-        errors.append("Assessment is missing assessment_id")
+        errors.append("Falta assessment_id en la evaluación")
     if len(assessment_ids) != len(set(assessment_ids)):
-        errors.append("Duplicate assessment_id values")
+        errors.append("Hay valores assessment_id duplicados")
 
     delivered_ids = set(assessment_config.get("delivered_assessment_ids") or [])
     pending_ids = set(assessment_config.get("pending_assessment_ids") or [])
     referenced_ids = delivered_ids | pending_ids
     missing_ids = referenced_ids - set(assessment_ids)
     for assessment_id in sorted(missing_ids):
-        errors.append(f"Lesson plan references missing assessment: {assessment_id}")
+        errors.append(f"El plan de lección referencia una evaluación que falta: {assessment_id}")
 
     for item in assessments:
         assessment_id = item.get("assessment_id", "<missing>")
         for field in ("correct_answer", "rationale"):
             if not item.get(field):
-                errors.append(f"{assessment_id}: missing {field}")
+                errors.append(f"{assessment_id}: falta {field}")
         if not isinstance(item.get("acceptable_variants"), list):
-            errors.append(f"{assessment_id}: acceptable_variants must be a list")
+            errors.append(f"{assessment_id}: acceptable_variants debe ser una lista")
         grading_rule = item.get("grading_rule")
         if not isinstance(grading_rule, dict):
-            errors.append(f"{assessment_id}: grading_rule must be a mapping")
+            errors.append(f"{assessment_id}: grading_rule debe contener pares de clave y valor")
         else:
             for rule in REQUIRED_GRADING_RULES:
                 if not isinstance(grading_rule.get(rule), list) or not grading_rule.get(rule):
-                    errors.append(f"{assessment_id}: grading_rule.{rule} must be non-empty")
+                    errors.append(f"{assessment_id}: grading_rule.{rule} debe tener contenido")
 
         if isinstance(assessment_version, int) and assessment_version >= 4:
             if not item.get("target_node_id"):
-                errors.append(f"{assessment_id}: missing target_node_id")
+                errors.append(f"{assessment_id}: falta target_node_id")
             preflight = item.get("preflight")
             if not isinstance(preflight, dict):
-                errors.append(f"{assessment_id}: missing preflight")
+                errors.append(f"{assessment_id}: falta preflight")
             else:
                 for field in REQUIRED_PREFLIGHT:
                     if preflight.get(field) is not True:
-                        errors.append(f"{assessment_id}: preflight.{field} must be true")
+                        errors.append(f"{assessment_id}: preflight.{field} debe ser true")
             if item.get("question_type") in {"multiple_choice", "single_choice"}:
                 options = item.get("options")
                 if not isinstance(options, list) or len(options) < 2:
-                    errors.append(f"{assessment_id}: closed question needs at least two options")
+                    errors.append(f"{assessment_id}: una pregunta cerrada requiere dos opciones como mínimo")
             invalidation = item.get("invalidation")
             if not isinstance(invalidation, dict):
-                errors.append(f"{assessment_id}: missing invalidation record")
+                errors.append(f"{assessment_id}: falta el registro de invalidación")
             elif invalidation.get("invalidated"):
                 if not invalidation.get("reason_type") or not invalidation.get("reason"):
-                    errors.append(f"{assessment_id}: invalidated assessment needs a reason")
+                    errors.append(f"{assessment_id}: la evaluación invalidada requiere un motivo")
                 if not invalidation.get("prior_grading_withdrawn"):
-                    errors.append(f"{assessment_id}: invalidated assessment must withdraw grading")
+                    errors.append(f"{assessment_id}: la invalidación debe retirar la calificación")
                 if not invalidation.get("mastery_evidence_removed"):
-                    errors.append(f"{assessment_id}: invalidated assessment must remove mastery evidence")
+                    errors.append(f"{assessment_id}: la invalidación debe retirar la evidencia de dominio")
 
         if assessment_id in delivered_ids:
             if not item.get("frozen_before_delivery") or not item.get("frozen_at"):
-                errors.append(f"{assessment_id}: delivered assessment was not frozen")
+                errors.append(f"{assessment_id}: la evaluación se presentó antes de fijar sus criterios")
             status = str(item.get("status", ""))
             if not status.startswith("delivered"):
                 errors.append(
-                    f"{assessment_id}: delivered assessment has incompatible status {status!r}"
+                    f"{assessment_id}: la evaluación presentada tiene un estado incompatible {status!r}"
                 )
 
 
@@ -255,7 +277,7 @@ def validate_course(course_dir: Path, strict: bool) -> tuple[list[str], list[str
 
     for relative in REQUIRED_FILES:
         if not (course_dir / relative).is_file():
-            errors.append(f"Missing required file: {relative}")
+            errors.append(f"Falta un archivo obligatorio: {relative}")
 
     if errors:
         return errors, warnings
@@ -269,28 +291,28 @@ def validate_course(course_dir: Path, strict: bool) -> tuple[list[str], list[str
     if isinstance(source_version, int) and source_version >= 3:
         research = source_manifest.get("research")
         if not isinstance(research, dict):
-            errors.append("v3 source manifest is missing research policy")
+            errors.append("Falta la política de investigación en el registro de fuentes v3")
         elif research.get("source_mode") not in SOURCE_MODES:
             errors.append(
-                f"v3 source manifest has invalid source_mode {research.get('source_mode')!r}"
+                f"El registro de fuentes v3 tiene un source_mode no válido {research.get('source_mode')!r}"
             )
         if not isinstance(source_manifest.get("claim_source_matrix"), list):
-            errors.append("v3 source manifest is missing claim_source_matrix")
+            errors.append("Falta claim_source_matrix en el registro de fuentes v3")
         if not isinstance(source_manifest.get("review_log"), list):
-            errors.append("v3 source manifest is missing review_log")
+            errors.append("Falta review_log en el registro de fuentes v3")
 
     lessons = outline.get("lessons") or []
     if not lessons:
-        errors.append("Course outline has no lessons")
+        errors.append("El plan general carece de lecciones")
         return errors, warnings
 
     lesson_ids = [lesson.get("lesson_id") for lesson in lessons]
     if len(lesson_ids) != len(set(lesson_ids)):
-        errors.append("Duplicate lesson_id values")
+        errors.append("Hay valores lesson_id duplicados")
 
     active_lessons = [lesson for lesson in lessons if lesson.get("route_status") == "active"]
     if len(active_lessons) != 1:
-        errors.append(f"Expected exactly one active lesson, found {len(active_lessons)}")
+        errors.append(f"Se esperaba una única lección activa. Se encontraron {len(active_lessons)}")
 
     for lesson in lessons:
         lesson_id = lesson.get("lesson_id", "<missing>")
@@ -300,20 +322,20 @@ def validate_course(course_dir: Path, strict: bool) -> tuple[list[str], list[str
         mastery_status = lesson.get("mastery_status")
 
         if route_status not in ROUTE_STATUSES:
-            errors.append(f"{lesson_id}: invalid route_status {route_status!r}")
+            errors.append(f"{lesson_id}: route_status no válido {route_status!r}")
         if material_status not in MATERIAL_STATUSES:
-            errors.append(f"{lesson_id}: invalid material_status {material_status!r}")
+            errors.append(f"{lesson_id}: material_status no válido {material_status!r}")
         if delivery_status not in DELIVERY_STATUSES:
-            errors.append(f"{lesson_id}: invalid delivery_status {delivery_status!r}")
+            errors.append(f"{lesson_id}: delivery_status no válido {delivery_status!r}")
         if mastery_status not in MASTERY_STATUSES:
-            errors.append(f"{lesson_id}: invalid mastery_status {mastery_status!r}")
+            errors.append(f"{lesson_id}: mastery_status no válido {mastery_status!r}")
 
         if route_status == "provisional" and material_status not in {
             "not_generated",
             "legacy_prebuilt",
         }:
             errors.append(
-                f"{lesson_id}: provisional future lesson has generated material ({material_status})"
+                f"{lesson_id}: la lección futura provisional ya tiene material ({material_status})"
             )
         if (
             route_status == "provisional"
@@ -321,53 +343,53 @@ def validate_course(course_dir: Path, strict: bool) -> tuple[list[str], list[str
             and material_status != "legacy_prebuilt"
         ):
             errors.append(
-                f"{lesson_id}: provisional future lesson has pre-generated assessments"
+                f"{lesson_id}: la lección futura provisional ya tiene evaluaciones"
             )
 
         for prerequisite in lesson.get("prerequisites") or []:
             if prerequisite not in lesson_ids:
-                errors.append(f"{lesson_id}: unknown prerequisite {prerequisite}")
+                errors.append(f"{lesson_id}: requisito previo desconocido {prerequisite}")
 
     if active_lessons:
         active = active_lessons[0]
         plan_path = resolve(course_dir, active.get("lesson_plan_path"))
         if not plan_path or not plan_path.is_file():
-            errors.append("Active lesson plan is missing")
+            errors.append("Falta el plan de la lección activa")
         else:
             plan = load_yaml(plan_path, errors) or {}
             plan_version = plan.get("version", 1)
             if isinstance(plan_version, int) and plan_version >= 3:
                 source_policy = plan.get("source_policy")
                 if not isinstance(source_policy, dict):
-                    errors.append("v3 lesson plan is missing source_policy")
+                    errors.append("Falta source_policy en el plan de lección v3")
                 elif source_policy.get("mode") not in SOURCE_MODES:
                     errors.append(
-                        f"v3 lesson plan has invalid source mode {source_policy.get('mode')!r}"
+                        f"El plan de lección v3 tiene un modo de fuentes no válido {source_policy.get('mode')!r}"
                     )
                 cost_policy = plan.get("cost_policy")
                 if not isinstance(cost_policy, dict):
-                    errors.append("v3 lesson plan is missing cost_policy")
+                    errors.append("Falta cost_policy en el plan de lección v3")
                 else:
                     if cost_policy.get("max_research_workers", 1) > 1:
                         warnings.append(
-                            "Cost policy uses more than one research worker; verify that fan-out reduces total cost"
+                            "La política de costos utiliza más de un agente de investigación. Comprueba que repartir el trabajo reduzca el costo total."
                         )
                     if cost_policy.get("parallel_research"):
                         warnings.append(
-                            "Parallel research is enabled; record why source partitions are independent"
+                            "La investigación en paralelo está activada. Registra por qué se pueden consultar las fuentes por separado."
                         )
                 validate_assessments(plan, plan_path, plan_version, errors)
                 if isinstance(plan_version, int) and plan_version >= 4:
                     teaching_layers = plan.get("teaching_layers")
                     if not isinstance(teaching_layers, dict):
-                        errors.append("v4 lesson plan is missing teaching_layers")
+                        errors.append("Falta teaching_layers en el plan de lección v4")
                     else:
                         for layer in REQUIRED_TEACHING_LAYERS:
                             if not isinstance(teaching_layers.get(layer), dict):
-                                errors.append(f"v4 lesson plan is missing teaching_layers.{layer}")
+                                errors.append(f"Falta teaching_layers en el plan de lección v4.{layer}")
                     completion_gate = plan.get("lesson_completion_gate")
                     if not isinstance(completion_gate, dict):
-                        errors.append("v4 lesson plan is missing lesson_completion_gate")
+                        errors.append("Falta lesson_completion_gate en el plan de lección v4")
                     elif completion_gate.get("next_lesson_generation_allowed"):
                         for field in (
                             "immediate_review_completed",
@@ -377,7 +399,7 @@ def validate_course(course_dir: Path, strict: bool) -> tuple[list[str], list[str
                         ):
                             if completion_gate.get(field) is not True:
                                 errors.append(
-                                    "v4 lesson gate allows next lesson without " + field
+                                    "El plan v4 permite la siguiente lección sin cumplir " + field
                                 )
             parts = plan.get("parts") or []
             # Completed parts are historical evidence, not simultaneously active output.
@@ -390,11 +412,11 @@ def validate_course(course_dir: Path, strict: bool) -> tuple[list[str], list[str
                 and part.get("status") != "completed"
             ]
             if not parts:
-                errors.append("Active lesson plan has no parts")
+                errors.append("El plan de la lección activa carece de segmentos")
             if len(current_ready_parts) > 1:
                 errors.append(
-                    "More than one non-completed learning part generated/ready "
-                    f"({len(current_ready_parts)}); expected current part only"
+                    "Se esperaba un único segmento generado o listo que aún no estuviera completado. "
+                    f"Se encontraron {len(current_ready_parts)}."
                 )
             for part in parts:
                 material_path = part.get("material_path")
@@ -416,17 +438,17 @@ def validate_course(course_dir: Path, strict: bool) -> tuple[list[str], list[str
                             required_checks.append("pedagogy_check")
                         if status == "verified":
                             errors.append(
-                                f"{part.get('part_id')}: v3 plan must use detailed review states instead of verified"
+                                f"{part.get('part_id')}: el plan v3 requiere estados de revisión detallados en vez de verified"
                             )
                         for check in required_checks:
                             if review.get(check) not in PASSED_REVIEW:
                                 errors.append(
-                                    f"{part.get('part_id')}: {status} requires {check}=passed"
+                                    f"{part.get('part_id')}: {status} requiere {check}=passed"
                                 )
                     if isinstance(plan_version, int) and plan_version >= 4:
                         navigation = part.get("navigation")
                         if not isinstance(navigation, dict):
-                            errors.append(f"{part.get('part_id')}: missing navigation")
+                            errors.append(f"{part.get('part_id')}: falta navigation")
                         else:
                             for field in (
                                 "position",
@@ -438,14 +460,14 @@ def validate_course(course_dir: Path, strict: bool) -> tuple[list[str], list[str
                             ):
                                 if not navigation.get(field):
                                     errors.append(
-                                        f"{part.get('part_id')}: navigation.{field} is empty"
+                                        f"{part.get('part_id')}: navigation.{field} está vacío"
                                     )
                         for layer in REQUIRED_TEACHING_LAYERS:
                             if not isinstance(part.get(layer), dict):
-                                errors.append(f"{part.get('part_id')}: missing {layer}")
+                                errors.append(f"{part.get('part_id')}: falta {layer}")
                     resolved = resolve(plan_path.parent, material_path)
                     if not resolved or not resolved.is_file():
-                        errors.append(f"Ready part material is missing: {part.get('part_id')}")
+                        errors.append(f"Falta el material del segmento marcado como listo: {part.get('part_id')}")
                     else:
                         validate_longform(
                             resolved,
@@ -456,27 +478,27 @@ def validate_course(course_dir: Path, strict: bool) -> tuple[list[str], list[str
                         )
                 elif material_path:
                     warnings.append(
-                        f"Ungenerated part already has material_path: {part.get('part_id')}"
+                        f"Un segmento aún sin generar ya tiene material_path: {part.get('part_id')}"
                     )
 
             user_notes = plan_path.parent / "02-user-notes.md"
             tutor_summary = plan_path.parent / "03-tutor-summary.md"
             if not user_notes.is_file():
-                errors.append("Active lesson is missing 02-user-notes.md")
+                errors.append("Falta 02-user-notes.md en la lección activa")
             if not tutor_summary.is_file():
-                errors.append("Active lesson is missing 03-tutor-summary.md")
+                errors.append("Falta 03-tutor-summary.md en la lección activa")
             if user_notes.resolve() == tutor_summary.resolve():
-                errors.append("User notes and tutor summary must be separate files")
+                errors.append("Las notas del estudiante y el resumen del tutor requieren archivos separados")
 
     if isinstance(source_version, int) and source_version >= 3:
-        if not (course_dir / "课程入口.md").is_file():
-            errors.append("v3 course is missing 课程入口.md")
+        if not any((course_dir / name).is_file() for name in COURSE_HOME_NAMES):
+            errors.append(f"Al curso v3 le falta {COURSE_HOME_NAMES[0]}")
 
     content_progress = learner_state.get("content_progress")
     if not isinstance(content_progress, dict):
-        errors.append("learner-state.yaml is missing separate content_progress")
+        errors.append("Falta el campo independiente content_progress en learner-state.yaml")
     if not learner_state.get("nodes"):
-        errors.append("learner-state.yaml is missing mastery nodes")
+        errors.append("Faltan los nodos de dominio en learner-state.yaml")
 
     learner_version = learner_state.get("version", 1)
     if isinstance(learner_version, int) and learner_version >= 3:
@@ -491,27 +513,27 @@ def validate_course(course_dir: Path, strict: bool) -> tuple[list[str], list[str
                 "advance_allowed",
             ):
                 if field not in node:
-                    errors.append(f"{node_id}: missing {field}")
+                    errors.append(f"{node_id}: falta {field}")
             historical = node.get("historical_highest_status")
             current = node.get("current_status")
             if historical not in MASTERY_STATUSES:
-                errors.append(f"{node_id}: invalid historical_highest_status {historical!r}")
+                errors.append(f"{node_id}: historical_highest_status no válido {historical!r}")
             if current not in MASTERY_STATUSES:
-                errors.append(f"{node_id}: invalid current_status {current!r}")
+                errors.append(f"{node_id}: current_status no válido {current!r}")
             if historical in MASTERY_RANK and current in MASTERY_RANK:
                 if MASTERY_RANK[historical] < MASTERY_RANK[current]:
-                    errors.append(f"{node_id}: historical status is below current status")
+                    errors.append(f"{node_id}: el máximo histórico está por debajo del nivel actual")
             if node.get("advance_allowed") and current in {"unknown", "exposed", "guided"}:
-                errors.append(f"{node_id}: advance allowed before independent mastery")
+                errors.append(f"{node_id}: se permitió avanzar antes de demostrar dominio independiente")
 
         evidence_log = learner_state.get("evidence_log")
         if not isinstance(evidence_log, list):
-            errors.append("v3 learner state is missing evidence_log")
+            errors.append("Falta evidence_log en el estado del estudiante v3")
         else:
             for entry in evidence_log:
                 promotion = entry.get("promotion_evidence")
                 if not isinstance(promotion, dict):
-                    errors.append("evidence log entry is missing promotion_evidence")
+                    errors.append("Falta promotion_evidence en una entrada del registro de evidencia")
                     continue
                 required = (
                     "grading_result",
@@ -525,7 +547,7 @@ def validate_course(course_dir: Path, strict: bool) -> tuple[list[str], list[str
                 )
                 for field in required:
                     if field not in promotion:
-                        errors.append(f"promotion_evidence is missing {field}")
+                        errors.append(f"Falta {field} en promotion_evidence")
                 hint_level = entry.get("hint_level")
                 promoted_to = (entry.get("mastery_change") or {}).get("to")
                 if hint_level in {1, 2, 3, 4, "L1", "L2", "L3", "L4"} and promoted_to in {
@@ -533,27 +555,27 @@ def validate_course(course_dir: Path, strict: bool) -> tuple[list[str], list[str
                     "transferable",
                     "durable",
                 }:
-                    errors.append("hinted evidence cannot promote beyond guided")
+                    errors.append("Una respuesta con pistas solo permite alcanzar el nivel guided")
                 if hint_level in {5, "L5"} and promoted_to in {
                     "guided",
                     "independent",
                     "transferable",
                     "durable",
                 }:
-                    errors.append("L5 demonstrated task cannot promote beyond exposed")
+                    errors.append("Una tarea con demostración L5 solo permite alcanzar el nivel exposed")
 
         if review_queue.get("version", 1) >= 2:
             immediate_reviews = review_queue.get("immediate_reviews")
             if not isinstance(immediate_reviews, list) or not immediate_reviews:
-                errors.append("v2 review queue is missing immediate_reviews")
+                errors.append("Falta immediate_reviews en la lista de repasos v2")
             else:
                 for review in immediate_reviews:
                     if review.get("review_type") != "immediate":
-                        errors.append("immediate review has wrong review_type")
+                        errors.append("El repaso inmediato tiene un review_type incorrecto")
                     if review.get("retrieval_before_summary") is not True:
-                        errors.append("immediate review must retrieve before summary")
+                        errors.append("El repaso inmediato debe empezar con un intento de recuerdo")
                     if review.get("next_action") not in {"reinforce", "continue", "pause"}:
-                        errors.append("immediate review has invalid next_action")
+                        errors.append("El repaso inmediato tiene un next_action no válido")
 
         active_plan_gate = None
         if active_lessons:
@@ -570,7 +592,7 @@ def validate_course(course_dir: Path, strict: bool) -> tuple[list[str], list[str
                 if node.get("importance", "core") == "core"
             ]
             if any(node.get("advance_allowed") is not True for node in core_nodes):
-                errors.append("next lesson allowed while a core node is blocked")
+                errors.append("Se autorizó la siguiente lección con un nodo fundamental bloqueado")
             completed_immediate = [
                 review
                 for review in review_queue.get("immediate_reviews") or []
@@ -580,33 +602,33 @@ def validate_course(course_dir: Path, strict: bool) -> tuple[list[str], list[str
                 and review.get("completed_at")
             ]
             if not completed_immediate:
-                errors.append("next lesson allowed without completed immediate review evidence")
+                errors.append("Se autorizó la siguiente lección sin evidencia de repaso inmediato completo")
 
     if strict and warnings:
-        errors.extend(f"Strict mode: {warning}" for warning in warnings)
+        errors.extend(f"Modo estricto: {warning}" for warning in warnings)
 
     return errors, warnings
 
 
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("course_dir", type=Path)
-    parser.add_argument("--strict", action="store_true")
+    parser.add_argument("course_dir", type=Path, metavar="DIRECTORIO", help="Carpeta del curso guardado")
+    parser.add_argument("--strict", action="store_true", help="Trata los avisos como errores")
     args = parser.parse_args()
 
     course_dir = args.course_dir.expanduser().resolve()
     errors, warnings = validate_course(course_dir, args.strict)
 
     for warning in warnings:
-        print(f"WARN: {warning}")
+        print(f"AVISO: {warning}")
     for error in errors:
         print(f"ERROR: {error}")
 
     if errors:
-        print(f"FAIL: {len(errors)} error(s), {len(warnings)} warning(s)")
+        print(f"Validación fallida. Errores: {len(errors)}. Avisos: {len(warnings)}.")
         return 1
 
-    print(f"PASS: course runtime valid ({len(warnings)} warning(s))")
+    print(f"Curso válido. Avisos: {len(warnings)}.")
     return 0
 
 

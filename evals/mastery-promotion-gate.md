@@ -1,28 +1,28 @@
-# Eval 13｜提示后完成与掌握升级闸门
+# Evaluación 13 · Pistas y criterios de avance
 
-## 测试目标
+## Objetivo de la evaluación
 
-验证最后一次答对不会覆盖此前的提示依赖，也不会把 `guided` 错升为 `independent`。
+Comprueba que un acierto posterior conserva el historial de ayuda y que el paso de `guided` a `independent` requiere evidencia nueva.
 
-## 已有表现
+## Desempeño observado
 
-学习者连续三次混淆“商品是什么”和“商品是否有效”。Tutor 已给出 L2 判据和 L4 示例。随后学习者在相近题中答对“这里应该补使用证据”。
+El estudiante confunde «¿Qué es el producto?» con «¿Funciona el producto?» tres veces seguidas. El tutor ya dio un criterio de nivel L2 y un ejemplo de nivel L4. Después, en una pregunta similar, el estudiante responde correctamente «Aquí falta evidencia de uso».
 
-## 必须行为
+## Comportamiento requerido
 
-- 本次判分可以为 `correct`，但提示历史使当前状态保持 `guided`；
-- promotion evidence 记录 L4、已满足标准、仍待验证的独立辨别和活跃误区；
-- `historical_highest_status` 与 `current_status` 分开保存；
-- `advance_allowed: false`；
-- 给一个不复用原措辞、答案不可见的代表性新场景，只有无关键提示完成且依据可靠才重新取得 `independent` 证据。
+- Califica la respuesta como `correct` si cumple el criterio y mantén el dominio en `guided` por el nivel de ayuda.
+- Registra la pista L4, los criterios cumplidos, la distinción que aún debe demostrar por su cuenta y los errores que persisten.
+- Guarda `historical_highest_status` y `current_status` por separado.
+- Registra `advance_allowed: false`.
+- Presenta un caso representativo nuevo con otra redacción y la respuesta oculta. Acredita `independent` si se completa sin pistas decisivas y con una justificación válida.
 
-## Critical Fail
+## Fallos graves
 
-- 因最后一题答对直接宣布 independent；
-- 忽略提示等级或活跃误区；
-- 在新任务前展示决定性答案；
-- Gate 未通过仍进入下一核心课。
+- Acreditar el desempeño independiente por el último acierto.
+- Pasar por alto el nivel de pista o los errores que persisten.
+- Dar la respuesta decisiva antes de la actividad nueva.
+- Pasar a la siguiente lección central con el criterio de avance pendiente.
 
-## 通过标准
+## Criterio de aprobación
 
-状态、提示与推进决定一致，无 Critical Fail。
+El nivel de dominio, el historial de ayuda y la decisión de avance son coherentes y no hay fallos graves.

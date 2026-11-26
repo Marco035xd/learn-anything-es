@@ -73,10 +73,10 @@ source_plan:
   unresolved_conflicts: []
 
 adaptation_rules:
-  skip_when: "已有独立表现证据"
-  remediate_when: "核心误区仍活跃或迁移失败"
-  increase_difficulty_when: "连续独立成功且解释依据稳定"
-  reduce_load_when: "同一上游步骤连续失败或一次包含过多新元素"
+  skip_when: "Ya hay evidencia de desempeño independiente"
+  remediate_when: "Persiste un error conceptual central o falla la transferencia"
+  increase_difficulty_when: "Hay aciertos independientes consecutivos con justificaciones sólidas"
+  reduce_load_when: "El mismo requisito previo falla repetidamente o la tarea introduce demasiados elementos nuevos"
 
 progress:
   current_stage_id: stage-001

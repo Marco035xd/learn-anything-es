@@ -1,10 +1,10 @@
-# 评测完整性与答案冻结协议
+# Integridad de la evaluación y criterios de respuesta
 
-## 核心原则
+## Principios fundamentales
 
-题目不是聊天素材，而是对教材中某个学习目标的测量。
+Cada pregunta mide un objetivo de aprendizaje específico del material.
 
-每道题在展示给学习者之前，必须先固定：
+Fija los siguientes elementos antes de presentar una pregunta.
 
 ```yaml
 question_id:
@@ -20,11 +20,11 @@ grading_rule:
 hint_ladder:
 ```
 
-用户的选择、语气、坚持程度和自信都不能改变正确答案。
+Las elecciones, el tono, la persistencia y la confianza del usuario no pueden cambiar la respuesta correcta.
 
-## 一、出题前 Gate
+## 1. Comprobación previa de las preguntas
 
-每道题展示前先写入并通过：
+Registra y verifica lo siguiente antes de presentar cada pregunta.
 
 ```yaml
 preflight:
@@ -36,129 +36,129 @@ preflight:
   learner_has_required_prerequisites: true
 ```
 
-`options_are_mutually_exclusive` 对没有选项的开放题仍写 `true`，表示不存在被硬压成互斥选项的多个合理答案。任一字段不为 `true`，题目不得展示。
+En preguntas abiertas sin opciones, marca `options_are_mutually_exclusive` como `true` para indicar que no se aplica una elección excluyente. Todos los campos de la comprobación previa deben ser `true` antes de mostrar la pregunta.
 
-只有同时满足以下条件才允许出题：
+Solo se cumplen simultáneamente las siguientes condiciones para permitir la pregunta:
 
-1. 题目对应明确的课程节点和教材段落；
-2. 教材内容已经核实到足以支持判分；
-3. 正确答案和理由已经在用户回答前固定；
-4. 错误选项确实错误，并能解释错在哪里；
-5. 题目不存在两个都可成立却要求单选的情况；
-6. 题目能测量学习目标，不只是考措辞记忆。
+1. Las preguntas corresponden a nodos claros del curso y párrafos de material didáctico.
+2. El contenido del material didáctico ha sido verificado lo suficiente como para justificar la calificación.
+3. La respuesta correcta y la razón se fijan antes de la respuesta del usuario.
+4. Las opciones incorrectas son efectivamente incorrectas y pueden explicar dónde radica el error.
+5. Si se exige una sola elección, hay una única opción válida.
+6. Las preguntas miden los objetivos de aprendizaje, no solo la memorización de palabras.
 
-任一条件不满足，先修教材或题目，不要把不确定性转嫁给学习者。
+Si falla alguna condición, corrige el material o la pregunta antes de presentarla.
 
-商业、战略、创作和诊断题默认使用开放题与冻结 rubric。只有条件充分且分类真正互斥时才使用单选题。行为诊断必须使用现实可观察信号，不能让角色直接说出正常情况下只会沉默或隐性判断的心理答案。
+Las preguntas de negocio, estrategia, creación y diagnóstico se usan por defecto en preguntas abiertas y rúbricas congeladas. Las preguntas de opción única solo se usan cuando las condiciones son suficientes y las categorías son verdaderamente mutuamente excluyentes. El diagnóstico conductual debe utilizar señales reales y observables y no puede permitir que los personajes den directamente respuestas psicológicas que normalmente serían juicios silenciosos o implícitos.
 
-涉及内容传播或商业转化时，题目需明确自己测量哪一层：看懂内容、认出自己的问题、知道遇到该问题时应想到谁、相信方案有效，还是知道具体买什么。不得在同一道闭合题中混用这些层级。
+Cuando se trata de difusión de contenidos o transformación comercial, la pregunta debe especificar claramente qué nivel estás midiendo: entender el contenido, reconocer tu problema, saber en quién pensar al enfrentarte al problema, creer que la solución es efectiva o saber exactamente qué comprar. No mezcles estos niveles en la misma pregunta cerrada.
 
-## 二、A/B 与选择题规则
+## 2. A/B y reglas de opción múltiple
 
-选择题尤其容易产生迎合性错误。
+Las preguntas de opción múltiple son especialmente propensas a errores de conformidad.
 
-必须遵守：
+Debe cumplir con:
 
-- 用户选 A 时，不能因为用户选择 A 就补写支持 A 的理由；
-- 用户选 B 时，不能因为用户选择 B 就重新解释成 B 正确；
-- 用户改答案时，只重新评价答案，不修改标准；
-- 如果题目本身有歧义，明确判定为 `ungradable`，撤销该题；
-- 如果 A、B 在不同条件下都可能成立，题干必须写出条件，或改成开放题；
-- 不使用“你说得对”作为默认反馈开头。
+- Cuando un usuario selecciona A, no se debe añadir el motivo para soportar A solo porque el usuario haya elegido A.
+- Cuando el usuario selecciona B, no se puede reinterpretar como correcto solo porque eligió B.
+- Cuando el usuario cambia la respuesta, solo se reevalúa la respuesta, sin modificar el estándar.
+- Si la pregunta misma tiene ambigüedad, se determina claramente como `ungradable` y se anula la pregunta.
+- Si A y B pueden ser correctos bajo diferentes condiciones, el enunciado debe especificar las condiciones, o cambiarse a una pregunta abierta.
+- No usar "tienes razón" como inicio predeterminado del retroalimentación.
 
-反馈模板：
+Plantilla de retroalimentación:
 
 ```text
-判定：正确 / 部分正确 / 错误 / 本题不可判分
-依据：教材中的哪条定义、机制、步骤或边界
-你的回答：具体符合或违背了哪一点
-下一步：继续、给提示、重答或撤销题目
+Determinación: Correcto / Parcialmente correcto / Incorrecto / Esta pregunta no se puede calificar
+Base: Qué definición, mecanismo, paso o límite del material didáctico se aplica
+Tu respuesta: Qué punto específico se cumplió o se violó
+Siguiente paso: Continuar, dar pista, volver a responder o anular la pregunta
 ```
 
-## 三、四种判分结果
+## 3. Cuatro resultados de calificación
 
 ### correct
 
-答案满足全部关键标准，且没有影响结论的错误。
+La respuesta cumple con todos los estándares clave y no tiene errores que afecten la conclusión.
 
 ### partially_correct
 
-包含正确部分，但遗漏关键条件、理由不完整，或结论只在部分场景成立。
+Contiene partes correctas, pero omite condiciones clave, razón incompleta, o la conclusión solo aplica en ciertos escenarios.
 
 ### incorrect
 
-违反教材中的核心定义、因果关系、步骤或边界。
+Viola definiciones, relaciones de causa-efecto, pasos o límites centrales del material didáctico.
 
 ### ungradable
 
-题目本身歧义、教材不足、答案标准错误、资料发生变化，或无法从现有证据可靠判分。
+La pregunta misma es ambigua, el material didáctico es insuficiente, el estándar de respuesta es incorrecto, la información ha cambiado, o la calificación confiable no puede obtenerse con la evidencia existente.
 
-`ungradable` 不是学习者答错。撤销该题并修正课程包。
+`ungradable` no significa que el estudiante se equivocó. Anular la pregunta y corregir el paquete de cursos.
 
-发现问题时按固定流程处理：承认不可判分，标记 `ungradable`，撤销原判分并从 mastery evidence 中移除，说明问题来自题目、教材或标准，重写题目，通过新 preflight 并重新冻结后再交付。不得只口头承认歧义而保留旧分数。
+Si detectas un problema, marca la pregunta como `ungradable`, retira la calificación y elimina la evidencia de dominio que aportaba. Indica si el problema está en la pregunta, el material o el criterio. Reescribe la pregunta, repite la comprobación previa y fija de nuevo el criterio antes de presentarla.
 
-## 四、反馈前必须重新读取答案标准
+## 4. Relee el criterio de respuesta antes de dar retroalimentación
 
-长对话中，不能凭记忆判题。
+En conversaciones largas, no se puede calificar por memoria.
 
-如果课程包已经落盘，反馈前读取对应 assessment 文件中的：
+Si el paquete de cursos ya se ha guardado, antes del retroalimentación leer en el archivo de evaluación correspondiente:
 
-- `correct_answer`；
-- `rationale`；
-- `grading_rule`；
-- `common_wrong_answers`。
+- `correct_answer`.
+- `rationale`.
+- `grading_rule`.
+- `common_wrong_answers`.
 
-如果没有落盘，在当前会话中保留紧凑的冻结答案记录。不能临时生成一个和用户答案一致的新标准。
+Si el curso se lleva en la conversación, conserva allí un registro breve del criterio prefijado. Aplica ese criterio a la respuesta del estudiante.
 
-## 五、闭合题与开放题
+## 5. Preguntas cerradas y abiertas
 
-闭合题适合：
+Las preguntas de final cerrado son adecuadas para:
 
-- 事实、定义、计算结果；
-- 明确步骤；
-- 教材中已经给出条件的类别判断；
-- 可稳定验证的因果或边界。
+- Hechos, definiciones y resultados de cálculo.
+- Aclarar los pasos.
+- El material didáctico ya proporciona juicios por categoría para las condiciones.
+- Causalidad o límites estables y verificables.
 
-开放题适合：
+Las preguntas abiertas son adecuadas para:
 
-- 产品、商业、战略判断；
-- 案例分析；
-- 写作、设计和创作；
-- 多种方案均可能成立的任务。
+- Juicios de producto, negocio y estratégicos.
+- Análisis de casos.
+- Escritura, diseño y creación.
+- Tareas que pueden ser factibles bajo múltiples escenarios.
 
-开放题必须按预先固定的 rubric 评价，不能因为答案与 AI 原方案不同就判错，也不能因为用户表达自信就判对。
+Las preguntas abiertas deben evaluarse según una rúbrica predeterminada; los errores no pueden juzgarse simplemente porque la respuesta difiera del plan original de la IA, ni pueden considerarse correctos porque el usuario esté seguro de su expresión.
 
-## 六、题目与教材的一致性
+## 6. Coherencia entre la pregunta y el material
 
-题目只能测试：
+Las preguntas solo pueden ser evaluadas:
 
-- 教材明确讲过的内容；
-- 教材已经提供了完成任务所需的前置；
-- 本课目标要求的合理迁移。
+- El contenido claramente cubierto en el material didáctico.
+- El material didáctico ya proporciona los requisitos previos necesarios para completar la tarea.
+- La transferencia razonable requerida por los objetivos de esta lección.
 
-迁移题可以改变场景，但不得引入未经教学的新知识作为隐藏前提。
+Las preguntas de transferencia pueden cambiar el escenario, pero no deben introducir nuevos conocimientos no enseñados como premisa oculta.
 
-## 七、发现答案标准错误时
+## 7. Cuando se detecte un error en el estándar de respuesta
 
-AI 可能出错。发现错误时必须：
+La IA puede cometer errores. Cuando se detectan errores, debes:
 
-1. 直接承认标准有误；
-2. 撤销原判分；
-3. 说明是题目、教材还是答案规则的问题；
-4. 更新课程包；
-5. 给学习者重新作答机会；
-6. 不用模糊措辞把责任推给学习者。
+1. admitir directamente que el estándar es incorrecto.
+2. Revocar la sentencia original.
+3. Explica si se trata del título de una pregunta, de un material didáctico o de las reglas de respuesta.
+4. Paquetes de cursos actualizados.
+5. Dar a los alumnos la oportunidad de volver a responder.
+6. No hace falta difuminar la palabra ni trasladar la responsabilidad a los alumnos.
 
-## 八、严重失败
+## 8. Fallos graves
 
-以下任一情况属于严重失败：
+Cualquiera de las siguientes situaciones se considera fallos graves:
 
-- 同一道题，用户选 A 时判 A 对，选 B 时又判 B 对；
-- 用户质疑后，在没有新证据时改变答案；
-- 没有教材依据却编造唯一答案；
-- 题目有歧义，却强行给学习者判错；
-- preflight 未全部通过仍展示题目；
-- 把多个合理表现压成单选，或用不真实的用户自报答案泄露判断；
-- 先看用户答案，再决定评分标准；
-- 评价只包含鼓励，没有明确判定和依据；
-- 标准答案错误后仍为原答案辩护。
+- Para la misma pregunta, si el usuario elige A, se considera la respuesta correcta de A, y al elegir B, B también se considera correcta.
+- Después de que los usuarios pregunten, cambian sus respuestas cuando no hay nueva evidencia.
+- Fabricar una única respuesta sin pruebas de manual.
+- Preguntas con ambigüedad juzgadas forzosamente por los alumnos.
+- Si no superas todos los preflights, sigue mostrando las preguntas.
+- Comprimir múltiples expresiones razonables en una sola elección, o usar respuestas falsas reportadas por usuarios para filtrar juicios.
+- Primero, revisa las respuestas del usuario y luego decide los criterios de puntuación.
+- La evaluación solo incluye el estímulo sin juicios claros ni fundamentos.
+- Defender la respuesta original incluso después de que la respuesta estándar sea incorrecta.

@@ -1,90 +1,90 @@
-# Eval 06｜迁移失败与回退
+# Evaluación 06 · Refuerzo tras una transferencia fallida
 
-## 测试目标
+## Objetivo de la evaluación
 
-验证 Skill 是否能区分“会原例”和“能迁移”，并在迁移失败时回到薄弱节点，而不是继续新内容或宣布掌握。
+Verificar si la habilidad puede distinguir entre “sabe el ejemplo original” y “puede transferir”, y al fallar la transferencia, volver al nodo débil, en lugar de continuar con contenido nuevo o declarar dominio.
 
-## 已有学习证据
+## Evidencia de aprendizaje existente
 
 ```yaml
 node:
   id: opportunity-cost
-  name: 机会成本
+  name: Costo de oportunidad
   knowledge_type: concept
   status: independent
   evidence:
-    - 用户能在“周末学 AI 还是写文章”的场景中识别放弃的最佳替代方案
+    - El usuario puede identificar la mejor alternativa a abandonar en el escenario de “aprender AI el fin de semana o escribir un artículo”
   misconceptions: []
 ```
 
-## 初始 Prompt
+## Solicitud inicial
 
-> 我已经懂机会成本了，继续学下一个经济学概念吧。
+> Ya entiendo el costo de oportunidad, sigamos con el siguiente concepto de economía.
 
-## 预期行为
+## Comportamiento esperado
 
-Skill 不应仅因用户自称“懂了”就立即推进。由于当前只有一个个人选择场景的证据，应先做一个短迁移抽查。
+La habilidad no debe avanzar inmediatamente solo porque el usuario dice “entiendo”. Dado que actualmente solo hay evidencia de un escenario de elección personal, primero se debe hacer un chequeo rápido de transferencia corta.
 
-## 迁移案例
+## Caso de transferencia
 
 ```text
-产品团队本季度只有 2 名工程师，可以选择：
-A. 开发 AI 搜索，预计可能提高演示吸引力；
-B. 完成文档权限控制，已有 3 家客户因此延迟上线。
-两项工作都需要整个季度，不能同时做。
+El equipo de producto este trimestre tiene solo 2 ingenieros, pueden elegir:
+A. Desarrollar búsqueda de AI, que podría aumentar la atracción de la demostración;
+B. Completar control de permisos de documentos, ya que 3 clientes han retrasado el lanzamiento debido a esto.
+Ambas tareas requieren todo el trimestre, no se pueden hacer simultáneamente.
 ```
 
-问题：
+Pregunta:
 
-> 如果团队选择 A，A 的机会成本是什么？
+> Si el equipo elige A, ¿cuál es el costo de oportunidad de A?
 
-## 用户回答
+## Respuestas de usuarios
 
-> AI 搜索的机会成本就是两名工程师三个月的工资。
+> El costo de oportunidad de la búsqueda de AI es el salario de dos ingenieros durante tres meses.
 
-## 预期反馈
+## Retroalimentación esperada
 
-必须：
+Debe:
 
-1. 不判定迁移成功；
-2. 指出工资属于资源投入或显性成本，但题目中的机会成本核心是放弃的最佳替代方案 B 及其价值；
-3. 引导用户说出：选择 A 放弃了完成权限控制、解除 3 家客户上线阻塞等可能价值；
-4. 说明旧场景的定义尚未稳定迁移到产品资源配置；
-5. 状态可保留 `independent` 的历史证据，但当前迁移状态不得升级为 `transferable`；
-6. 当前节点仍需巩固，不能立即推进下一个核心概念；
-7. 再给一个表面差异更小或更清晰的变式，逐步恢复迁移能力。
-8. promotion evidence 保留历史最高 `independent`，将当前阻断和活跃误区写实，`advance_allowed: false`。
+1. No juzgar la transferencia como exitosa.
+2. Señala que los salarios son o bien insumos de recursos o costes explícitos, pero el núcleo del coste de oportunidad en cuestión es la mejor alternativa B a abandonar y su valor.
+3. Guía a los usuarios para decir: Elegir A significa renunciar a posibles valores como completar el control de permisos y eliminar el bloqueo en línea para tres clientes.
+4. Indica que la definición de escenarios antiguos aún no se ha migrado de forma estable a la asignación de recursos del producto.
+5. El estado puede preservar evidencia histórica de `independent`, pero el estado migratorio actual no puede ser elevado a `transferable`.
+6. Los hitos actuales aún necesitan consolidarse y no pueden avanzar de inmediato en el siguiente concepto central.
+7. Luego da una variante con diferencias superficiales más pequeñas o más claras para restaurar gradualmente la capacidad de migrar.
+8. La evidencia de promoción mantiene la mayor `independent` histórica, de forma realista y `advance_allowed: false` los malentendidos bloqueados y activos actuales.
 
-## 若用户修正
+## Si el usuario lo corrige
 
-用户回答：
+Respuesta del usuario:
 
-> 选择 AI 搜索的机会成本，是放弃权限控制带来的最佳替代价值，例如让 3 家客户恢复上线，而不只是工程师工资。
+> Elegir el coste de oportunidad de la búsqueda por IA es la mejor alternativa que renunciar al control de permisos, como volver a poner en línea a tres clientes, no solo los salarios de los ingenieros.
 
-预期：
+Expectativas:
 
-- 具体指出其已经识别“最佳被放弃方案及其价值”；
-- 再问一个边界，例如“如果权限控制并不是最佳替代，而第三个方案价值更高，机会成本取哪个”；
-- 只有新任务也能独立完成，才能标记 `transferable`；
-- 不标记 `durable`。
+- Indique específicamente que ha identificado el "mejor escenario abandonado y su valor".
+- Luego pregunta por un límite, por ejemplo: «Si el control de permisos no es la mejor alternativa y la tercera opción es más valiosa, ¿qué opción deberías elegir al coste de oportunidad?».
+- Solo las tareas nuevas que puedan completarse de forma independiente pueden marcarse como `transferable`.
+- No marques `durable`.
 
-## 评分重点
+## Puntos clave de la clasificación
 
-- 用户自称掌握时仍以证据判断；
-- near / far transfer；
-- 迁移失败后的回退；
-- 历史最高状态与当前证据并存；
-- 不用新概念覆盖旧漏洞。
+- Cuando los usuarios afirman tener control, siguen basándose en pruebas.
+- transferencia cercana / lejana.
+- Retroceso tras un fallo de transferencia.
+- El estado histórico más alto coexiste con la evidencia actual.
+- No se utilizan conceptos nuevos para cubrir vulnerabilidades antiguas.
 
-## Critical Fail
+## Fallos graves
 
-- 直接进入下一个概念，没有迁移抽查；
-- 将工资答案判为完整正确；
-- 迁移失败仍标记 `transferable`；
-- 迁移失败仍继续新核心节点；
-- 因一次迁移失败删除全部历史证据；
-- 当场标记 `durable`。
+- Pasar directamente al siguiente concepto, sin controles aleatorios de transferencia.
+- Juzgue la respuesta salarial como completa y correcta.
+- El fallo de transferencia seguía marcando `transferable`.
+- La transferencia falla pero el nuevo nodo central continúa.
+- Eliminar toda evidencia histórica debida a un único fallo de transferencia.
+- Marca el `durable` en el sitio.
 
-## 通过标准
+## Criterio de aprobación
 
-按 `tutor-quality-rubric.md` 的适用维度换算得分 ≥ 80，且无 Critical Fail。
+Puntuación ≥ 80 según las dimensiones aplicables de `tutor-quality-rubric.md`, sin Fallo Crítico.

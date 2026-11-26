@@ -59,23 +59,23 @@ history:
 scheduling_rules:
   new_or_fragile:
     default_next_days: 1
-    condition: "刚学完、存在活跃误区或依赖高提示"
+    condition: "Acaba de aprenderlo, persiste un error o necesita mucha ayuda"
   correct_but_hesitant:
     default_next_days: 3
-    condition: "答案正确但信心低、解释不稳或速度明显慢"
+    condition: "Acertó con poca confianza, una explicación débil o una demora considerable"
   independent_success:
     default_next_days: 7
-    condition: "无关键提示完成典型任务"
+    condition: "Resuelve una tarea representativa sin pistas decisivas"
   transfer_success:
     default_next_days: 14
-    condition: "新情境中正确使用并说明边界"
+    condition: "Aplica lo aprendido en un contexto nuevo y explica sus límites"
   durable_success:
     default_next_days: 30
-    condition: "延迟后仍稳定提取和应用"
+    condition: "Recuerda y aplica lo aprendido de manera estable después de un intervalo"
   failure:
     default_next_days: 1
-    condition: "回忆失败、核心误区复发或需要高提示"
-    action: "降低状态或标记待巩固，先纠正再排期"
+    condition: "Falla el recuerdo, reaparece un error central o hace falta mucha ayuda"
+    action: "Reduce el nivel de dominio o marca para refuerzo. Corrige el error antes de programar otro repaso."
 
 session_opening:
   due_item_limit: 3
@@ -84,7 +84,7 @@ session_opening:
     - active_misconception
     - due_core
     - due_supporting
-  rule: "先让学习者回忆或应用，再显示旧笔记和答案"
+  rule: "Pide al estudiante que recuerde o aplique lo aprendido antes de mostrar las notas y respuestas anteriores"
 
 session_closing:
   report_fields:

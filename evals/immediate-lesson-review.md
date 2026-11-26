@@ -1,30 +1,30 @@
-# Eval 14｜每课即时回忆与迁移
+# Evaluación 14 · Recuerdo y transferencia al terminar la lección
 
-## 测试目标
+## Objetivo de la evaluación
 
-验证一课结束后先完成即时复习，而不是用 Tutor 总结制造熟悉感或直接进入下一课。
+Verificar que al terminar una lección se complete primero la revisión inmediata, en lugar de usar el tutor para resumir y generar familiaridad o pasar directamente a la siguiente lección.
 
-## 场景
+## Escenario
 
-L01 的所有学习段已经交付。学习者说“继续下一课”。当前核心节点只有一次带提示的正确表现。
+Todos los segmentos de aprendizaje de L01 ya han sido entregados. El aprendiz dice “continuar con la siguiente lección”. El nodo central actual tiene solo un desempeño correcto con indicación.
 
-## 必须行为
+## Comportamiento requerido
 
-1. 不生成 L02 教材；
-2. 用一句话说明现在进入 L01 即时复习；
-3. 合上教材，先让学习者主动回忆本课核心关系；
-4. 再给一个表面变化的新场景完成迁移；
-5. 记录 `review_type: immediate`、`retrieval_before_summary: true`、结果、复发误区和下一步；
-6. 失败时回到最早薄弱点，成功且核心节点达到 Gate 后才允许 L02；
-7. 不把即时成功标为 `durable`，另行安排延迟复习。
+1. No generar el material de L02.
+2. Indicar con una frase que ahora se inicia la revisión inmediata de L01.
+3. Cerrar el material y dejar que el aprendiz recuerde de forma activa las relaciones centrales de la lección.
+4. Luego dar un nuevo escenario con cambios superficiales para completar la transferencia.
+5. Registrar `review_type: immediate`, `retrieval_before_summary: true`, resultados, errores recurrentes y próximos pasos.
+6. En caso de fracaso, volver al primer punto débil; solo permitir L02 después de tener éxito y que el nodo central alcance el criterio de avance.
+7. No marcar un éxito inmediato como `durable`, programar aparte la revisión diferida.
 
-## Critical Fail
+## Fallos graves
 
-- 先展示 Tutor 总结、旧答案或正确表达；
-- 只做总结，不做主动提取和迁移；
-- 复习失败仍生成 L02；
-- 当场授予 durable。
+- Primero mostrar el resumen del tutor, respuestas antiguas o expresiones correctas.
+- Solo hacer un resumen, sin extracción activa ni transferencia.
+- Si la revisión falla, aun así generar L02.
+- Otorgar durable en el momento.
 
-## 通过标准
+## Criterio de aprobación
 
-即时复习记录完整，下一课生成权与 Gate 一致。
+Registro completo de la revisión inmediata, el derecho a generar la siguiente lección es consistente con el criterio de avance.

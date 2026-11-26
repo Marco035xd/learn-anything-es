@@ -1,277 +1,277 @@
-# 学习科学原则
+# Principios de la ciencia del aprendizaje
 
-本文件用于解释和校准 `learn-anything` 的教学机制。它不是每次会话都要展示给学习者的理论清单。
+Este documento se utiliza para explicar y calibrar los mecanismos de enseñanza de la `learn-anything`. No es una lista teórica que se presenta a los alumnos en cada sesión.
 
-## 总判断
+## Sentencia general
 
-有效学习的核心不是让内容看起来更顺、更熟悉，而是让学习者反复完成以下变化：
-
-```text
-从认不出来
-→ 能在提示下完成
-→ 能独立提取和应用
-→ 能换场景迁移
-→ 延迟后仍能调用
-```
-
-任何单一理论都无法覆盖“学会任何东西”。应根据知识类型、学习者水平、风险、时间和应用场景组合策略。
-
-## 1. 主动提取优先于重复输入
-
-### 结论
-
-尝试从记忆中提取知识，通常比反复阅读、重看讲解更能促进长期保持。
-
-### Skill 中的落实
-
-- 复习时先提问、解释、预测或应用，再展示材料。
-- 学习新内容前先做低风险诊断，暴露已有理解。
-- 每次核心讲解后要求一个可观察输出。
-- 不用“看起来熟悉”代替真正回忆。
-
-### 边界
-
-- 完全新手没有任何可提取内容时，先提供最小示范。
-- 错误尝试会造成安全风险时，不先让用户盲试。
-- 检索失败后应及时给反馈，不能只制造挫败。
-
-## 2. 间隔优先于一次学完
-
-### 结论
-
-把练习分散到不同时间，通常比同一时间内连续重复更有利于长期保持。
-
-### Skill 中的落实
-
-- 重要节点进入 review queue。
-- 复习间隔根据重要性、难度、错误次数和目标保持期调整。
-- 默认间隔可从 1、3、7、14、30 天开始，但不是固定公式。
-- 每次复习都重新采样证据，并允许状态下调。
-
-### 边界
-
-- 间隔多长取决于希望记多久。
-- 用户临近考试时，可以提高短期复习密度，但仍要保留主动提取。
-- 不要承诺仅靠一次课程获得 `durable`。
-
-## 3. 生成效应：先尝试形成答案
-
-### 结论
-
-学习者先预测、解释或尝试生成答案，再接收讲解，往往能更清楚地识别知识缺口。
-
-### Skill 中的落实
-
-- 概念学习先问“你目前怎么理解”。
-- 案例学习先让用户做判断并说依据。
-- 解题学习先完成可承受的第一步。
-- 阅读材料前先提出带着什么问题读。
-
-### 边界
-
-“先尝试”不等于长期放任错误。错误模型暴露后要及时校正。
-
-## 4. 认知负荷：一次处理有限信息
-
-### 结论
-
-工作记忆容量有限。学习材料同时包含过多新概念、无关装饰或复杂操作，会降低理解和迁移。
-
-### Skill 中的落实
-
-- 一次只推进一个主要节点或障碍。
-- 解释使用层级、分块、示例和图示降低负荷。
-- 删除无助于当前目标的背景知识。
-- 将复杂任务拆成稳定的小任务，再逐步组合。
-
-### 边界
-
-“降低负荷”不是永远把内容讲得极浅。学习者能力提高后，应增加真实复杂度并撤除冗余解释。
-
-## 5. Worked Example 与脚手架撤除
-
-### 结论
-
-对新手而言，结构清晰的完整示例通常比直接独立解复杂题更有效；随着能力提高，应逐步撤除提示。
-
-### Skill 中的落实
+El núcleo del aprendizaje eficaz no es hacer que el contenido parezca más fluido o familiar, sino que los alumnos realicen repetidamente las siguientes variaciones:
 
 ```text
-完整示范
-→ 示例中留出部分步骤
-→ 提供有限提示
-→ 独立完成
-→ 复杂变式
+De no reconocerlo
+→ Puede completarse si se le solicita
+→ Capaz de extraer y aplicar de forma independiente
+→ Capacidad de migrar a diferentes escenarios
+→ Sigue siendo invocable tras el retraso
 ```
 
-每次记录用户完成任务所需的 `hint_level`。同一道题在高提示下完成，只能证明 `guided`，不能证明 `independent`。
+Ninguna teoría única puede abarcar "aprender nada". Las estrategias deben combinarse en función del tipo de conocimiento, nivel del aprendiz, riesgo, tiempo y escenarios de aplicación.
 
-### 边界
+## 1. La obtención activa tiene prioridad sobre la entrada repetida
 
-熟练者继续接受完整基础示范可能形成冗余。检测到已有能力时，应跳过或压缩示例。
+### Conclusión
 
-## 6. 自我解释与因果连接
+Intentar extraer conocimiento de la memoria suele favorecer mejor la retención a largo plazo que leer o releer explicaciones repetidamente.
 
-### 结论
+### Implementación en Skill
 
-让学习者解释“为什么这一步成立”“它与前一概念有什么关系”“什么时候不适用”，有助于建立可迁移的知识结构。
+- Durante la revisión, primero haz preguntas, explícate, predice o aplica el material, y luego presenta el material.
+- Antes de aprender material nuevo, realiza un diagnóstico de bajo riesgo para exponer tu conocimiento actual.
+- Después de cada explicación del núcleo, se requiere una salida observable.
+- No sustituyas los recuerdos reales por "parecer familiar".
 
-### Skill 中的落实
+### Límites
 
-- 不只问结果，也抽查依据。
-- 让用户比较正例、反例和边界例。
-- 让用户用自己的工作场景重新表达。
-- 对程序性任务询问关键步骤的作用，而非要求复述全部文字。
+- Si los principiantes completos no tienen contenido extraíble, primero haz una demostración mínima.
+- Cuando un intento equivocado supone un riesgo de seguridad, no se permite a los usuarios intentarlo primero a ciegas.
+- Tras la recuperación, la retroalimentación debe darse de inmediato; no basta con crear frustración únicamente.
 
-### 边界
+## 2. Se prefieren intervalos antes que completar el curso de una sola vez
 
-自我解释会增加负荷。完全新手先给一个可模仿的解释框架，不要要求空泛长篇输出。
+### Conclusión
 
-## 7. 反馈必须缩小具体差距
+Hacer ejercicios de distribución en diferentes momentos suele ser mejor para mantener la constancia a largo plazo que repetirlos continuamente al mismo tiempo.
 
-### 结论
+### Implementación en Skill
 
-有效反馈回答三个问题：目标是什么、当前表现在哪里、下一步怎么缩小差距。
+- Los nodos importantes entran en la lista de repasos.
+- Los intervalos de revisión se ajustan en función de la importancia, dificultad, número de errores y el periodo objetivo de retención.
+- El intervalo por defecto puede comenzar en 1, 3, 7, 14 o 30 días, pero no es una fórmula fija.
+- Cada revisión remuestrea la evidencia y permite la rebajada de nivel estatal.
 
-### Skill 中的落实
+### Límites
 
-- 具体指出正确部分。
-- 定位第一个关键错误或误区。
-- 给恰好足够的下一步提示。
-- 让学习者重新尝试。
-- 开放题用明确 rubric，不把个人偏好伪装成唯一答案。
+- La duración del intervalo depende de cuánto tiempo quieras recordar.
+- Cuando los usuarios se acercan a los exámenes, pueden aumentar la frecuencia de las revisiones a corto plazo pero mantener la extracción activa.
+- No prometas conseguir `durable` con solo un curso.
 
-### 边界
+## 3. Efecto generativo: primero intenta formular una respuesta
 
-反馈过快、过完整会剥夺思考；反馈太晚则可能固化错误。具体策略见 `feedback-strategies.md`。
+### Conclusión
 
-## 8. 穿插练习是条件性策略
+Los alumnos primero predicen, explican o intentan generar respuestas antes de recibir explicaciones, permitiendo a menudo una identificación más clara de las lagunas de conocimiento.
 
-### 结论
+### Implementación en Skill
 
-混合相似但不同的题型，可以训练识别“什么时候使用哪个方法”，特别适合类别辨别和部分数学任务。
+- El aprendizaje de conceptos comienza preguntándote: "¿Cómo lo entiendes ahora mismo?"
+- Los estudios de caso permiten primero a los usuarios emitir juicios y aportar pruebas.
+- El aprendizaje para resolver problemas comienza con el primer paso que es soportable.
+- Antes de leer el material, haz con ti qué preguntas quieres leer.
 
-### Skill 中的落实
+### Límites
 
-- 学习者已分别掌握基础题型后，再混合练习。
-- 让用户先识别题型或情境，再选择方法。
-- 混入容易混淆的反例，检查辨别能力。
+"Prueba primero" no significa dejar errores sin atender durante mucho tiempo. Corrige el modelo de error rápidamente después de que se exponga.
 
-### 边界
+## 4. Carga cognitiva: procesar información limitada de una sola vez
 
-穿插并非对所有材料都更好。新手尚未形成基本模式时，先做少量集中练习；词汇、文本记忆等任务不要机械穿插。
+### Conclusión
 
-## 9. 刻意练习适用于可分解、可反馈的技能
+La capacidad de memoria de trabajo es limitada. Los materiales de aprendizaje que contienen demasiados conceptos nuevos, decoraciones irrelevantes o operaciones complejas al mismo tiempo pueden reducir la comprensión y la transferencia.
 
-### 结论
+### Implementación en Skill
 
-高水平技能提升通常需要：明确子技能、略高于当前能力的任务、及时反馈、针对薄弱点重复练习。
+- Solo se avanza un nodo o obstáculo principal a la vez.
+- Explica cómo usar jerarquías, fragmentos, ejemplos y diagramas para reducir la carga.
+- Elimina el conocimiento previo que no ayude al objetivo actual.
+- Descompone las tareas complejas en tareas estables y más pequeñas y combínalas gradualmente.
 
-### Skill 中的落实
+### Límites
 
-- 将技能拆成可观察动作，而非泛泛“多练”。
-- 练最薄弱的子技能，不总做已经会的部分。
-- 每次练习有清楚标准和反馈来源。
-- 难度保持在有挑战但可以纠正的范围。
+"Reducir la carga" no siempre hace que el contenido sea extremadamente superficial. A medida que mejoran las habilidades de los alumnos, la complejidad real debería incrementarse y eliminar las explicaciones redundantes.
 
-### 边界
+## 5. Retirada de ejemplo trabajado y andamios
 
-刻意练习不能解释所有领域的全部表现差异，也不等于机械堆时长。开放创作、战略判断和身体技能还依赖经验、环境、专家反馈与真实实践。
+### Conclusión
 
-## 10. 掌握学习允许不同节奏
+Para los principiantes, un ejemplo completo con estructura clara suele ser más efectivo que intentar resolver directamente problemas complejos por sí mismos; a medida que se mejora la habilidad, se deben ir retirando gradualmente las pistas.
 
-### 结论
+### Implementación en Skill
 
-学习者可以用不同时间达到共同标准。关键节点未掌握时，提供纠正活动，而不是按统一进度继续覆盖内容。
+```text
+Demostración completa
+→ Dejar algunos pasos en el ejemplo
+→ Proporcionar pistas limitadas
+→ Completado de forma independiente
+→ Variantes complejas
+```
 
-### Skill 中的落实
+Registrar cada vez que el usuario completa la tarea lo necesario `hint_level`. Resolver la misma pregunta con mucha ayuda solo puede demostrar `guided`, no puede demostrar `independent`.
 
-- 为节点定义掌握证据。
-- 未通过时更换解释或活动，不只是重复原讲解。
-- 已掌握时快速跳过，避免浪费。
-- 课程进度由证据驱动，不由章节数量驱动。
+### Límites
 
-## 11. 迁移必须单独测试
+Que los usuarios expertos continúen recibiendo la demostración básica completa puede generar redundancia. Cuando se detecta que ya tienen habilidad, se debe omitir o comprimir el ejemplo.
 
-### 结论
+## 6. Autoexplicación y conexión causal
 
-在原题、原例或高度相似情境中成功，不代表能迁移到新任务。
+### Conclusión
 
-### Skill 中的落实
+Hacer que el aprendiz explique “por qué este paso es válido”, “cómo se relaciona con el concepto anterior” y “cuándo no se aplica” ayuda a construir una estructura de conocimiento transferible.
 
-- 改变表面条件、约束或应用场景。
-- 要求识别何时不适用。
-- 将概念用于学习者自己的真实任务。
-- 迁移失败时回到知识结构或辨别训练。
+### Implementación en Skill
 
-## 12. 元认知需要校准
+- No solo preguntar el resultado, también verificar las razones.
+- Hacer que el usuario compare ejemplos positivos, negativos y límites.
+- Hacer que el usuario lo exprese nuevamente usando su propio contexto de trabajo.
+- En tareas procedimentales, preguntar sobre la función de los pasos clave, no exigir repetir todo el texto.
 
-### 结论
+### Límites
 
-熟悉感、流畅感和即时正确会让学习者高估掌握。
+La autoexplicación aumenta la carga. Para principiantes completos, primero se debe dar un marco de explicación que se pueda imitar, sin exigir una salida extensa y vaga.
 
-### Skill 中的落实
+## 7. La retroalimentación debe reducir la brecha concreta
 
-- 作答前可让用户给出信心区间。
-- 将自信与实际表现对照。
-- 高自信但错误时优先处理误区。
-- 低自信但持续正确时帮助形成准确的能力判断。
+### Conclusión
 
-不要把低自信简单解释为缺乏鼓励，也不要用泛泛赞美替代校准。
+Una retroalimentación efectiva responde tres preguntas: cuál es el objetivo, dónde se encuentra el desempeño actual y cómo reducir la brecha en el siguiente paso.
 
-## 13. 动机来自意义、控制感和可见进步
+### Implementación en Skill
 
-### Skill 中的落实
+- Señalar específicamente las partes correctas.
+- Localizar el primer error clave o malentendido.
+- Dar exactamente la pista suficiente para el siguiente paso.
+- Hacer que el aprendiz lo intente de nuevo.
+- Para preguntas abiertas, usar una rúbrica clara, sin disfrazar preferencias personales como única respuesta.
 
-- 将内容连接到用户真实目标。
-- 解释当前活动为什么值得做。
-- 给用户合理选择权，例如案例方向或实践对象。
-- 让进步表现为能力证据，而不是虚拟积分。
-- 挫败时缩小任务并恢复可控感。
+### Límites
 
-不要用过度游戏化、夸张庆祝或空泛激励掩盖教学问题。
+Una retroalimentación demasiado rápida o demasiado completa priva del pensamiento; demasiado tardía puede consolidar errores. Estrategias concretas ver `feedback-strategies.md`.
 
-## 14. 视觉与多模态只在承担信息时使用
+## 8. Alternar práctica es una estrategia condicional
 
-有效图示应帮助用户看见：
+### Conclusión
 
-- 空间关系；
-- 流程和因果链；
-- 层级和系统结构；
-- 变化趋势；
-- 难以用文字保持的多变量关系。
+Mezclar tipos de preguntas similares pero distintos puede entrenar a identificar “cuándo usar qué método”, especialmente adecuado para la distinción de categorías y algunas tareas matemáticas.
 
-装饰图、重复文字的图片和不相关动画会增加负荷。图示后仍需通过解释或应用检查理解。
+### Implementación en Skill
 
-## 理论到运行机制的映射
+- Después de que los alumnos hayan dominado los tipos básicos de preguntas, practica ejercicios mixtos.
+- Deja que los usuarios identifiquen primero el tipo de pregunta o el escenario antes de elegir un método.
+- Mezclando contraejemplos fácilmente confusos para poner a prueba el discernimiento.
 
-| 学习问题 | 优先机制 |
+### Límites
+
+El entrelazado no siempre es mejor para todo el material. Antes de que los principiantes hayan formado patrones básicos, empieza con ejercicios pequeños y concentrados; No intercales mecánicamente tareas como la memorización de vocabulario y texto.
+
+## 9. Práctica deliberada de habilidades que pueden desglosarse y revertirse
+
+### Conclusión
+
+La mejora de habilidades de alto nivel suele requerir: subhabilidades claras, tareas ligeramente superiores a la capacidad actual, retroalimentación oportuna y práctica repetida en el objetivo de puntos débiles.
+
+### Implementación en Skill
+
+- Desglosa las habilidades en acciones observables, en lugar de simplemente "practicar más".
+- Concéntrate en las subhabilidades más débiles, no siempre haciendo las partes que ya conoces.
+- Cada ejercicio tiene estándares claros y fuentes de retroalimentación.
+- La dificultad se mantiene dentro de un rango desafiante pero corregible.
+
+### Límites
+
+La práctica deliberada no puede explicar todas las diferencias de rendimiento en todos los dominios, ni equivale a la duración de la pila mecánica. La creación abierta, el juicio estratégico y las habilidades físicas también dependen de la experiencia, el entorno, la retroalimentación experta y la práctica real.
+
+## 10. Domina que aprender permite diferentes ritmos
+
+### Conclusión
+
+Los alumnos pueden alcanzar estándares comunes en diferentes momentos. Cuando no se dominan los puntos clave, se ofrecen actividades correctivas en lugar de continuar el contenido a un ritmo unificado.
+
+### Implementación en Skill
+
+- Define evidencia para nodos.
+- Si no se ha aprobado, cambia la explicación o la actividad, no simplemente repite la explicación original.
+- Salta rápido una vez que tengas el dominio para evitar desperdiciar.
+- El progreso del curso se basa en la evidencia, no en el número de capítulos.
+
+## 11. La transferencia debe ser probada por separado
+
+### Conclusión
+
+Tener éxito en la pregunta original, en el ejemplo o en un escenario muy similar no significa que puedas pasar a una nueva tarea.
+
+### Implementación en Skill
+
+- Cambiar las condiciones de la superficie, restricciones o escenarios de aplicación.
+- Solicitar identificación cuando no sea aplicable.
+- Aplica conceptos a las propias tareas del alumnado en el mundo real.
+- Volver a la estructura de conocimiento o a la formación discriminatoria cuando la transferencia falla.
+
+## 12. La metacognición requiere calibración
+
+### Conclusión
+
+La familiaridad, fluidez y corrección instantánea hacen que los alumnos sobreestimen su dominio.
+
+### Implementación en Skill
+
+- Antes de responder, los usuarios pueden proporcionar intervalos de confianza.
+- Compara la confianza con el rendimiento real.
+- Alta confianza pero prioriza manejar errores cuando ocurren.
+- Una baja confianza pero una correcta constante ayuda a formar juicios precisos.
+
+No interpretes simplemente la baja confianza como falta de ánimo, y no sustituyas la calibración por elogios genéricos.
+
+## 13. La motivación proviene del significado, de una sensación de control y del progreso visible
+
+### Implementación en Skill
+
+- Vincula el contenido al verdadero objetivo del usuario.
+- Explica por qué merece la pena realizar la actividad actual.
+- Ofrece a los usuarios opciones razonables, como indicaciones de casos u objetos prácticos.
+- Que el progreso se demuestre como prueba de capacidad, no como puntos virtuales.
+- Reduce las tareas y recupera la sensación de control cuando te frustras.
+
+No encubras los problemas de enseñanza con una gamificación excesiva, celebraciones exageradas o incentivos vagos.
+
+## 14. La visión y la multimodalidad solo se utilizan al transportar información
+
+Los diagramas efectivos deberían ayudar a los usuarios a ver:
+
+- relaciones espaciales.
+- Proceso y cadena causal.
+- Jerarquía y estructura del sistema.
+- Tendencias de cambio.
+- Relaciones multivariantes que son difíciles de mantener con palabras.
+
+Los dibujos decorativos, las imágenes con texto repetido y las animaciones irrelevantes aumentan la carga. Tras la ilustración, la comprensión sigue comprobándose mediante explicación o aplicación.
+
+## Mapeo de la teoría al mecanismo operativo
+
+| Problemas de aprendizaje | Mecanismo de prioridad |
 |---|---|
-| 看过但想不起来 | 主动提取 + 间隔复习 |
-| 听懂但不会做 | worked example + 脚手架撤除 |
-| 会原题不会变式 | 自我解释 + 迁移测试 |
-| 多种方法容易混 | 对比 + 条件性穿插 |
-| 技能长期停滞 | 子技能拆解 + 定向反馈 |
-| 自以为掌握 | 延迟测试 + 信心校准 |
-| 内容太复杂 | 降低无关负荷 + 分块 |
-| 学习没有动力 | 连接真实目标 + 可见能力证据 |
+| Lo he visto pero no lo recuerdo | Extracción activa + revisión por intervalos |
+| Entiendo pero no sé cómo actuar | Ejemplo trabajado + Retirada de andamios |
+| Entiende la pregunta original sin variantes | Autoexplicación + pruebas de transferencia |
+| Es fácil mezclar varios métodos | Contraste + entrelazado condicional |
+| Las habilidades han estado estancadas durante mucho tiempo | Desglose de subhabilidades + retroalimentación dirigido |
+| y se consideraba a sí mismo en control | Prueba de retardo + calibración de confianza |
+| El contenido es demasiado complejo | Reducir carga irrelevante + fragmentos |
+| No hay motivación para estudiar | Conectar objetivos reales + evidencia visible de capacidad |
 
-## 主要知识来源
+## Principales fuentes de conocimiento
 
-方法设计主要参考以下研究传统与通俗著作，但运行时应以最新、可靠的一手研究和领域证据为准：
+El diseño del método se refiere principalmente a las siguientes tradiciones de investigación y obras divulgativas, pero en la práctica debe basarse en la investigación de primera mano más reciente y confiable y en la evidencia del campo:
 
-- retrieval practice / testing effect；
-- spacing effect；
-- interleaved practice；
-- cognitive load theory；
-- worked-example effect 与 expertise reversal；
-- self-explanation；
-- formative feedback；
-- mastery learning；
-- deliberate practice；
-- transfer of learning；
-- metacognitive calibration；
-- 《Make It Stick / 认知天性》；
-- 《Peak / 刻意练习》。
+- práctica de recuperación / efecto de prueba.
+- efecto de espaciamiento.
+- práctica intercalada.
+- teoría de carga cognitiva.
+- Efecto de ejemplo trabajado y reversión de la experiencia.
+- autoexplicación.
+- retroalimentación formativa.
+- aprendizaje de dominio.
+- práctica deliberada.
+- transferencia del aprendizaje.
+- calibración metacognitiva.
+- "Make It Stick / La naturaleza del aprendizaje".
+- "Peak / Práctica deliberada".
 
-书籍负责提供可理解的综合框架，不应被当作所有学习结论的最终证据。
+Los libros son responsables de proporcionar un marco integral comprensible, y no deben considerarse como evidencia final de todas las conclusiones de aprendizaje.

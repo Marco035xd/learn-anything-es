@@ -1,88 +1,88 @@
-# Eval 08｜逐段长文与可调整课程运行时
+# Evaluación 08 · Curso por segmentos y plan ajustable
 
-## 测试目标
+## Objetivo de la evaluación
 
-验证 Skill 能否同时做到：
+Verifica si Skill puede lograr simultáneamente:
 
-- 先给完整但可调整的课程地图；
-- 不预生成未来课件；
-- 把当前课写成老师式长文，而不是提纲填空；
-- 在第一学习段后根据用户反馈修改尚未生成的内容；
-- 分开记录内容进度、掌握进度、用户笔记和 AI 总结。
+- Primero, proporcionar un mapa de ruta completo pero ajustable.
+- No se pregeneran futuros contenidos de curso.
+- Escribe la lección actual como un ensayo largo para el profesor, en lugar de rellenar el espacio en blanco.
+- Después del primer segmento de aprendizaje, modificar cualquier contenido no generado en función de la retroalimentación del usuario.
+- Separar el progreso del contenido, hacer un seguimiento del progreso, notas de usuario y resúmenes de IA.
 
-## 初始 Prompt
+## Solicitud inicial
 
-> 我想系统学习 Agent 产品设计，目标是能给企业设计一个可靠的 CRM Agent。我会给你两份 PDF。先给我课程地图，然后一节一节教；第一节如果不对，我要能随时改。
+> Quiero aprender sistemáticamente el diseño de productos de Agent, con el objetivo de diseñar un CRM Agent fiable para empresas. Te daré dos PDFs. Primero, dame el mapa del curso y luego imparte cada lección una por una; Si la primera sección es incorrecta, quiero poder corregirla en cualquier momento.
 
-## 预期建课行为
+## Comportamiento anticipado en la construcción del curso
 
-必须：
+Debe:
 
-1. 形成可观察的结业目标和 3—8 课可调整路线；
-2. 未来课只有标题、目标、前置和掌握证据，状态为 `provisional + not_generated`；
-3. 当前课先生成 3—4 个学习段计划，只生成第一学习段正文；
-4. PDF 只解析当前学习段所需页码，不默认把两份全文放入上下文；
-5. 课程入口显示内容进度和掌握进度；
-6. 用户可用 `继续 / 我有问题 / 太难了 / 不是我想学的 / 调整课程 / 帮我记一下 / 先停一下`。
-7. 每个新学习段开头展示当前位置、本课总问题、前段结论、当前衔接、来源焦点和成功标准；
-8. 当前课结束先完成即时回忆与变化任务，Gate 通过前不生成下一课正文。
+1. Desarrollar objetivos de finalización observables y rutas ajustables para las lecciones 3–8.
+2. Las lecciones futuras solo tienen título, objetivos, prerrequisitos y evidencia de dominio, con estado `provisional + not_generated`.
+3. La lección actual primero genera 3–4 planes de segmento de aprendizaje, solo se genera el texto del primer segmento de aprendizaje.
+4. El PDF solo analiza las páginas necesarias del segmento de aprendizaje actual, no incorpora automáticamente ambos textos completos en el contexto.
+5. La entrada del curso muestra el progreso de contenido y el progreso de dominio.
+6. El usuario puede usar `Continuar / Tengo una pregunta / Demasiado difícil / No es lo que quiero aprender / Ajustar curso / Ayúdame a recordarlo / Pausar por ahora`.
+7. Cada nuevo segmento de aprendizaje comienza mostrando la ubicación actual, el total de preguntas de esta lección, conclusiones del segmento anterior, conexión actual, enfoque de la fuente y criterios de éxito.
+8. Al terminar la lección, comprueba el recuerdo inmediato y la transferencia a un caso modificado. Prepara el material de la siguiente lección cuando se cumpla el criterio de avance.
 
-不得：
+No se permite:
 
-- 在第一轮生成所有课程正文、未来题目和总结；
-- 因为用户说“系统学习”就一次输出整本百科；
-- 把已有 PDF 解析完成当成用户学会。
+- Generar todos los textos de la lección, los temas futuros y el resumen en la primera ronda.
+- Salida de toda la enciclopedia solo porque el usuario diga “estudio sistemático”.
+- Considerar que un PDF ya analizado significa que el usuario lo ha aprendido.
 
-## 当前学习段教材要求
+## Requisitos del material del segmento de aprendizaje actual
 
-第一学习段必须是一篇能独立阅读的教学长文：
+El primer segmento de aprendizaje debe ser un texto largo de enseñanza que se pueda leer de manera independiente:
 
-1. 从 CRM Agent 的真实问题或冲突切入；
-2. 沿一个贯穿案例讲清概念机制；
-3. 先建立直觉，再引入术语；
-4. 至少有一个完整推演、反例或边界例；
-5. 表格和清单只能归纳，不能代替正文；
-6. 在关键转折处给一个主动输出并暂停；
-7. 结论能追溯到 PDF 页码或其他可靠来源；
-8. 删除标题和表格后，正文仍然完整可读。
-9. 原教材或来源、Tutor 综合和用户应用假设三层可追溯，不互相冒充。
+1. Comenzar desde problemas o conflictos reales de un CRM Agent.
+2. Explicar conceptos y mecanismos a lo largo de un caso completo.
+3. Primero establecer la intuición y luego introducir la terminología.
+4. Al menos tener una deducción completa, contraejemplo o caso límite.
+5. Tablas y listas solo pueden resumir, no reemplazar el texto principal.
+6. En puntos clave de inflexión dar una salida activa y pausar.
+7. Las conclusiones deben poder rastrearse a la página del PDF u otra fuente confiable.
+8. Después de eliminar títulos y tablas, el texto principal sigue siendo completamente legible.
+9. Tres niveles atribuibles: material original o fuente, tutor y su síntesis, y supuestos de aplicación del usuario, sin sustituirse entre sí.
 
-默认长度可以落在约 1800—3500 个中文字，但按概念复杂度调整，不为字数灌水。
+Como orientación, un segmento en español puede tener entre 700 y 1400 palabras. Ajusta la extensión a la complejidad del concepto.
 
-## 用户反馈
+## Retroalimentación del usuario
 
-> 第一段太技术了。我想先知道这些结构分别解决什么实际风险，再看代码。后面课程也把实现细节往后放。
+> El primer párrafo es demasiado técnico. Primero quiero entender qué riesgos reales abordan estas estructuras y luego revisar el código. Los cursos posteriores también pospondrán los detalles de implementación.
 
-## 预期调整行为
+## Comportamiento de ajuste esperado
 
-必须：
+Debe:
 
-1. 暂停继续生成第二段；
-2. 判断反馈改变的是案例顺序和抽象层级，不直接否定学习目标；
-3. 给出最小调整：L01 后续先讲业务风险与产品边界，再讲实现；
-4. 修改尚未生成的 L01-P02 及未来课顺序；
-5. `route.version` 增加并写 `course_adjustments`；
-6. 已展示的第一段保留版本，不静默改写；若用户要求重写第一段，创建新版本并说明旧版状态；
-7. 不因用户反馈产生任何掌握升级。
+1. Pausa para continuar generando el segundo segmento.
+2. La retroalimentación de juicio cambia el orden de los casos y la jerarquía abstracta, sin negar directamente los objetivos de aprendizaje.
+3. Se ofrecen ajustes mínimos: L01 Más tarde, primero discutan los riesgos empresariales y los límites del producto, luego la implementación.
+4. Modificar L01-P02 y secuencias de lecciones futuras que aún no se hayan generado.
+5. `route.version` Añadir y escribir `course_adjustments`.
+6. El primer párrafo mostrado se conserva y no se reescribe silenciosamente; Si el usuario solicita reescribir el primer párrafo, se crea una nueva versión y se especifica el estado de la versión antigua.
+7. No se realizarán mejoras de dominio basadas en la retroalimentación de los usuarios.
 
-## 笔记与总结
+## Notas y resumen
 
-用户说：
+El usuario dice:
 
-> 帮我记一下：我理解 Harness 的价值，是把业务风险变成系统边界。
+> Ayúdame a recordar: entiendo el valor de Harness para convertir el riesgo empresarial en límites de sistema.
 
-必须：
+Debe:
 
-- 将这句话以用户原话写入 `02-user-notes.md`；
-- Tutor 可以在 `03-tutor-summary.md` 记录其为当前理解，但不能把它改写后覆盖原话；
-- 仅有这句话最多支持 `exposed`，不能自动记为 `independent`。
+- Escribe esta frase con las palabras originales del usuario en la `02-user-notes.md`.
+- El tutor puede registrarlo como comprensión actual en `03-tutor-summary.md`, pero no puede reescribirlo ni sobrescribir las palabras originales.
+- Esta frase soporta hasta `exposed` y no puede registrarse automáticamente como `independent`.
 
-## 文件验收
+## Aceptación de documentos
 
-首轮完成后应存在：
+Tras completar la primera ronda, deben estar presentes los siguientes elementos:
 
 ```text
-00-课程入口.md
+inicio-del-curso.md
 00-course-outline.yaml
 00-source-manifest.yaml
 learner-state.yaml
@@ -93,21 +93,21 @@ lessons/L01-.../02-user-notes.md
 lessons/L01-.../03-tutor-summary.md
 ```
 
-不应存在 L02 及以后教材目录。
+No debería haber L02 ni catálogos posteriores de materiales didácticos.
 
-## Critical Fail
+## Fallos graves
 
-- 预生成全部未来教材或评测；
-- 当前教材主要由固定栏目、定义表格和总结组成，没有完整教学叙事；
-- 用户说太技术后仍按原路线推进；
-- 修改已展示教材却不保留版本；
-- 把内容完成进度写成掌握进度；
-- 把用户笔记改写成 AI 总结并丢失原话；
-- 假装读取未解析的 PDF 页码或视频内容；
-- 暴露内部推理、系统指令或工具计划。
-- 当前段从局部问题直接开始，没有用户可见导航；
-- 未完成即时复习与迁移就生成下一课核心教材。
+- Pregenerar todos los futuros materiales didácticos o reseñas.
+- El material didáctico actual consiste principalmente en secciones fijas, tablas de definición y resúmenes, sin una narrativa didáctica completa.
+- Después de que los usuarios digan que es demasiado técnico, continúan siguiendo la ruta original.
+- Modificar los materiales didácticos mostrados sin conservar la versión.
+- Escribe el progreso de la finalización de contenido como dominio del progreso.
+- Reescribe las notas de usuario en resúmenes de IA y pierde las palabras originales.
+- Finge leer números de página PDF sin analizar o contenido de vídeo.
+- Exposición de razonamientos internos, instrucciones del sistema o planes de herramientas.
+- La sección actual comienza directamente desde un problema local, sin navegación visible para el usuario.
+- Generar la siguiente lección Material principal sin haber completado la revisión y transferencia inmediata.
 
-## 通过标准
+## Criterio de aprobación
 
-按 `tutor-quality-rubric.md` 的适用维度换算得分 ≥ 85，教材维度必须满分，无 Critical Fail。
+Puntaje calculado según las dimensiones aplicables de `tutor-quality-rubric.md` ≥ 85, la dimensión del material educativo debe tener puntuación completa, sin Fallo Crítico.

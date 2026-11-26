@@ -1,96 +1,96 @@
-# Eval 02｜数学误区与逐级提示
+# Evaluación 02 · Errores conceptuales en matemáticas y pistas graduales
 
-## 测试目标
+## Objetivo de la evaluación
 
-验证 Skill 是否能预先建立正确答案标准，准确识别数学误区，并通过提示让学习者自行修正，而不是直接泄露答案。
+Verifica si Skill puede establecer de antemano estándares de respuesta correctos, identificar con precisión los malentendidos matemáticos y pedir a los alumnos que los corrijan por sí mismos en lugar de revelar las respuestas directamente.
 
-## 场景
+## Escenario
 
-学习者知道单次抛硬币正面概率，但错误地把两个非互斥事件直接相加。
+Los alumnos conocen la probabilidad de cara para un lanzamiento de moneda, pero añaden erróneamente dos eventos no mutuamente excluyentes directamente.
 
-## 初始 Prompt
+## Solicitud inicial
 
-> 我在学概率。题目是：连续抛两次公平硬币，至少出现一次正面的概率是多少？我算的是 1/2 + 1/2 = 1。请带我找错，先别直接给答案。
+> Estoy aprendiendo probabilidad. La pregunta es: Cuando lanzas una moneda justa dos veces seguidas, ¿cuál es la probabilidad de sacar al menos una cara? Calculé 1/2 + 1/2 = 1. Por favor, ayúdame a encontrar el error, no me des una respuesta directa todavía.
 
-## 标准答案
+## Respuesta estándar
 
 ```yaml
 correct_answer: 3/4
 valid_methods:
-  - 枚举 HH、HT、TH、TT，满足条件的有 3 个
-  - 用补集：1 - P(两次都是反面) = 1 - 1/4
-core_misconception: 将“第一次正面”和“第二次正面”两个有重叠的事件直接相加，重复计算 HH
+  - Enumera HH, HT, TH, TT, y hay 3 condiciones que satisfacen la condición
+  - Complemento de uso: 1 - P (ambas colas) = 1 - 1/4
+core_misconception: Suma directamente los dos eventos superpuestos del "primer frente" y el "segundo cabeza" para calcular repetidamente HH
 acceptable_variants:
   - 0.75
   - 75%
 ```
 
-## 预期首轮反馈
+## Espera retroalimentación en la primera ronda
 
-必须：
+Debe:
 
-1. 具体肯定用户知道每一次正面的概率是 1/2；
-2. 指出关键断点是两个事件会同时发生，不能直接相加；
-3. 不立刻给出 3/4；
-4. 使用 L1—L2 提示，例如让用户列出四种等可能结果，或问“HH 被算了几次”；
-5. 要求用户重新计算；
-6. 当前状态仍为 `guided`。
+1. En concreto, la probabilidad de que los usuarios conozcan cada positivo es 1/2.
+2. Señala que el punto clave de interrupción es que dos eventos ocurrirán simultáneamente y no pueden sumarse.
+3. No dando inmediatamente 3/4.
+4. Utiliza los indicativos L1-L2, como pedir a los usuarios que enumeren cuatro posibles resultados o preguntar "¿Cuántas veces se ha calculado HH?"
+5. Exigir a los usuarios que recalculen.
+6. La situación actual sigue siendo `guided`.
 
-不得：
+No se permite:
 
-- 说“思路完全正确，只是算错了”；
-- 在用户首次请求找错时直接展示完整解法；
-- 只说“不对，再想想”；
-- 将最终答案正确但依据仍错误的回答判为掌握。
+- Decir "el razonamiento es completamente correcto, solo un error de cálculo".
+- Presenta directamente la solución completa cuando el usuario solicita por primera vez encontrar un error.
+- Simplemente di: «No, piénsalo otra vez».
+- Juzga las respuestas que son correctas en la respuesta final pero que siguen siendo incorrectas basándose en la respuesta.
 
-## 第二轮输入
+## Segunda ronda de aportaciones
 
-> 四种结果是 HH、HT、TH、TT。至少一次正面有 HH、HT、TH，所以是 3/4。
+> Los cuatro resultados son HH, HT, TH, TT. Al menos una cara tiene HH, HT, TH, así que es 3/4.
 
-## 预期反馈
+## Retroalimentación esperada
 
-必须：
+Debe:
 
-1. 判定结果和依据均正确；
-2. 明确此前 `1/2 + 1/2` 重复计算了 HH；
-3. 说明这次是在提示下完成，状态最多为 `guided`；
-4. 给一个不依赖原枚举记忆的变式，例如“两次掷骰子，至少一次出现 6”；
-5. 允许用户选择枚举或补集，但不要先写出公式。
+1. Los resultados del juicio y la base son todos correctos.
+2. Aclarar que anteriormente `1/2 + 1/2` calculado repetidamente HH.
+3. Esto indica que esta vez el proceso se completó bajo indicación, con un estado máximo de `guided`.
+4. Da una variante que no dependa de la memoria del enum original, por ejemplo, "Tirar el dado dos veces, al menos un 6".
+5. Permitir que los usuarios elijan enumeración o complemento, pero no escribas primero la fórmula.
 
-## 迁移题标准
+## Normas sobre cuestiones migratorias
 
 ```yaml
-question: 两次掷公平六面骰，至少一次出现 6 的概率
+question: Tirar dos dados justos de seis caras con al menos una posibilidad de sacar un 6
 correct_answer: 11/36
 preferred_method: 1 - (5/6)^2
-common_error: 1/6 + 1/6 = 1/3，重复计算双 6
+common_error: 1/6 + 1/6 = 1/3, repetición doble 6s
 ```
 
-## 若用户迁移失败
+## Si la transferencia de usuarios falla
 
-必须：
+Debe:
 
-- 不升级为 `independent` 或 `transferable`；
-- 回到“事件重叠”或补集的核心结构；
-- 更换一个更小的辨别任务，而不是继续新章节；
-- 记录误区仍然活跃。
+- No actualice a `independent` o `transferable`.
+- Volver a la estructura central de "solapamiento de eventos" o complemento.
+- Sustituir por una tarea de identificación más pequeña en lugar de continuar con un nuevo capítulo.
+- El registro del malentendido sigue activo.
 
-## 评分重点
+## Puntos clave de la clasificación
 
-- 标准答案准确性；
-- 首个关键错误定位；
-- 提示阶梯；
-- 状态与提示强度一致；
-- 变式迁移。
+- Exactitud de las respuestas estándar.
+- La primera desubicación crítica.
+- Escaleras rápidas.
+- El estado y la intensidad de la indicación son consistentes.
+- transferencia de variantes.
 
-## Critical Fail
+## Fallos graves
 
-- 将 1 判为正确；
-- 标准答案不是 3/4；
-- 未经尝试直接给完整答案；
-- 提示后完成却标为 `independent`；
-- 迁移失败仍宣称掌握。
+- Juez 1 como correcto.
+- La respuesta estándar no es 3/4.
+- Da respuestas completas sin intentarlo.
+- Tras el indicador, la finalización se marca como `independent`.
+- El fallo de transferencia sigue reclamando el control.
 
-## 通过标准
+## Criterio de aprobación
 
-按 `tutor-quality-rubric.md` 的适用维度换算得分 ≥ 80，且无 Critical Fail。
+Puntuación ≥ 80 según las dimensiones aplicables de `tutor-quality-rubric.md`, sin Fallo Crítico.

@@ -1,93 +1,93 @@
-# Eval 04｜产品与战略判断
+# Evaluación 04 · Juicio sobre producto y estrategia
 
-## 测试目标
+## Objetivo de la evaluación
 
-验证 Skill 是否能教授没有唯一标准答案的判断型知识，并训练目标、证据、假设、权衡和更新条件，而不是只教框架名或替用户下结论。
+Verificar si la habilidad puede enseñar conocimientos de juicio sin una única respuesta correcta, y entrenar objetivos, evidencia, hipótesis, compensaciones y condiciones de actualización, en lugar de solo enseñar el nombre del marco o concluir por el usuario.
 
-## 初始 Prompt
+## Solicitud inicial
 
-> 带我学会判断一个 ToB AI 功能到底值不值得做。我不想背固定模板，想用真实案例练。一次推进一个判断。
+> Enséñame a juzgar si una función de IA para ToB realmente vale la pena desarrollarla. No quiero memorizar plantillas fijas, quiero practicar con casos reales. Avanzar un juicio a la vez.
 
-## 案例材料
+## Material del caso
 
 ```text
-一家 60 人的低代码产品团队，12 家重点客户中有 5 家提出“用自然语言生成经营报表”。
-销售认为这是成交卖点，但目前没有客户承诺付费。
-预计开发 6 周，需要占用 2 名核心工程师。
-现有报表配置较复杂，客服每月收到约 30 个相关问题。
-团队同时欠缺文档级权限控制，已有 3 家客户因权限问题延迟上线。
-AI 报表的真实使用频率、准确率容忍度和人工确认流程尚未验证。
+Un equipo de producto de bajo código de 60 personas, de 12 clientes clave, 5 han solicitado “generar informes de gestión con lenguaje natural”.
+El equipo de ventas considera que esto es un punto de venta, pero actualmente ningún cliente ha prometido pagar.
+Se estima un desarrollo de 6 semanas, requiriendo la participación de 2 ingenieros clave.
+La configuración actual de los informes es bastante compleja, el servicio de atención al cliente recibe unos 30 problemas relacionados por mes.
+El equipo también carece de control de permisos a nivel de documentación, y 3 clientes han tenido retrasos en la implementación debido a problemas de permisos.
+La frecuencia real de uso de los informes de IA, la tolerancia a la precisión y el proceso de confirmación manual aún no se han verificado.
 ```
 
-## 预期首轮行为
+## Espera comportamiento en la primera ronda
 
-必须：
+Debe:
 
-1. 将目标定义为：能在信息不完整、目标冲突的情况下做出可辩护的功能判断，并说明什么证据会改变判断；
-2. 识别为 `judgment`，不声称存在唯一答案；
-3. 使用开放题和冻结 rubric，不把多个可辩护方案硬压成单选；
-4. 不先给完整分析，先让用户做初步选择并说明最关键依据；
-5. 一次只推进一个高信息量判断；
-6. 后续至少覆盖：业务目标、用户价值、证据强度、机会成本、交付风险、替代方案和验证方式。
+1. Definir el objetivo como: poder tomar decisiones defendibles sobre funcionalidades cuando la información está incompleta y hay objetivos conflictivos, explicando qué evidencia cambiaría el juicio.
+2. Identificado como `judgment`, sin afirmar existencia de una única respuesta.
+3. Usar preguntas abiertas y rúbrica congelada, sin forzar múltiples soluciones defendibles a una única opción.
+4. No dar primero el análisis completo, permitir que el usuario haga una selección inicial y explique la base más crítica.
+5. Avanzar solo un juicio de alta información a la vez.
+6. Cobertura posterior como mínimo: objetivos empresariales, valor para el usuario, fortaleza de la evidencia, coste de oportunidad, riesgo de entrega, alternativas y métodos de verificación.
 
-## 用户初步回答
+## Respuesta inicial del usuario
 
-> 5 家重点客户都提了，销售也说能促进成交，所以我觉得应该马上做 AI 报表。
+> Se han mencionado los cinco clientes clave, y las ventas dicen que puede ayudar a cerrar tratos, así que creo que los informes de IA deberían hacerse inmediatamente.
 
-## 预期反馈
+## Retroalimentación esperada
 
-必须：
+Debe:
 
-1. 认可的只能是：用户抓到了客户需求频次和销售价值这两个相关信号；
-2. 指出当前推理把“有人提出”和“值得投入 6 周核心资源”直接连接，中间缺少付费意愿、使用频率、成功标准和替代方案证据；
-3. 区分：
-   - 【事实】5 家提出、开发 6 周、权限问题延迟上线；
-   - 【假设】AI 报表会促进成交；
-   - 【用户取舍】增长优先还是交付风险优先；
-4. 不直接说“正确答案是先做权限”；
-5. 提出一个能最大幅度改变判断的问题，例如：“如果只能补一条证据，你最想先验证哪一条，为什么？”
-6. 当前状态最多为 `guided`。
+1. Lo que se reconoce es que: los usuarios han identificado dos señales relacionadas: la frecuencia de la demanda de los clientes y el valor de ventas.
+2. Señala que el razonamiento actual vincula directamente "alguien lo propuso" con "merece la pena invertir en 6 semanas de recursos básicos", sin evidencia de disposición a pagar, frecuencia de uso, criterios de éxito y alternativas.
+3. Distinguimiento:
+   - [Hecho] Cinco empresas propusieron, desarrollaron durante 6 semanas y retrasaron su lanzamiento debido a problemas de permisos.
+   - [Suposición] Los informes de IA promoverán transacciones.
+   - [Compensaciones de usuario] Priorice el crecimiento o el riesgo de entrega.
+4. En lugar de decir directamente "la respuesta correcta es conceder primero el permiso".
+5. Plantea una pregunta que pueda cambiar mucho tu juicio, por ejemplo: "Si pudieras añadir solo una prueba, ¿cuál preferirías verificar primero y por qué?" ”
+6. El estado actual depende de `guided`.
 
-## 后续训练要求
+## Requisitos de formación de seguimiento
 
-至少包含：
+Al menos incluya:
 
-- 让用户比较“完整开发”“人工服务式原型”“只优化现有报表配置”“先做权限”四类选项；
-- 要求用户明确决策标准和权重，而不是套评分表后机械相加；
-- 加入反向证据，例如两家客户愿意签付费试点，观察判断如何变化；
-- 要求用户说明哪种新证据会推翻当前选择；
-- 用另一个 ToB AI 功能案例做迁移。
+- Permite a los usuarios comparar cuatro opciones: "Desarrollo completo", "Prototipo manual de servicio", "Optimizar solo la configuración existente del informe" y "Primero permisos".
+- Exigir a los usuarios que definan claramente los criterios y los pesos de toma de decisiones, en lugar de añadir mecánicamente hojas de puntuación.
+- Añadir pruebas inversas, como dos clientes dispuestos a contratar a un piloto remunerado para observar y juzgar cómo cambian las cosas.
+- Pida a los usuarios que especifiquen qué nueva evidencia revocaría la elección actual.
+- Migra usando otro caso de funcionalidad de ToB AI.
 
-## 合格判断示例特征
+## Características del ejemplo de juicio de cualificación
 
-不要求得出同一个结论，但应包含：
+No se requiere la misma conclusión, pero debería incluir:
 
-- 明确目标和时间窗；
-- 区分需求信号与商业证据；
-- 考虑 2 名核心工程师的机会成本；
-- 识别权限问题已经影响上线；
-- 为 AI 功能定义低成本验证；
-- 说明决策更新条件；
-- 承认价值取舍由用户负责。
+- Objetivos y plazos claros.
+- Distinguir señales de demanda de la evidencia comercial.
+- Considere el coste de oportunidad de dos ingenieros principales.
+- Los problemas de permisos de identificación ya han afectado a la línea activa.
+- Definir la validación de bajo coste para las funciones de IA.
+- Explique las condiciones para las actualizaciones de decisiones.
+- Reconoce que los compromisos de valor son responsabilidad del usuario.
 
-## 评分重点
+## Puntos clave de la clasificación
 
-- judgment 路由；
-- 事实 / 假设 / 取舍区分；
-- 不把框架当答案；
-- 反例和更新条件；
-- 学习者保留决策责任；
-- 新案例迁移。
+- juicio de ruta.
+- Hechos / Supuestos / Distinción de compensaciones.
+- No considerar el marco como la respuesta.
+- Contraejemplos y condiciones de actualización.
+- El aprendiz conserva la responsabilidad de decisión.
+- Transferencia a nuevos casos.
 
-## Critical Fail
+## Fallos graves
 
-- 宣称存在唯一正确产品决策；
-- 直接替用户决定做 AI 报表或权限控制；
-- 把销售意见或客户提及当成已验证商业价值；
-- 用结果好坏倒推决策当时必然正确或错误；
-- 用户没有形成自己的判断就被标为掌握。
-- preflight 未确认题目真实、前置充分和 rubric 已冻结就交付。
+- Afirmar que existe una única decisión correcta del producto.
+- Decidir directamente por el usuario si hacer informes de AI o control de permisos.
+- Tomar opiniones de ventas o menciones de clientes como un valor comercial ya verificado.
+- Razonar hacia atrás la corrección o error de la decisión según el resultado bueno o malo.
+- El usuario se marca como competente sin haber formado su propio juicio.
+- Entregar comprobación previa sin confirmar que la tarea es real, que los prerrequisitos son suficientes y que la rúbrica está congelada.
 
-## 通过标准
+## Criterio de aprobación
 
-按 `tutor-quality-rubric.md` 的适用维度换算得分 ≥ 80，且无 Critical Fail。
+Puntuación ≥ 80 según las dimensiones aplicables de `tutor-quality-rubric.md`, sin Fallo Crítico.

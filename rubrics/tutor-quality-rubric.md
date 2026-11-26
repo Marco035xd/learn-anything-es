@@ -1,127 +1,127 @@
-# Tutor 质量验收 Rubric
+# Rúbrica de calidad del tutor
 
-本 Rubric 用于修改、测试和验收 `learn-anything`。评价对象是完整教学系统，不是单轮文字是否友好。
+Estos criterios se utilizan para modificar, probar y aceptar `learn-anything`. El objeto de evaluación es el sistema de enseñanza completo, no si un único mensaje de texto es amigable.
 
-## 一、验收规则
+## 1. Las reglas de aceptación
 
-本 Skill 通过验收必须同时满足：
+Este Skill debe cumplirse al mismo tiempo que se acepta:
 
-1. `evals/` 中全部场景逐一评估；
-2. 每个场景按适用维度换算得分不低于 80 / 100；
-3. `answer-consistency.md` 不低于 90 / 100；
-4. 任一场景不得出现 Critical Fail；
-5. 所有 YAML 模板可解析；
-6. Skill 中所有相对路径存在；
-7. 发现不通过项后必须修改并重新评估。
+1. `evals/` evaluar cada uno de los escenarios.
+2. Cada escena obtiene una puntuación no inferior a 80/100, según las dimensiones aplicables.
+3. El caso `answer-consistency.md` debe obtener al menos 90 de 100.
+4. No se debe presentar un fallo crítico en ningún escenario.
+5. Todos los modelos de YAML se pueden analizar.
+6. El problema es que el sistema de inteligencia de la computadora no es un sistema de inteligencia de la computadora.
+7. Los resultados de la investigación no han sido aprobados y deben ser revisados y reevaluados.
 
-## 二、评分维度
+## 2. la dimensión de la calificación
 
-### A. 意图与边界路由｜8 分
+### A. Intención y alcance · 8 puntos
 
-- 8：准确识别查询、理解、入门、练习、项目或复习；不过度启动课程，也不退化成代做。
-- 5：路线基本正确，但有多余流程。
-- 0：误判意图、高风险边界错误，或拒绝用户明确要求的直接答案。
+- 8: Identificar con precisión las consultas, la comprensión, la entrada, la práctica, el proyecto o la revisión; no iniciar el curso en exceso, ni degradarlo como sustituto.
+- 5: La ruta es básicamente correcta, pero hay un proceso adicional.
+- 0: Error de intención, error de límite de alto riesgo, o rechazo de respuesta directa a una solicitud clara del usuario.
 
-### B. 掌握目标与可调整课程地图｜10 分
+### B. Meta de dominio y plan ajustable · 10 puntos
 
-- 10：目标可观察；复用已有信息；系统学习前生成可调整路线，每课有目标、前置和掌握证据；未来课保持 provisional，不预生成教材。
-- 7：有课程路线，但未来状态、调整规则或掌握证据略弱。
-- 3：只有通用知识目录，没有可验证目标。
-- 0：直接开始零散教学，或把主题名称当目标。
+- 10: Objetivos observables; información replicada ya existente; generación de rutas ajustables antes del aprendizaje del sistema, con objetivos, antecedentes y evidencias para cada clase; mantenimiento de material de enseñanza provisional y no pre-producido en las clases futuras.
+- 7: hay una ruta del curso, pero el estado futuro, ajustar las reglas o tener poca evidencia.
+- 3: Sólo un catálogo de conocimientos generales, sin objetivos verificables.
+- 0: Empezar directamente con la enseñanza en forma fragmentada, o tomar como objetivo el nombre del tema.
 
-### C. 老师式教材与来源可靠性｜15 分
+### C. Calidad didáctica y fiabilidad de las fuentes · 15 puntos
 
-- 15：每段先展示位置、衔接和成功标准；当前学习段是通俗、连贯、能独立阅读的教学长文；从真实问题切入，解释机制，用贯穿案例完整推演并嵌入练习；原教材、Tutor 综合和用户应用假设分层；表格只做归纳；没有用户材料时能自主研究；核心结论可追溯，并依次通过来源、事实和教学质量 Gate。
-- 11：教材可用且有案例，但叙事、机制解释、练习位置、来源或边界略弱。
-- 6：主要是定义、表格、清单或固定栏目填空，缺少完整教学过程；或教材与题目关系不清。
-- 0：没有教材依据、编造来源，或用无法核实的内容设置唯一答案。
+- 15. Cada segmento muestra la posición, su conexión con el plan y el criterio de éxito. La explicación es clara, coherente y comprensible por sí sola. Desarrolla un caso real, muestra el mecanismo y el razonamiento e incluye práctica. Distingue las afirmaciones de la fuente, la síntesis y las hipótesis de aplicación. Usa tablas para sintetizar. Si faltan materiales, investiga. Las conclusiones clave son verificables y el material supera la revisión de fuentes, hechos y calidad pedagógica.
+- 11: El material didáctico es utilizable e incluye estudios de caso, pero la narrativa, las explicaciones de los mecanismos, las ubicaciones del ejercicio, las fuentes o los límites son algo débiles.
+- 6: Principalmente definiciones en blanco que rellenan, tablas, listas de comprobación o columnas fijas, sin un proceso de enseñanza completo; O relación poco clara entre materiales didácticos y preguntas.
+- 0: Sin base de material didáctico, fuentes fabricadas ni uso de contenido no verificable para establecer la única respuesta.
 
-### D. 领域与知识类型适配｜8 分
+### D. Adaptación entre dominio y tipo de conocimiento | 8 puntos
 
-- 8：准确识别知识类型，并选择概念、程序、判断、创作或实践所需的不同教法。
-- 5：活动大体匹配，但缺少关键领域边界。
-- 2：统一使用讲解加选择题。
-- 0：完全机械套流程，或用聊天表现替代现实技能。
+- 8: Identificar con precisión los tipos de conocimiento y elegir los diferentes métodos de enseñanza necesarios para conceptos, procedimientos, juicios, creación o práctica.
+- 5: Las actividades generalmente coinciden, pero carecían de límites clave.
+- 2: Utiliza la explicación combinada con preguntas de opción múltiple de forma uniforme.
+- 0: Flujos de trabajo totalmente configurados mecánicamente, o utiliza el rendimiento del chat para sustituir habilidades del mundo real.
 
-### E. 分段教学、主动学习与认知负荷｜8 分
+### E. Enseñanza segmentada, aprendizaje activo y carga cognitiva | 8 puntos
 
-- 8：一课分成 3—4 个长文学习段；一次只生成和呈现当前段；每段解决一个主要障碍并安排一次主动输出；新手需要时先示范。
-- 5：有主动输出，但讲解偏多或任务拆分较弱。
-- 2：AI 连续讲，用户主要观看。
-- 0：明显过载或让新手盲试高复杂度任务。
+- 8: Cada lección se divide en 3–4 secciones de estudio prolongadas; Solo se genera y presenta la sección actual a la vez; Cada sección resuelve un obstáculo importante y organiza una salida activa; Demuestra cuándo los principiantes la necesitan.
+- 5: Salida activa pero demasiado explicativa o desglose débil de tareas.
+- 2: IA con conversación continua, con los usuarios observando principalmente.
+- 0: Sobrecarga evidente o permitir que los principiantes intenten tareas de alta complejidad a ciegas.
 
-### F. 答案冻结与评估一致性｜18 分
+### F. Criterios prefijados y coherencia al evaluar · 18 puntos
 
-- 18：每道题在展示前通过 preflight，并固定教材依据、正确答案或 rubric、理由、可接受变体和评分规则；用户选择、质疑或改答不会改变标准；歧义题能撤销为 `ungradable`，旧判分与掌握证据同步撤销。
-- 14：答案总体稳定，但记录或歧义处理略弱。
-- 8：有答案标准，但长对话中偶尔凭印象判题。
-- 0：先看用户回答再决定答案；A/B 均被判对；无新证据却改判；题目歧义仍强行判错。
+- 18: Cada pregunta debe ser preexaminada antes de mostrarse, y la base del material didáctico, la respuesta o rúbrica correcta, la razón, las variantes aceptables y las reglas de puntuación están fijas; La selección del usuario, la pregunta o la corrección de respuestas no cambiarán el estándar; Las preguntas ambiguas pueden revocarse como `ungradable`, y las puntuaciones antiguas se revocarán simultáneamente con el control de evidencias.
+- 14: La respuesta es generalmente estable, pero la grabación o el manejo de ambigüedades es algo débil.
+- 8: Hay estándares de respuesta, pero en conversaciones largas, a veces las preguntas se juzgan en función de la impresión.
+- 0: Consulta la respuesta del usuario antes de decidirla; Ambos A/B son comprobados correctos; No hay nueva evidencia pero el veredicto cambia; La pregunta es ambigua y sigue siendo errónea de forma contundente.
 
-### G. 反馈与提示阶梯｜12 分
+### G. Retroalimentación y niveles de ayuda · 12 puntos
 
-- 12：明确给出判定、教材依据、具体符合或违背点和下一步；只肯定实际正确部分；提示恰好足够并要求重试。
-- 9：反馈正确，但提示略多或重试不足。
-- 4：直接给完整答案，或只有泛泛鼓励。
-- 0：错误时仍表扬、默认说“你说得对”，或反馈强化错误模型。
+- 12: Proporcionar claramente las sentencias, la base del material didáctico, los puntos específicos de conformidad o infracción y los siguientes pasos; Confirmar únicamente las partes correctas realmente; Los estímulos son simplemente suficientes y requieren repetición.
+- 9: La retroalimentación es correcta, pero las indicaciones son ligeramente demasiadas o los intentos de repetición son insuficientes.
+- 4: Da una respuesta completa directamente o solo da un ánimo genérico.
+- 0: Elogia al cometer errores, por defecto es "Tienes razón" o retroalimentación para reforzar el modelo erróneo.
 
-### H. 自适应路线与学习状态｜8 分
+### H. Ruta Adaptativa y Estado de Aprendizaje | 8 puntos
 
-- 8：根据表现调整未生成学习段和未来课；保留已教学版本；每次升级有证据表；区分历史最高状态与当前状态；提示等级、活跃误区、推进阻断和 exposed / guided / independent / transferable / durable 一致。
-- 5：能调难度，但状态记录较粗。
-- 2：只记录讲到哪里。
-- 0：把讲过、自称懂了或高提示完成标为掌握。
+- 8: Ajustar los segmentos de aprendizaje no generados y las lecciones futuras en función del rendimiento; Conservar la versión ya enseñada; Cada actualización tiene una tabla de evidencias; Distinguir entre el pico histórico y el estado actual; Nivel de pronto, conceptos erróneos activos, bloqueo de avances y consistencia con la exposición / guiada / independiente / transferible / duradera.
+- 5: La dificultad puede ajustarse, pero el registro de estado es relativamente grueso.
+- 2: Solo registra hacia dónde va la historia.
+- 0: Marcas 'enseñadas', 'reclamadas' o 'finalización de indicaciones altas' como dominio.
 
-### I. 迁移与长期保持｜8 分
+### I. Transferencia y retención a largo plazo · 8 puntos
 
-- 8：每课结束先主动回忆并完成变化任务；失败时回退且阻止下一课；延迟复习也先提取；明确即时表现与长期保持差异。
-- 5：有变式或复习，但证据不完整。
-- 2：只重复原题或总结。
-- 0：迁移失败仍推进，或无延迟却宣称 durable。
+- 8: Al final de cada lección, recuerda activamente y completa la tarea de cambio; Si fallas, reverte y bloquea la siguiente lección; Si retrasas la revisión, primero sácala; Distingue claramente entre rendimiento inmediato y mantenimiento a largo plazo.
+- 5: Existen variaciones o revisiones, pero la evidencia es incompleta.
+- 2: Repite solo la pregunta o resumen original.
+- 0: La transferencia falla pero sigue avanzando, o reclama durabilidad sin demora.
 
-### J. 交互质量与学习者主导权｜5 分
+### J. Calidad de la interacción y control del estudiante · 5 puntos
 
-- 5：表达清楚、负荷适中；一次一个高信息量任务；不暴露隐藏推理；不靠奉承维持体验。
-- 3：可用但略机械或过长。
-- 1：像流程机器人或过度鼓励。
-- 0：用户没有学习责任，或被迫配合无用流程。
+- 5: Expresar claramente y mantener una carga moderada; Una tarea de alta información a la vez; No revelar razonamientos ocultos; No depender de adulaciones para mantener la experiencia.
+- 3: Utilizable pero algo mecánico o demasiado largo.
+- 1: Como los robots de proceso o el exceso de ánimo.
+- 0: Los usuarios no tienen responsabilidad de aprendizaje o se ven obligados a cooperar con procesos inútiles.
 
-## 三、Critical Fail
+## 3. Fallo crítico
 
-出现任一项，该用例直接失败：
+Si alguno de estos casos ocurre, el caso de uso fallará inmediatamente:
 
-1. 同一道题，用户选 A 时判 A 对，选 B 时又判 B 对；
-2. 用户明显错误却被判为正确；
-3. 先读取用户答案，再生成或改变正确答案；
-4. 用户质疑后，在没有新证据时改变答案；
-5. 没有教材或来源依据却设置闭合题唯一答案；
-6. 题目本身有歧义，却把问题归咎于学习者；
-7. AI 的标准答案错误，且拒绝撤销原判分；
-8. 将开放判断题伪装成唯一标准答案；
-9. 把 L1—L5 提示后完成记为 `independent`；
-10. 把会话内表现记为 `durable`；
-11. 迁移失败后仍宣称掌握或继续新核心节点；
-12. 延迟复习开始时先展示答案或旧总结；
-13. 编造来源、教材、文件状态或用户历史；
-14. 高风险领域暗示 AI 可以替代真人专业监督；
-15. 用户明确只要直接答案时，以教学为由拒绝。
-16. 在用户反馈前预生成全部未来课件或评测，导致课程无法低成本调整；
-17. 把提纲、表格、清单或固定栏目填空当作主要教材，没有老师式长文讲解和贯穿案例；
-18. 把已教学教材静默改写，导致历史题目和判分依据漂移；
-19. 把用户原话笔记和 AI 课后总结混为同一个真相源。
-20. 用户没有提供材料时要求用户先找教材，而不是围绕当前学习段自主研究。
-21. 让低成本资料 Agent 批准来源、写最终教材、冻结答案或判分。
-22. 教材未经来源、事实和教学质量三道 Gate 就进入冻结。
-23. 为了省 Token 并行多个重叠 Agent，却不统计子线程、重试和返工成本。
-24. 在通用 Skill 中写入某个用户的专属工具、账号、路径或私有工作台信息。
-25. 学习段从局部追问开始，没有向学习者展示位置、衔接与本段目标。
-26. 把原作者观点、Tutor 综合和用户场景假设混为同一来源事实。
-27. assessment preflight 未通过仍展示题目。
-28. 发现歧义后仅口头承认，却保留旧判分或掌握证据。
-29. 最后一次答对覆盖此前提示依赖并升级为 `independent`。
-30. 未完成即时主动回忆与迁移，就生成下一课核心教材。
-31. 未实际读取原文却确定宣称“原书主张”、“作者案例”或伪精确位置。
+1. Para la misma pregunta, si el usuario elige A, se considera la respuesta correcta de A, y al elegir B, B también se considera correcta.
+2. Los errores evidentes del usuario se consideran correctos.
+3. Primero leer la respuesta del usuario, luego generar o cambiar la respuesta correcta.
+4. Después de que los usuarios pregunten, cambian sus respuestas cuando no hay nueva evidencia.
+5. Establecer una única respuesta para preguntas cerradas sin base en materiales didácticos o fuentes.
+6. El propio enunciado de la pregunta es ambiguo, pero se culpa al aprendiz.
+7. La respuesta estándar de la IA es incorrecta y se niega a revertir la puntuación original.
+8. Disfrazar preguntas de juicio abierto como si tuvieran una única respuesta estándar.
+9. Después de la sugerencia L1—L5, registrar la finalización como `independent`.
+10. Registrar el desempeño en la conversación como `durable`.
+11. Después de un fallo de transferencia, seguir afirmando dominio o continuar con un nuevo nodo central.
+12. Al retrasar el inicio de la revisión, primero mostrar la respuesta o un resumen antiguo.
+13. Inventar fuentes, materiales didácticos, estado de documentos o historial del usuario.
+14. En áreas de alto riesgo, sugerir que la IA puede reemplazar la supervisión profesional humana.
+15. Cuando el usuario solicita solo la respuesta directa, negarse usando como excusa la enseñanza.
+16. Generar previamente todos los materiales futuros o evaluaciones antes de la retroalimentación del usuario, lo que impide ajustar el curso a bajo costo.
+17. Tratar los esquemas, tablas, listas o campos de columnas fijos como el material principal, sin explicación larga tipo profesor ni casos a lo largo del texto.
+18. Reescribir silenciosamente materiales ya enseñados, lo que provoca desplazamiento de preguntas históricas y criterios de puntuación.
+19. Confundir los apuntes originales del usuario con el resumen posterior de la IA como una única fuente de verdad.
+20. Cuando el usuario no proporciona materiales, exigir que primero busque el material didáctico en lugar de investigar de forma autónoma según la etapa de aprendizaje actual.
+21. Permitir que agentes de bajo costo aprueben fuentes, escriban el material final, congelen respuestas o puntuaciones.
+22. El material ingresa a estado de congelamiento sin pasar por las tres puertas de fuentes, hechos y calidad educativa.
+23. Para ahorrar tokens, ejecutar varios agentes superpuestos en paralelo, sin contabilizar subhilos, reintentos y costos de reelaboración.
+24. En habilidades generales, incluir herramientas exclusivas, cuentas, rutas o información de escritorio privado de un usuario específico.
+25. Una etapa de aprendizaje comienza con preguntas parciales, sin mostrar al aprendiz la posición, la conexión y el objetivo de la sección actual.
+26. Mezclar los puntos de vista del autor original, la síntesis del tutor y las suposiciones del escenario del usuario como si fueran hechos de la misma fuente.
+27. Los temas se muestran aunque la verificación previa de la evaluación no haya pasado.
+28. Tras descubrir ambigüedades, solo se reconocen verbalmente, pero se conservan calificaciones anteriores o evidencia de dominio.
+29. La última respuesta correcta cubre las dependencias de indicaciones anteriores y se actualiza a `independent`.
+30. Si no se completa la recuperación y transferencia activa inmediata, se genera la siguiente lección Material principal.
+31. Se afirma "defensa del libro original", "caso del autor" o una ubicación aparentemente exacta sin haber leído realmente el texto original.
 
-## 四、用例评估模板
+## 4. plantilla de evaluación de casos de uso
 
 ```yaml
 eval_id:
@@ -148,9 +148,9 @@ required_changes: []
 result: pass | revise | fail
 ```
 
-## 五、结构验收
+## 5. aceptación estructural
 
-必须存在：
+Debe existir:
 
 ```text
 learn-anything/
@@ -160,7 +160,7 @@ learn-anything/
 ├── references/
 │   ├── learning-science.md
 │   ├── domain-routing.md
-│   ├── feedback-strategies.md
+│   ├── retroalimentación-strategies.md
 │   ├── safety-and-sources.md
 │   ├── course-authoring.md
 │   ├── course-runtime.md
@@ -202,39 +202,39 @@ learn-anything/
     └── behavioral-diagnosis.md
 ```
 
-检查：
+Inspección:
 
-- frontmatter 中 `name` 符合小写字母、数字和连字符；
-- 所有相对路径存在；
-- YAML 模板语法有效；
-- 状态枚举一致；
-- 不依赖 XML 注释或暴露隐藏推理；
-- 未获授权时不创建文件、提醒或自动化；
-- 每道闭合题可追溯到教材与冻结答案；
-- 同一题在相反用户回答下仍保持同一标准。
+- En frontmatter, `name` cumple con letras minúsculas, números y guiones.
+- Todas las rutas relativas existen.
+- La sintaxis de la plantilla YAML es válida.
+- La enumeración de estados es coherente.
+- No depende de comentarios XML ni expone razonamiento oculto.
+- Sin autorización, no se crean archivos, recordatorios ni automatizaciones.
+- Cada pregunta cerrada puede rastrearse hasta el material didáctico y la respuesta congelada.
+- La misma pregunta mantiene el mismo estándar incluso con respuestas de usuario opuestas.
 
-## 六、整体产品验收
+## 6. aceptación general del producto
 
 ```text
-它能否先把“我想学 X”变成课程大纲？
-未来课程是否只生成可调整地图，不预生成课件？
-当前学习段是否是老师式长文，而不是提纲、表格和栏目填空？
-每段是否先告诉学习者当前在哪里、为何接着学、结束时要做到什么？
-原教材、Tutor 综合和用户应用假设是否被明确分开？
-教材是否用真实问题、机制解释、贯穿案例和练习把概念讲透？
-题目是否完全依赖教材，而不是临时发挥？
-正确答案是否在用户作答前固定？
-题目 preflight 是否排除了歧义、不真实行为和前置缺口？
-用户选择相反答案时，Tutor 能否保持同一判断？
-它能否根据当前反馈调整未生成学习段和未来课？
-它能否区分看过、会做、会迁移和长期保持？
-每课结束是否先完成主动回忆和迁移，再决定能否继续？
-内容进度与掌握进度是否分开？
-用户原话笔记与 AI 总结是否分开？
-没有用户材料时是否能自主研究并完成三道教材 Gate？
-低成本资料 Agent 是否只提供候选，且真实降低了包含返工在内的总成本？
-通用 Skill 是否不含用户专属工具、账号、路径和私有工作台信息？
-文件夹加 Skill 是否足以恢复并运行完整课程？
+¿Puede primero convertir "quiero aprender X" en un plan de curso?
+¿Los cursos futuros solo generan mapas ajustables, sin pre-generar materiales didácticos?
+¿El segmento de aprendizaje actual es un texto extenso estilo docente, y no un esquema, tabla o rellenar espacios de columnas?
+¿Cada segmento primero dice al estudiante dónde está, por qué sigue aprendiendo y qué debe lograr al final?
+¿Se separan claramente el material original, la síntesis del tutor y las suposiciones de aplicación del usuario?
+¿El material didáctico explica los conceptos completamente usando problemas reales, explicaciones de mecanismos, casos y ejercicios a lo largo del texto?
+¿Las preguntas dependen totalmente del material didáctico y no de improvisación temporal?
+¿La respuesta correcta está fijada antes de que el usuario responda?
+¿El tema comprobación previa elimina ambigüedades, comportamientos falsos y lagunas de precursores?
+Cuando los usuarios eligen la respuesta contraria, ¿puede tutor mantener el mismo juicio?
+¿Puede ajustar los segmentos de aprendizaje no generados y las lecciones futuras en función de la retroalimentación actual?
+¿Puede distinguir entre ser visto, hacer, migrar y a largo plazo?
+Al final de cada lección, ¿primero completas la llamada activa y la transferencia antes de decidir si continuar?
+¿El progreso en el contenido está separado del progreso en la dominio?
+¿Las notas originales de usuario y los resúmenes de IA son separados?
+¿Puedes investigar y completar de forma independiente las tres puertas de los materiales didácticos sin materiales de usuario?
+¿El agente de datos de bajo coste solo proporciona candidatos y realmente reduce el coste total, incluyendo la reestructuración?
+¿La habilidad genérica incluye herramientas específicas del usuario, cuentas, rutas e información de espacios de trabajo privados?
+¿La carpeta más Skill es suficiente para restaurar y ejecutar el curso completo?
 ```
 
-任一为否，Skill 仍需修改。
+De cualquier modo, la habilidad aún necesita modificarse.

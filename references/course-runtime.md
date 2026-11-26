@@ -1,81 +1,81 @@
-# 自适应课程运行时协议
+# Funcionamiento de los cursos adaptativos
 
-本文件规定长期课程如何保存、推进、调整和恢复。目标是用少量稳定状态支撑逐课教学，不把长对话或预生成课件当作运行时。
+Este protocolo define cómo guardar, impartir, ajustar y retomar cursos de larga duración. Un conjunto pequeño de archivos de estado permite continuar lección por lección.
 
-## 一、最小状态模型
+## 1. Modelo de estado mínimo
 
-课程运行时由五类对象组成：
+El curso se organiza en cinco componentes.
 
 ```text
-Course Contract  学习目标、应用场景、结业证据
-Course Route     可调整课程地图和版本记录
-Current Lesson   当前课计划、当前学习段长文、题目前冻结评测
-Learner State    掌握证据、误区、当前位置
-Review Queue     到期回忆和迁移复习
+Acuerdo de aprendizaje   Objetivo, contexto de aplicación y evidencia final
+Plan de estudio          Ruta ajustable y registro de versiones
+Lección actual           Plan, material del segmento y evaluación con criterios prefijados
+Estado del estudiante    Evidencia de dominio, errores y posición actual
+Lista de repasos         Recuerdo programado y tareas de transferencia
 ```
 
-`00-课程入口.md` 是用户可见投影，不是唯一真相源。结构化状态以 YAML 文件为准，入口页可随状态重新生成。
+`inicio-del-curso.md` muestra el estado al estudiante. Los archivos YAML guardan el estado estructurado y permiten regenerar la página.
 
-## 二、逐课生成原则
+## 2. Principios de generación lección por lección
 
-### 建课时生成
+### Qué preparar al crear el curso
 
-- 掌握契约；
-- 3—12 课的可调整路线；
-- 每课目标、前置、掌握证据和暂定顺序；
-- 当前第一课的 3—4 段计划；
-- 当前第一学习段的教学长文与来源记录。
+- Acuerdo sobre los criterios de dominio.
+- Una ruta ajustable de entre 3 y 12 lecciones.
+- Objetivo de cada lección, prerrequisitos, evidencia de dominio y orden provisional.
+- Un plan de 3 a 4 segmentos para la primera lección.
+- El material desarrollado y el registro de fuentes del primer segmento.
 
-### 建课时不生成
+### Qué se prepara más adelante
 
-- 第二课及以后教材正文；
-- 当前课尚未进入的学习段正文；
-- 未来课的例题、图片、评测和总结；
-- 未知来源的全文解析；
-- 基于假设学习表现写出的补救课。
+- Texto principal de la segunda lección y siguientes.
+- Texto de segmentos de aprendizaje aún no iniciados de la lección actual.
+- Ejemplos, imágenes, evaluaciones y resúmenes de lecciones futuras.
+- Análisis completo de fuentes desconocidas.
+- Lecciones de recuperación basadas en el rendimiento de aprendizaje supuesto.
 
-未来课用 `route_status: provisional` 和 `material_status: not_generated` 表示。只有成为当前课后才创建目录。当前课目录只为已经进入的学习段创建长文文件。
+Las próximas lecciones tienen `route_status: provisional` y `material_status: not_generated`. Crea el directorio de una lección cuando se vuelva activa y guarda el material de cada segmento cuando llegue su turno.
 
-## 三、状态枚举
+## 3. Enumeración de estados
 
-### 路线状态 `route_status`
+### Estado de la ruta `route_status`
 
-- `active`：当前正在准备或教学的一课；
-- `provisional`：未来路线占位，可自由调整；
-- `completed`：已经完成教学，历史版本保留；
-- `skipped`：基于已有证据跳过，并记录理由。
+- `active`: lección que se está preparando o enseñando actualmente.
+- `provisional`: marcador de posición de ruta futura, puede ajustarse libremente.
+- `completed`: enseñanza completada, versiones históricas conservadas.
+- `skipped`: Omite basándote en pruebas existentes y registra la razón.
 
-同一时间最多一课为 `active`。
+Una lección como máximo `active` a la vez.
 
-### 教材状态 `material_status`
+### Estado del material `material_status`
 
-- `not_generated`：只有路线条目；
-- `draft`：当前课已生成，但来源或评测尚未就绪；
-- `source_checked`：实际采用的来源已由主 Tutor 核验，关键结论可以定位；
-- `fact_checked`：教材对来源的转述、综合、数字、条件和争议已经核对；
-- `pedagogy_checked`：教材已经通过老师式长文、案例、边界和主动练习检查；
-- `verified`：旧版聚合状态，兼容读取；新教材不再用它代替三段审校；
-- `frozen`：已开始对用户教学或已用于评测；
-- `invalidated`：发现来源或标准问题，停止继续使用；
-- `legacy_prebuilt`：旧课程提前生成的未来教材；到当前课之前不加载、不视为已确认版本。
+- `not_generated`. La lección figura en el plan.
+- `draft`. El material de la lección actual se generó y está pendiente de verificación o revisión.
+- `source_checked`. El tutor principal verificó las fuentes usadas y las afirmaciones clave pueden rastrearse hasta ellas.
+- `fact_checked`. Se revisaron la transcripción de las fuentes, la síntesis, las cifras, las condiciones y los desacuerdos.
+- `pedagogy_checked`. El material cumple los criterios de explicación desarrollada, caso conductor, límites de aplicación y práctica activa.
+- `verified`. Estado anterior conservado por compatibilidad. Para material nuevo se usan los tres estados de revisión detallada.
+- `frozen`. Comenzó la enseñanza o el material ya se usó para evaluar.
+- `invalidated`. Se detectó un problema en la fuente o en el criterio y se retiró el material.
+- `legacy_prebuilt`. Material futuro generado con una versión anterior. Se consulta cuando la lección se vuelve activa y entonces se revisa antes de confirmarla.
 
-### 教学状态 `delivery_status`
+### Estado de la enseñanza `delivery_status`
 
-- `not_started`；
-- `in_progress`；
-- `completed`。
+- `not_started`.
+- `in_progress`.
+- `completed`.
 
-### 掌握状态 `mastery_status`
+### Nivel de dominio `mastery_status`
 
-只使用 `unknown / exposed / guided / independent / transferable / durable`。定义读取 `../rubrics/mastery-rubric.md`。
+Usa solo `unknown / exposed / guided / independent / transferable / durable`. Define leer `../rubrics/mastery-rubric.md`.
 
-## 四、版本与冻结
+## 4. Versiones y congelación
 
-“冻结”用于保证可追溯，不表示课程不能调整。
+Fijar una versión deja un registro verificable del material y de los criterios aplicados. El plan de las próximas lecciones sigue siendo ajustable.
 
-### 路线基线
+### Línea base de la ruta
 
-确认目标后写入：
+Después de confirmar el objetivo, escriba:
 
 ```yaml
 route:
@@ -89,81 +89,81 @@ route:
   future_lessons_are_provisional: true
 ```
 
-用户修改目标、方向、难度或顺序时，只改未来课，并将 `route.version` 加一。
+Cuando los usuarios modifican objetivos, indicaciones, dificultad u orden, solo se modifica la lección futura y el `route.version` se incrementa en uno.
 
-### 当前课与学习段冻结
+### Cómo fijar el material de la lección y del segmento actual
 
-当前课依次经过：
-
-```text
-plan draft
-→ part 1 source checked
-→ part 1 facts checked
-→ part 1 pedagogy checked
-→ part 1 delivery and practice
-→ adapt ungenerated parts
-→ next part
-→ assessment frozen immediately before delivery
-```
-
-每个学习段交付前还要准备用户可见导航，并按顺序交付：
+La lección actual avanza en orden:
 
 ```text
-位置与前后衔接
-→ 当前来源的简化教材
-→ Tutor 综合与适用边界
-→ 用户场景中的应用假设
-→ 已通过 preflight 且已冻结的主动输出
+borrador del plan
+→ parte 1 fuente verificada
+→ parte 1 hechos verificados
+→ parte 1 pedagogía verificada
+→ parte 1 entrega y práctica
+→ adaptar partes no generadas
+→ próxima parte
+→ evaluación congelada inmediatamente antes de la entrega
 ```
 
-学习段计划和教材元数据从 v4 起必须包含 `source_layer / tutor_synthesis / application_layer`。旧课包缺少这些字段时按 legacy 读取，不改写历史；尚未开始的新学习段按 v4 补齐。
+Antes de entregar cada segmento de aprendizaje, la navegación visible para el usuario debe prepararse y entregarse en orden:
 
-每个学习段教学开始后保留自己的 `material_version`。尚未生成的学习段可以根据反馈直接改计划；已经教学的学习段需要修正时创建新版本，标明受影响题目并撤销旧判分。
+```text
+Las posiciones conectan de delante a atrás
+→ material didáctico simplificado de fuentes actuales
+→ Síntesis del tutor y límites aplicables
+→ Suposiciones de aplicación en escenarios de usuario
+→ Actividad del estudiante revisada y con criterios prefijados
+```
 
-### 评测冻结
+Los metadatos del plan de estudio y del material docente desde v4 deben incluir `source_layer / tutor_synthesis / application_layer`. Los paquetes antiguos que carezcan de estos campos se leen como legacy, sin reescribir la historia; los nuevos segmentos de aprendizaje que aún no han comenzado se completan según v4.
 
-题目展示前固定 `correct_answer` 或 rubric、理由、可接受变体、常见错误和提示阶梯。用户回答后只允许：按标准判分；或因题目/来源问题标记 `ungradable` 并撤销。
+Cada segmento de aprendizaje mantiene su propio `material_version` después de iniciar la enseñanza. Los segmentos que aún no se han generado pueden modificar el plan directamente según los comentarios; los segmentos ya enseñados necesitan crear una nueva versión si se requiere corrección, indicando las preguntas afectadas y anulando la puntuación antigua.
 
-## 五、用户控制事件
+### Cómo fijar los criterios de evaluación
 
-把下列自然语言归一化为事件：
+Antes de mostrar la pregunta, se fijan `correct_answer` o rúbrica, motivo, variantes aceptables, errores comunes y escalera de pistas. Tras la respuesta del usuario solo se permite: puntuar según el estándar; o en caso de problemas con la pregunta/fuente, marcar `ungradable` y anular.
+
+## 5. Eventos de control por el usuario
+
+Normalizar el siguiente lenguaje natural a eventos:
 
 ```yaml
-continue: 继续、下一段
-question: 我有问题、这里是什么意思
-too_hard: 太难了、讲简单点、我跟不上
-change_direction: 不是我想学的、换个方向、调整课程
-pause: 先停一下、下次继续
-note: 这是我的理解、帮我记一下
+continue: Continuar, siguiente segmento
+question: Tengo una pregunta, ¿qué significa esto?
+too_hard: Demasiado difícil, explícalo más simple, no puedo seguir el ritmo
+change_direction: No es lo que quiero aprender, cambiar de dirección, ajustar el curso
+pause: Parar un momento, continuar la próxima vez
+note: Esta es mi comprensión, ayúdame a guardarla
 ```
 
 ### `continue`
 
-只有当前学习段 Gate 允许推进时，才进入下一学习段。若已到本课末尾，先完成即时主动回忆、变化场景迁移、误区检查和状态更新，不直接生成下一课。核心节点未达到前置状态时，`继续` 表示进入补强，而不是绕过 Gate。
+Pasa al siguiente segmento cuando se cumpla el criterio de avance. Al terminar la lección, completa primero el recuerdo inmediato, la transferencia a otro contexto, la revisión de errores y la actualización del estado. Si un concepto fundamental requiere refuerzo, `Continúa` lleva a ese refuerzo.
 
 ### `question`
 
-回答当前范围内的问题，记录返回位置。问题暴露前置缺口时，插入最小补充，不自动扩展成新课程分支。
+Responder preguntas dentro del alcance actual y registrar la posición de retorno. Cuando las preguntas revelen lagunas previas, insertar el mínimo complemento, sin expandirse automáticamente a una nueva rama de curso.
 
 ### `too_hard`
 
-按顺序尝试：降低抽象度、缩小任务、换用户熟悉的例子、给完整示范、补前置。记录提示等级。高提示完成不得记为独立掌握。
+Intentar en orden: reducir el nivel de abstracción, acortar la tarea, usar ejemplos familiares al usuario, dar un ejemplo completo, complementar lo previo. Registrar el nivel de pista. Completar una pista alta no se considera dominio independiente.
 
 ### `change_direction`
 
-暂停当前教学，先总结偏差属于目标、难度、案例、节奏还是路线。给出最小调整方案，只修改 `provisional` 课程。若当前课目标也要改变，创建新版本并说明原版本如何处理。
+Pausa la lección actual y primero resume si la desviación es un objetivo, dificultad, caso, ritmo o ruta. Proporciona un plan de ajuste mínimo y modifica solo `provisional` curso. Si los objetivos actuales de la lección también necesitan cambiar, crea una nueva versión y explica cómo se manejará la versión original.
 
 ### `pause`
 
-保存当前课、当前学习段、未决问题和下一步。不要为了制造“结课感”强行完成总结或判定掌握。
+Guarda la lección actual, el segmento de aprendizaje actual, las preguntas pendientes y los siguientes pasos. No fuerces resúmenes ni juicios solo para crear una sensación de 'finalización del curso'.
 
 ### `note`
 
-将用户原话追加到 `02-user-notes.md`。需要整理时，把原话与 AI 整理分区保存。
+Añade el discurso original del usuario al `02-user-notes.md`. Cuando sea necesario organizar, guarda el discurso original y la organización de IA en una sección separada.
 
-## 六、课程调整记录
+## 6. Registros de ajuste de curso
 
-每次路线变化写入：
+Escribe cada cambio de ruta:
 
 ```yaml
 course_adjustments:
@@ -180,86 +180,86 @@ course_adjustments:
     user_confirmed: false
 ```
 
-不为纯措辞修改制造版本。会改变目标、顺序、难度、掌握证据或课次增删的变化才记录。
+No modifique ni cree versiones únicamente por redacción. Registre únicamente cambios en objetivos, orden, dificultad, adquisición de evidencia o cambios en las adiciones o eliminaciones de clases.
 
-## 七、双进度投影
+## 7. Registro del avance y del dominio
 
-课程入口至少展示：
+La entrada al curso al menos muestra:
 
-| 课次 | 路线状态 | 内容进度 | 掌握进度 | 下一步 |
+| Número de lección | Estado de la ruta | Progreso del contenido | Mantente en el camino | Siguiente paso |
 |---|---|---|---|---|
-| L01 | 当前 | 第 2/4 段 | guided | 完成无提示变式 |
-| L02 | 暂定 | 未生成 | unknown | 等 L01 证据后确认 |
+| L01 | Actualmente | Párrafo 2/4 | guided | Completa la variante sin aviso |
+| L02 | Tentativo | No generado | unknown | Confirma tras L01 pruebas |
 
-内容进度回答“课程讲到哪里”；掌握进度回答“用户能做到什么”。禁止用内容完成百分比推导掌握百分比。
+El progreso del contenido responde "¿Dónde cubre el curso?"; El progreso de dominio responde a "Qué pueden hacer los usuarios." Está prohibido el porcentaje de derivación del contenido completado.
 
-## 八、来源接入与按需解析
+## 8. Acceso a fuentes y análisis bajo demanda
 
-用户材料不是建课前置条件。没有用户材料时使用 `agent_researched`，只围绕当前学习段制定研究范围、搜集权威资料、建立关键结论—来源对应，再进入教材写作。详细 Gate 读取 `safety-and-sources.md`。
+Los materiales de usuario no son un requisito previo para la construcción del curso. Cuando los materiales de usuario no estén disponibles, utiliza `agent_researched`, fija únicamente los ámbitos de investigación en torno al segmento de aprendizaje actual, recopila materiales autorizados, establece conclusiones clave — correspondencia de fuentes y luego procede a la redacción de materiales didácticos. Lee `safety-and-sources.md` de puerta detallada.
 
-### PDF 与本地文件
+### PDF y archivos locales
 
-记录 `original_location`、文件哈希或稳定标识、实际使用页码、解析状态和限制。先定位当前课需要的范围，再读取对应页。只有用户授权且复制有价值时，才放入 `sources/originals/`。
+Registrar `original_location`, hashes de archivos o identificadores estables, números de página reales en uso, estado de análisis analizado y limitaciones. Primero localiza el rango necesario para la lección actual y luego lee la página correspondiente. `sources/originals/` solo se coloca cuando el usuario está autorizado y la copia es valiosa.
 
-### 网页
+### Página web
 
-记录 URL、访问日期、标题、作者或机构和使用范围。近期事实重新访问官方来源。不要为了保存课程而复制整篇受版权保护内容。
+Registrar URL, fecha de acceso, título, autor o institución y alcance de uso. Vuelve a consultar fuentes oficiales para hechos recientes. No copies contenido completo protegido por derechos de autor solo para guardar la lección.
 
-### 视频或音频
+### Video o audio
 
-优先使用发布者字幕、平台字幕或可靠转录。记录 `time_range`。没有转录或无法访问时标为 `unavailable`，向用户说明需要字幕、转录或本地文件。
+Prioriza el uso de subtítulos del editor, subtítulos de la plataforma o transcripciones confiables. Registra `time_range`. Si no hay transcripción o no es accesible, marca como `unavailable` e informa al usuario que se requieren subtítulos, transcripción o archivo local.
 
-### 外部笔记或课程系统
+### Notas externas o sistema de cursos
 
-用户明确要求且当前运行时具备相应读取工具时，可以接入其中的课程、笔记、PDF 页面或视频转录作为 `user_material`。保留稳定对象标识或原始链接；不要把旧 Tutor 的总结自动当成事实或掌握证据。具体产品连接方式属于部署适配层，不写入通用学习协议。
+Cuando el usuario lo solicite explícitamente y el entorno de ejecución actual tenga las herramientas de lectura correspondientes, se pueden integrar los cursos, notas, páginas PDF o transcripciones de video como `user_material`. Conserva la identificación estable del objeto o enlace original; no consideres automáticamente los resúmenes antiguos de tutor como evidencia de hecho o conocimiento. La forma específica de conexión del producto pertenece a la capa de adaptación de despliegue y no se registra en el protocolo general de aprendizaje.
 
-## 九、Token 成本控制
+## 9. Control de costos de Tokens
 
-按 `cost-routing.md` 在质量约束下优化总成本。先用确定性工具，再考虑低成本资料 Agent；默认最多一个，只处理候选资料与元数据，主 Tutor 保留来源批准、教材综合、事实审校和评测权。
+Optimiza el costo total según `cost-routing.md` bajo restricciones de calidad. Primero utiliza herramientas deterministas, luego considera el Agent de bajo costo; por defecto, máximo uno, solo procesa los materiales candidatos y metadatos, el tutor principal conserva la aprobación de la fuente, síntesis del material didáctico, verificación de hechos y derechos de evaluación.
 
-每轮只加载：
+Cargar en cada ronda solo:
 
-1. 课程入口的当前位置；
-2. 学习者状态中的当前节点和到期复习；
-3. 当前课计划与当前学习段；
-4. 判分时对应 assessment；
-5. 当前问题需要的来源片段。
+1. La ubicación actual de la entrada del curso.
+2. El nodo actual y la revisión pendiente en el estado del estudiante.
+3. El plan de curso actual y el segmento de aprendizaje actual.
+4. La evaluación correspondiente al momento de calificar.
+5. Fragmentos de fuente necesarios para la pregunta actual.
 
-禁止：加载全部未来教材、每轮重写完整课程总结、重复解析同一大文件、在用户未确认目标前生成长课件。
+Prohibido: cargar todo el material futuro, reescribir el resumen completo del curso en cada ronda, analizar repetidamente el mismo archivo grande, generar materiales extensos antes de que el usuario confirme el objetivo.
 
-同时禁止：为了省 Token 并行多个重叠研究 Agent；把低成本模型的摘要直接当作来源；在便宜模型失败后反复重试而不升级；只统计主线程而忽略子 Agent 与返工成本。
+También está prohibido: usar múltiples Agents de investigación superpuestos para ahorrar Tokens; tomar directamente el resumen del modelo de bajo costo como fuente; reintentar repetidamente después de fallos del modelo económico sin actualizar; solo contabilizar el hilo principal e ignorar el costo de sub-Agents y retrabajos.
 
-## 十、旧课程包兼容
+## 10. Compatibilidad con paquetes de cursos antiguos
 
-旧版可能使用：
+La versión antigua puede usar:
 
 ```text
 lessons/01-title.md
 lessons/L01-title/assessment.yaml
 ```
 
-兼容处理：
+Al retomar un curso existente, busca `inicio-del-curso.md` o el nombre usado anteriormente, `课程入口.md` o `00-课程入口.md`. Aplica también estas reglas de compatibilidad.
 
-1. 不移动或删除旧文件；
-2. 在 outline 中补充路线、教材、教学和掌握四类状态；
-3. 当前课继续读取旧路径；
-4. 未开始的旧教材标记 `legacy_prebuilt`，在成为当前课之前不加载；
-5. 新增课程使用每课独立目录，并把同一课的评测统一写入课程级 `assessments/01-title.yaml`；
-6. 不把旧教材存在视为已经教学或已经掌握。
+1. Conserva los archivos anteriores en sus rutas.
+2. Completa el plan con los estados de ruta, material, enseñanza y dominio.
+3. Sigue utilizando las rutas existentes para la lección actual.
+4. Marca como `legacy_prebuilt` los materiales anteriores de lecciones futuras y ábrelos cuando su lección se vuelva activa.
+5. Para lecciones nuevas, usa un directorio por lección y guarda cada evaluación en la carpeta del curso, por ejemplo `assessments/01-title.yaml`.
+6. La evidencia del estudiante determina el dominio. Un archivo existente acredita únicamente que hay material guardado.
 
-## 十一、结束一课的原子更新
+## 11. Actualización conjunta al cerrar una lección
 
-结束、暂停或调整当前课时，按一次原子动作更新：
+Finalice, pausa o ajusta la lección actual pulsando una acción atómica para actualizar:
 
-1. 当前学习段和内容进度；
-2. learner state 中的证据、提示、误区和掌握状态；
-3. 用户笔记和 Tutor 总结；
-4. review queue；
-5. 课程入口投影；
-6. 如需调整，更新路线版本和 change log。
+1. Segmentos actuales de aprendizaje y progreso en el contenido.
+2. Evidencia, indicaciones, malentendidos y estado de dominio en el estado del aprendiz.
+3. Notas de usuario y resúmenes de tutores.
+4. lista de repasos.
+5. Proyección de acceso al curso.
+6. Si se necesitan ajustes, actualice las versiones de rutas y los registros de cambios.
 
-其中 review queue 必须包含本课即时复习记录：`review_type: immediate`、`retrieval_before_summary: true`、迁移任务、结果、复发误区和 `next_action`。即时复习未完成或核心迁移失败时，下一课保持 `provisional + not_generated`。
+La lista de repasos debe registrar el repaso inmediato con `review_type: immediate`, `retrieval_before_summary: true`, la tarea de transferencia, el resultado, los errores que reaparecieron y `next_action`. Si queda pendiente el repaso inmediato o falla la transferencia central, la siguiente lección sigue como `provisional + not_generated`.
 
-每次 mastery 变化必须先保存 promotion evidence：节点、任务、判分、提示等级、已满足与未满足标准、活跃误区、历史最高状态、当前状态和是否允许推进。最后一次正确不能覆盖同一节点上的引导依赖；迁移失败保留历史最高证据，同时把当前状态和阻断原因写实。
+Antes de cambiar el dominio, guarda el concepto, la tarea, la calificación, el nivel de pista, los criterios cumplidos y pendientes, los errores activos, el máximo histórico, el nivel actual y si se permite avanzar. Un acierto aislado es insuficiente si el estudiante sigue dependiendo de ayuda en ese concepto. Si falla la transferencia, conserva el máximo histórico y registra el nivel actual y el motivo del bloqueo.
 
-如果任一关键文件写入失败，不宣称状态已保存。说明失败范围并保留下一步恢复动作。
+Si algún archivo crítico no se escribe, no afirme que el estado se ha guardado. Especifique el alcance del fallo y preserve la siguiente acción de recuperación.

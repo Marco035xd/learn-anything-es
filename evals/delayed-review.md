@@ -1,24 +1,24 @@
-# Eval 05｜跨会话延迟复习
+# Evaluación 05 · Repaso diferido entre sesiones
 
-## 测试目标
+## Objetivo de la evaluación
 
-验证 Skill 是否能读取已有学习状态，以主动提取开始复习，根据延迟表现更新状态，而不是重新讲课或假装记得不存在的进度。
+Verifica si la habilidad puede leer los estados de aprendizaje existentes para recuperar y comenzar a revisar proactivamente, actualizando el estado en función de la latencia en lugar de reenseñar o fingir recordar progresos inexistentes.
 
-## 已有状态
+## Estado actual
 
 ```yaml
 mastery_contract:
-  learning_goal: 区分相关性与因果性，并能审查日常因果主张
+  learning_goal: Distinguir entre relevancia y causalidad, y ser capaz de examinar las afirmaciones causales cotidianas
   target_mastery_level: durable
 nodes:
   - id: correlation-causation
-    name: 相关性与因果性
+    name: Correlación y causalidad
     knowledge_type: concept
     status: independent
     evidence:
-      - 三天前独立解释了共同原因可能制造相关性
+      - Hace tres días, una explicación independiente de las causas comunes podía generar correlación
     misconceptions:
-      - description: 只要 A 先于 B 且二者相关，就能证明 A 导致 B
+      - description: Siempre que A preceda a B y esté relacionado, se puede demostrar que A causa B
         status: corrected_but_fragile
     last_practiced: 2026-07-09
     next_review: 2026-07-12
@@ -27,81 +27,81 @@ review:
     - correlation-causation
 ```
 
-## 初始 Prompt
+## Solicitud inicial
 
-> 继续上次学的相关性和因果性。
+> Continuando con el estudio previo sobre relevancia y causalidad.
 
-## 预期首轮行为
+## Espera comportamiento en la primera ronda
 
-必须：
+Debe:
 
-1. 复用已有目标和节点，不重新问“你想学什么”；
-2. 不先展示上次总结或定义；
-3. 直接给一个短回忆或新案例，例如“冰淇淋销量和溺水人数同时上升，能否说明前者导致后者，为什么”；
-4. 可先让用户给信心评分；
-5. 明确这是到期复习，不是新章节。
+1. Reutiliza objetivos y hitos existentes, sin preguntarte "¿Qué quieres aprender?"
+2. No muestres primero el resumen o definición anterior.
+3. Da directamente un breve recuerdo o un caso nuevo, como "Las ventas de helados y los números de ahogamiento aumentan simultáneamente—¿puede lo primero causar lo segundo, y por qué?"
+4. Primero, dejar que los usuarios den una calificación de confianza.
+5. Aclara que esta es una fecha límite para la revisión, no un nuevo capítulo.
 
-## 用户回答
+## Respuestas de usuarios
 
-> 两者相关，而且冰淇淋销量先上升，所以应该能说明冰淇淋导致溺水增加。我有 80% 把握。
+> Ambos están relacionados, y dado que las ventas de helados subieron primero, debería indicar que el helado está causando más ahogamientos. Estoy 80% seguro.
 
-## 预期反馈与状态更新
+## Retroalimentación esperada y actualizaciones de estado
 
-必须：
+Debe:
 
-1. 判定核心误区复发，不能因为表达完整就判为正确；
-2. 指出时间先后与相关性仍不足以排除共同原因；
-3. 用“高温同时影响冰淇淋销量和游泳人数”作为最小反例或提示；
-4. 要求用户重新解释，而不是立即完整重讲整章；
-5. 将状态从 `independent` 下调为 `guided` 或标记待巩固；
-6. 保留历史最高证据，同时记录本次延迟失败；
-7. 将误区重新标记为 active；
-8. 安排更近的复习，例如 1 天后；
-9. 不授予 `durable`。
+1. Identificar los conceptos erróneos fundamentales como recurrentes no debe considerarse correcto solo porque la expresión sea completa.
+2. Señalando que el orden cronológico y la correlación siguen siendo insuficientes para descartar causas comunes.
+3. Usar "altas temperaturas que afectan simultáneamente a las ventas de helados y a los nadadores" como contraejemplo o pista mínima.
+4. Exigir a los usuarios que reinterpreten en lugar de recontar inmediatamente todo el capítulo.
+5. Degradar el estatus de `independent` a `guided` o marcarlo como para consolidación.
+6. Preservar la evidencia histórica más elevada y registrar el fracaso de este retraso.
+7. Señala que la idea errónea es activa.
+8. Programa una revisión más detallada, por ejemplo, un día después.
+9. No se concede `durable`.
 
-## 若用户修正成功
+## Si el usuario corrige correctamente
 
-预期：
+Expectativas:
 
-- 说明本次是在提示后修正，所以仍不能恢复为 `independent`；
-- 再给一个不同表面形式的小案例；
-- 新案例独立成功后可恢复 `independent`，但长期保持仍需下一次延迟确认。
+- Esto indica que esta actualización se corrigió tras un aviso, por lo que aún no puede revertirse a `independent`.
+- Aquí hay una pequeña caja con una forma de superficie diferente.
+- Después de que un nuevo caso se mantenga independiente con éxito, `independent` puede restablecerse, pero la retención a largo plazo sigue requiriendo la siguiente confirmación retrasada.
 
-## 状态更新示例
+## Ejemplo de actualizaciones de estado
 
 ```yaml
 status: guided
 previous_highest_status: independent
 downgrade_reason: delayed_retrieval_failure
 misconception:
-  description: 时间先后与相关性足以证明因果
+  description: El momento y la correlación son suficientes para demostrar la causalidad
   status: active
 next_review: 1_day_later
 durable_mastery_verified: false
 ```
 
-## 没有状态文件时
+## Cuando no hay ningún archivo de estado
 
-Skill 必须说明当前只能根据可见对话恢复，不能假装已经读取历史状态。可用一个回忆任务重新定位。
+Skill debe especificar que la recuperación solo es posible actualmente basándose en conversaciones visibles y no puede fingir que se ha leído el estado del historial. La reubicación puede realizarse con una tarea de retirada.
 
-## 评分重点
+## Puntos clave de la clasificación
 
-- 跨会话状态复用；
-- 复习先提取；
-- 高自信错误处理；
-- 状态下调；
-- 复习排期；
-- durable 证据纪律。
+- Multiplexación entre estados de sesión.
+- La revisión comienza con la extracción.
+- Manejo de errores con alta confianza.
+- Ajuste de estado.
+- Revisar la programación.
+- Disciplina duradera en la evidencia.
 
-## Critical Fail
+## Fallos graves
 
-- 复习开始先展示旧答案；
-- 重新询问已经存在的学习目标；
-- 将错误答案判为正确；
-- 提示后修正立即标回 `durable`；
-- 删除旧证据而不保留历史；
-- 假装读取了不存在的状态。
+- Al inicio de la revisión, se muestran primero las respuestas antiguas.
+- Volver a preguntar sobre los objetivos de aprendizaje existentes.
+- Juzgar las respuestas incorrectas como correctas.
+- Corrige inmediatamente la marca `durable` después de la indicación.
+- Eliminar evidencias antiguas sin conservar historial.
+- Fingir leer un estado inexistente.
 
-## 通过标准
+## Criterio de aprobación
 
-按 `tutor-quality-rubric.md` 的适用维度换算得分 ≥ 80，且无 Critical Fail。
+Puntuación ≥ 80 según las dimensiones aplicables de `tutor-quality-rubric.md`, sin Fallo Crítico.

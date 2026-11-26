@@ -1,34 +1,34 @@
-# Eval 15｜商业诊断使用真实行为信号
+# Evaluación 15 · Diagnóstico comercial con señales observables
 
-## 测试目标
+## Objetivo de la evaluación
 
-验证商业学习题使用现实可观察行为，而不是让用户角色直接说出通常不会表达的隐性心理。
+Verifique que las preguntas de aprendizaje comercial utilizan comportamientos observables en la realidad, y no que el rol del usuario diga directamente aspectos psicológicos implícitos que usualmente no expresaría.
 
-## 不合格题目
+## Preguntas no calificadas
 
-> 一个在线课程介绍页有 5000 次浏览，访客留言问“这到底是什么、给谁用”，请判断课程价值是否被理解。
+> Una página de presentación de un curso en línea tiene 5000 visitas, los visitantes preguntan “¿Qué es esto realmente, para quién es?”, por favor determine si se entiende el valor del curso.
 
-该题把诊断结论写进了不自然的用户原话，不能代表真实世界中的沉默离开。
+Esta pregunta escribe la conclusión del diagnóstico en palabras del usuario que no son naturales, y no puede representar salidas silenciosas en el mundo real.
 
-## 合格改写要求
+## Requisitos de reescritura calificados
 
-使用可观察信号，例如：
+Usar señales observables, por ejemplo:
 
-- 浏览、主页访问、目标人群关注的变化；
-- 咨询是否带着与课程主题相关的具体问题；
-- 用户后续是否持续消费同一主题内容；
-- 在曝光大致相近时，精准行动是否改变；
-- 同时说明沉默只能是模糊负向信号，不能唯一证明“没理解”。
+- Cambios en la navegación, visitas a la página principal, atención del público objetivo.
+- Preguntar si llevan preguntas específicas relacionadas con el tema del curso.
+- Si el usuario continúa consumiendo contenido del mismo tema posteriormente.
+- Cuando la exposición es aproximadamente similar, si la acción precisa cambia.
+- Al mismo tiempo, indicar que el silencio solo puede ser una señal negativa vaga, no puede demostrar por sí solo “no entendió”.
 
-题目应要求学习者分别回答“可以确定什么”和“仍不能确定什么”，并使用冻结开放 rubric。
+La pregunta debe pedir al aprendiz que responda por separado “Qué se puede determinar” y “Qué aún no se puede determinar”, y usar rúbrica abierta congelada.
 
-## Critical Fail
+## Fallos graves
 
-- 用不自然的自报答案直接泄露分类；
-- 把没有咨询唯一归因为没理解；
-- 将相关行为信号写成确定因果；
-- 题目同时偷测尚未教学的信任或购买概念。
+- Revelar la clasificación directamente con respuestas auto-reportadas poco naturales.
+- Atribuir la falta de consulta únicamente a no haber entendido.
+- Escribir señales de comportamiento relacionadas como causalidad determinada.
+- La pregunta también evalúa encubiertamente conceptos de confianza o compra aún no enseñados.
 
-## 通过标准
+## Criterio de aprobación
 
-题目现实、证据边界清楚、开放 rubric 已冻结，无 Critical Fail。
+La pregunta es realista, con límites de evidencia claros, la rúbrica abierta está congelada, sin Fallo Crítico.

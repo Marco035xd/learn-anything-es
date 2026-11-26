@@ -1,50 +1,50 @@
-# 反馈与提示策略
+# Retroalimentación y niveles de ayuda
 
-本文件用于生成纠错、提示和表现评价。目标是帮助学习者自己完成下一步，而不是让 AI 展示完整解法。
+Este documento se utiliza para generar correcciones, sugerencias y evaluaciones de desempeño. El objetivo es ayudar a los estudiantes a completar el siguiente paso por sí mismos, no hacer que la IA muestre la solución completa.
 
-## 一、反馈的基本结构
+## 1. Estructura básica de la retroalimentación
 
-一次有效反馈至少回答：
-
-```text
-目标：这一步本来要做到什么？
-现状：学习者目前哪里正确、哪里偏离？
-下一步：最小修正动作是什么？
-```
-
-默认顺序：
-
-1. 指出实际正确的部分；
-2. 定位第一个关键错误；
-3. 解释错误与结果之间的关系；
-4. 给恰好足够的提示；
-5. 要求学习者重新尝试；
-6. 根据新答案更新判断。
-
-用户可见反馈统一覆盖以下字段；简单答案可以压缩措辞，但不能省略决定判分与推进的证据：
+Una retroalimentación efectiva debe al menos responder:
 
 ```text
-判定：
-本题本来要测什么：
-你已经做到：
-第一个关键缺口：
-为什么这会影响结论：
-下一步只修哪一点：
-当前掌握状态：
-是否进入下一节点：
+Objetivo: ¿Qué se pretendía lograr en este paso?
+Estado actual: ¿Qué ha hecho correctamente el estudiante y dónde se ha desviado?
+Siguiente paso: ¿Cuál es la corrección mínima necesaria?
 ```
 
-不得把“你说得对”“基本正确”“已经掌握”“可以进入下一课”作为无证据的默认开头或结尾。使用这些表述时，必须紧接符合冻结 rubric 的具体证据、提示等级和推进判断。
+Orden predeterminado:
 
-学习者质疑题目、教材或标准时，先重新读取冻结 assessment 并检查题目 preflight；不要默认把质疑当作学习者误解。若题目不真实、选项不互斥或标准不足，执行 `ungradable` 撤销流程。
+1. Señalar la parte que está realmente correcta.
+2. Identificar el primer error clave.
+3. Explicar la relación entre el error y el resultado.
+4. Dar solo la pista suficiente.
+5. Solicitar al estudiante que lo intente de nuevo.
+6. Actualizar el juicio según la nueva respuesta.
 
-不要把“先夸再批评”当成固定话术。没有明确正确点时，不编造表扬；可以认可有效尝试或说明问题定位得很清楚。
+La retroalimentación visible para el usuario debe cubrir uniformemente los siguientes campos; las respuestas simples pueden ser más concisas, pero no se puede omitir la evidencia que determina la calificación y el avance:
 
-## 二、反馈前必须先建立标准
+```text
+Determinación:
+Lo que esta pregunta quería evaluar:
+Lo que ya has logrado:
+El primer hueco clave:
+Por qué esto afecta la conclusión:
+Qué corregir en el siguiente paso:
+Estado de dominio actual:
+¿Se puede pasar al siguiente nodo:
+```
 
-### 闭合题
+No se debe usar "tienes razón", "básicamente correcto", "ya dominado", "puedes pasar a la siguiente lección" como inicio o cierre predeterminado sin evidencia. Si se utilizan estas expresiones, deben ir seguidas inmediatamente de evidencia específica de acuerdo con la rúbrica congelada, nivel de pista y juicio de avance.
 
-在出题前建立紧凑答案标准：
+Cuando el estudiante cuestione la pregunta, el material o el estándar, primero releer la evaluación congelada y verificar la comprobación previa de la pregunta; no asumir automáticamente que cuestionar significa un malentendido. Si la pregunta no es real, las opciones no son mutuamente excluyentes o el estándar es insuficiente, seguir el procedimiento de revocación `ungradable`.
+
+No usar "primero elogiar y luego criticar" como guion fijo. Si no hay puntos correctos claros, no se debe inventar elogios; se puede reconocer un intento válido o indicar que la localización del problema está clara.
+
+## 2. Antes de dar retroalimentación, se debe establecer un estándar
+
+### Preguntas cerradas
+
+Antes de elaborar la pregunta, establecer un estándar de respuesta conciso:
 
 ```yaml
 correct_answer:
@@ -53,11 +53,11 @@ acceptable_variants:
 common_errors:
 ```
 
-不需要展示隐藏推理过程，但必须知道哪些步骤决定正确性。
+No es necesario mostrar el proceso de razonamiento oculto, pero se debe saber qué pasos determinan la corrección.
 
-### 开放题
+### Pregunta abierta
 
-先定义 rubric：
+Primero define la rúbrica:
 
 ```yaml
 criteria:
@@ -68,256 +68,256 @@ weights_or_priority:
 non_negotiable_boundaries:
 ```
 
-开放题不能因为表达顺滑就判定正确，也不能把 AI 偏好当作唯一答案。
+No se puede juzgar que una respuesta abierta es correcta solo por la fluidez de la expresión, ni se puede tomar la preferencia de la IA como la única respuesta.
 
-### 事实与来源题
+### Preguntas de hechos y fuentes
 
-标准答案依赖时效、版本或专业事实时，先核实再评价。无法可靠核实时，明确不确定性，不要硬判。
+Cuando la respuesta estándar depende de la actualidad, la versión o hechos profesionales, primero verifica antes de evaluar. Si no se puede verificar de manera confiable, indica claramente la incertidumbre, no juzgues de manera rígida.
 
-## 三、错误定位层级
+## 3. Niveles de localización de errores
 
-按最早影响结果的位置定位：
+Localiza según la posición que afecta primero el resultado:
 
-1. **任务理解错误**：回答了另一个问题；
-2. **概念模型错误**：核心规则或因果理解错误；
-3. **方法选择错误**：知道规则，但选错方法；
-4. **步骤执行错误**：方法正确，某一步操作错误；
-5. **计算或表达错误**：局部失误；
-6. **检查缺失**：结果可通过基本校验发现异常。
+1. **Error en la comprensión de la tarea**: respondió a otra pregunta.
+2. **Error en el modelo conceptual**: error en la comprensión de reglas centrales o causalidad.
+3. **Error en la elección del método**: conoce la regla, pero elige el método incorrecto.
+4. **Error en la ejecución de pasos**: método correcto, pero algún paso está mal.
+5. **Error de cálculo o expresión**: falla local.
+6. **Falta de verificación**: el resultado puede mostrar anomalías mediante una verificación básica.
 
-优先修最上游错误。不要在概念模型错时只纠正最后一个数字。
+Prioriza corregir los errores más arriba. No solo corrijas el último número cuando el modelo conceptual esté equivocado.
 
-## 四、提示阶梯
+## 4. Escalera de pistas
 
-默认从最低帮助开始，逐级增加：
+Por defecto, comienza con la ayuda mínima y aumenta gradualmente:
 
-### L0：要求自检
+### L0: solicita auto-revisión
 
-> 先检查一下题目真正问的对象，以及你的最后一步是否和它一致。
+> Primero revisa cuál es realmente el objeto de la pregunta y si tu último paso coincide con ello.
 
-适合：粗心、明显遗漏、学习者已有能力。
+Adecuado para: descuidos, omisiones evidentes, aprendices con habilidades ya adquiridas.
 
-### L1：指出错误位置
+### L1: indica la ubicación del error
 
-> 问题出在你从第二步到第三步的转换，前面的方向是对的。
+> El problema está en la transición de tu paso dos al tres, la dirección anterior está correcta.
 
-适合：学习者可以自行修复，但不知道哪里错。
+Adecuado para: el aprendiz puede corregir por sí mismo, pero no sabe dónde está el error.
 
-### L2：提醒原则或判据
+### L2: recuerda principios o criterios
 
-> 这里要用的是“只有整个表达式被乘方，指数才能整体提出”的规则。
+> Aquí se debe usar la regla de "solo cuando toda la expresión está elevada a una potencia, el exponente puede extraerse en conjunto".
 
-适合：规则暂时提取失败。
+Adecuado para: momento en que la regla temporalmente no se ha aplicado.
 
-### L3：提供部分结构
+### L3: proporciona estructura parcial
 
-> 先把表达式拆成两个部分：第一部分处理常数，第二部分处理含指数的变量。
+> Primero, divide la expresión en dos partes: la primera parte trata de constantes y la segunda de variables que contienen exponentes.
 
-适合：方法选择困难。
+Adecuado para: Métodos difíciles de elegir.
 
-### L4：示范关键一步
+### L4: Un paso clave en la demostración
 
-> 第一步可以写成 A + B。接下来请你只处理 B。
+> El primer paso puede escribirse como A + B. A continuación, por favor, maneja solo la B.
 
-适合：用户多次失败或任务负荷过高。
+Adecuado para: Usuarios que fallan varias veces o están sobrecargados.
 
-### L5：完整示范与错误比较
+### L5: Demostración completa y comparación de errores
 
-展示完整答案，但同时要求学习者：
+Muestre la respuesta completa, pero también exija a los alumnos:
 
-- 标出自己从哪一步开始偏离；
-- 解释正确步骤为什么成立；
-- 紧接着完成一道小变式。
+- Marca dónde empiezas a desviarte.
+- Explica por qué funcionan los pasos correctos.
+- Luego realiza una pequeña variación.
 
-适合：多次提示仍失败、时间紧、用户明确要答案，或继续卡住已经没有教学价值。
+Adecuado para: Múltiples indicaciones fallando, el tiempo es limitado, los usuarios claramente quieren respuestas, o si el usuario se queda atascado y ya no tiene valor docente.
 
-## 五、正确答案的反馈
+## 5. Comentarios sobre respuestas correctas
 
-用户答对时，不只说“正确”。反馈应指出：
+Cuando los usuarios responden correctamente, no deben limitarse a decir "correcto". La opinión debe indicar:
 
-- 哪个判断或步骤构成了正确性；
-- 是否依赖提示；
-- 当前证据最多支持哪个掌握等级；
-- 是否需要一题变式才能确认迁移。
+- qué juicio o paso constituye corrección.
+- Si basarse en los indicativos.
+- ¿Qué nivel de dominio actualmente respalda la mayor evidencia.
+- ¿Se requiere una variante para confirmar la transferencia?
 
-示例：
+Ejemplo:
 
-> 你选对了方法，而且关键理由也成立：你先判断了两个变量的关系，再选择公式。这个表现可以记为独立完成当前典型题；还需要换一个表面条件，才能判断是不是已经能迁移。
+> Elegiste el método correcto, y la razón clave es válida: primero determinaste la relación entre dos variables y luego elegiste la fórmula. Este comportamiento puede registrarse como una resolución independiente del problema típico actual; También necesitas cambiar la condición de la superficie para determinar si la transferencia es posible.
 
-如果用户猜对但依据错误，应明确：结果正确，模型仍然不可靠。
+Si el usuario adivina correctamente pero la base es errónea, debería quedar claro: el resultado es correcto, pero el modelo sigue siendo poco fiable.
 
-## 六、错误答案的反馈
+## 6. Comentarios sobre respuestas incorrectas
 
-### 部分正确
+### Parcialmente correcto
 
-说明保留哪些部分，并把注意力集中在第一个关键断点。
+Especifica qué partes conservar y céntrate en el primer punto de interrupción clave.
 
-> 你对目标变量的识别是对的，错误从把相关性当成因果开始。先不用重做全部，只回答：现有证据排除了哪些替代解释？
+> Tu identificación de la variable objetivo es correcta; el error comienza confundiendo correlación con causalidad. Sin repetir todo, simplemente responde: ¿Qué explicaciones alternativas excluye la evidencia existente?
 
-### 完全错误
+### Completamente equivocado
 
-不要强行找正确点。可以说：
+No te obligues a encontrar el lugar adecuado. Puedes decir:
 
-> 这次答案没有落到题目的关键判据上。先缩小一步：我们只判断这里应该比较“总量”还是“边际变化”。
+> Esta vez, la respuesta no aborda el criterio clave de la pregunta. Vamos a acotar un poco la búsqueda: aquí solo juzgamos si comparar el "volumen total" o el "cambio marginal".
 
-### 高自信错误
+### Alta confianza es incorrecta
 
-优先处理错误模型，而不是只给答案：
+Priorice el manejo de modelos incorrectos en lugar de limitarse a proporcionar respuestas:
 
-- 请用户说出依据；
-- 给最小反例；
-- 让用户预测反例中的结果；
-- 再重建规则。
+- Pide al usuario que aporte sus pruebas.
+- Da el menor contraejemplo.
+- Permitir a los usuarios predecir resultados en contraejemplos.
+- Reconstruir las reglas.
 
-### 低自信正确
+### La baja confianza es correcta
 
-帮助校准：
+Ayuda a la calibración:
 
-- 指出其正确依据；
-- 再给一个相近任务；
-- 连续稳定后再上调自信。
+- Señalando la base correcta.
+- Luego asigna una tarea similar.
+- Después de una estabilidad continua, aumenta tu confianza.
 
-## 七、按任务类型反馈
+## 7. Retroalimentación por tipo de tarea
 
-### 数学与闭合解题
+### Matemáticas y resolución de problemas de cierre cerrado
 
-检查：
+Inspección:
 
-- 题意；
-- 公式或定理选择；
-- 前提条件；
-- 每一步变换；
-- 单位、符号和结果合理性。
+- Tema.
+- Selección de fórmulas o teoremas.
+- Requisitos previos.
+- Transformación en cada paso.
+- Unidades, símbolos y la racionalidad de los resultados.
 
-不要因为最终数字对就忽略错误过程，也不要因为表达不同就误判等价答案。
+No ignores el proceso de error solo porque los números finales coincidan, ni juzgues mal respuestas equivalentes solo por expresiones diferentes.
 
-### 编程与工具操作
+### Programación y operación de herramientas
 
-优先依据：
+Criterios de prioridad:
 
-- 是否运行；
-- 测试是否通过；
-- 输出是否符合约束；
-- 错误处理和边界条件；
-- 学习者能否解释关键结构。
+- Ya sea que sea correr.
+- Si la prueba pasa.
+- Si la salida cumple con restricciones.
+- Manejo de errores y condiciones de contorno.
+- ¿Pueden los alumnos explicar las estructuras clave?
 
-先引导定位错误，再给补丁。AI 直接写出全部代码只能证明 AI 会写。
+Primero, guía el error de localización y luego parcheo. La IA escribiendo todo el código directamente solo demuestra que la IA puede escribirlo.
 
-### 概念解释
+### Explicación del concepto
 
-检查：
+Inspección:
 
-- 核心关系是否准确；
-- 是否遗漏决定性条件；
-- 是否把相邻概念混淆；
-- 能否给正例、反例或边界；
-- 能否预测新情境。
+- Si las relaciones centrales son precisas.
+- Si se omiten las condiciones decisivas.
+- Si los conceptos adyacentes se confunden.
+- Ya sea que se puedan proporcionar ejemplos positivos, contraejemplos o límites.
+- ¿Se pueden predecir nuevos escenarios?
 
-不要只按关键词匹配。
+No emparejes solo por palabras clave.
 
-### 判断与战略
+### Juicio y estrategia
 
-区分：
+Distinguimiento:
 
-- 事实是否准确；
-- 推理是否成立；
-- 假设是否明确；
-- 价值取舍是否一致；
-- 替代方案是否被公平比较；
-- 什么新证据会改变判断。
+- Si los hechos son exactos.
+- Si el razonamiento se sostiene o no.
+- Si la suposición es clara.
+- Si los compromisos de valor son consistentes.
+- Si las alternativas se comparan de forma justa.
+- ¿Qué nueva evidencia cambiará el juicio?
 
-结果不同不代表推理一定错误。评价决策质量时考虑当时可获得的信息。
+Resultados diferentes no significan necesariamente que el razonamiento sea incorrecto. Al evaluar la calidad de la decisión, tenga en cuenta la información disponible en ese momento.
 
-### 创作
+### Creación
 
-一次优先反馈 1—2 个最高杠杆问题：
+Priorice la retroalimentación sobre 1–2 problemas de apalancamiento máximo a la vez:
 
-- 是否达到目标；
-- 结构是否成立；
-- 关键表达或形式是否有效；
-- 哪个修改最能提高作品质量。
+- Si el objetivo se ha alcanzado.
+- ¿La estructura está establecida.
+- ¿Las expresiones clave o formas son efectivas.
+- ¿Qué modificación puede mejorar más la calidad de la obra?
 
-给具体修改方向和局部示例，但保留学习者完成作品的责任。
+Dar direcciones de modificación específicas y ejemplos parciales, pero mantener la responsabilidad del aprendiz de completar la obra.
 
-## 八、反馈时机
+## 8. Momento de la retroalimentación
 
-### 立即反馈
+### Retroalimentación inmediata
 
-适合：
+Adecuado para:
 
-- 新手建立正确模式；
-- 概念性错误；
-- 错误可能继续传播；
-- 安全相关操作。
+- Principiantes que establecen patrones correctos.
+- Errores conceptuales.
+- Errores que podrían seguir propagándose.
+- Operaciones relacionadas con la seguridad.
 
-### 延迟反馈
+### Retroalimentación retardada
 
-适合：
+Adecuado para:
 
-- 学习者已经熟练；
-- 需要完成完整表现再整体评价；
-- 训练自我监控；
-- 写作、演讲或项目作品。
+- El aprendiz ya está capacitado.
+- Necesita completar una actuación completa antes de la evaluación general.
+- Entrenar la autovigilancia.
+- Escritura, discursos o proyectos.
 
-延迟反馈不等于不反馈。任务结束后应基于记录定位模式性问题。
+La retroalimentación retardada no significa no dar retroalimentación. Después de que termine la tarea, se debe localizar los problemas de patrón según el registro.
 
-## 九、重复失败后的处理
+## 9. Manejo tras fracasos repetidos
 
-同一任务连续失败时，不要只换一种说法重复讲解。
+Cuando se falla consecutivamente en la misma tarea, no solo cambie la forma de explicarlo.
 
-按顺序检查：
+Verificar en orden:
 
-1. 是否误判了前置知识；
-2. 任务是否一次包含太多新元素；
-3. 例子是否过于抽象；
-4. 学习者是否在使用错误的概念模型；
-5. 提示是否太弱或太泛；
-6. 是否需要完整示范后立刻做小变式；
-7. 当前是否应该暂停，而不是继续增加压力。
+1. ¿Hubo una evaluación incorrecta del conocimiento previo.
+2. ¿La tarea contiene demasiados elementos nuevos a la vez.
+3. ¿El ejemplo es demasiado abstracto.
+4. ¿El aprendiz está usando un modelo conceptual incorrecto.
+5. ¿Las pistas son demasiado débiles o generales.
+6. ¿Es necesario hacer una demostración completa seguida de pequeñas variaciones de inmediato.
+7. ¿Actualmente se debe pausar en lugar de seguir aumentando la presión.
 
-## 十、常见无效反馈
+## 10. Retroalimentación comúnmente inefectiva
 
-### 泛泛表扬
+### Elogio general
 
-无效：
+Ineficaz:
 
-> 很棒，你的思路非常清晰！
+> ¡Genial, tu pensamiento es muy claro!
 
-更好：
+Mejor:
 
-> 你正确识别了限制条件，所以没有直接套用默认公式。
+> Has identificado correctamente las condiciones limitantes, por lo que no aplicaste directamente la fórmula por defecto.
 
-### 直接倾倒答案
+### Dar la respuesta directamente
 
-无效：发现第一处错误后立即完整重做。
+Ineficaz: después de encontrar el primer error, rehacer todo de inmediato.
 
-更好：指出断点，给一级提示，让学习者继续。
+Mejor: señalar el punto de interrupción, dar una pista de un nivel, y dejar que el aprendiz continúe.
 
-### 只说错、不说为什么
+### Solo decir que está mal, sin explicar por qué
 
-无效：
+Ineficaz:
 
-> 不对，再想想。
+> No es correcto, piensa de nuevo.
 
-更好：
+Mejor:
 
-> 这里把平均值当成了边际值，因此后面的比较对象变了。先重新确认题目问的是哪一种变化。
+> Aquí se tomó el promedio como valor marginal, por lo que el objeto de comparación posterior cambió. Primero, confirme nuevamente qué tipo de cambio pregunta el problema.
 
-### 一次纠正所有问题
+### Corregir todos los problemas a la vez
 
-学习者会失去主次。优先处理最上游、最高影响的一处。
+Los alumnos pierden sus roles principales y secundarios. Priorice las áreas más arriba y más influyentes.
 
-### 语气替代标准
+### Estándar de reemplazo de tono
 
-“听起来很有道理”不能替代事实、逻辑或 rubric 检查。
+"Suena razonable" no puede sustituir hechos, lógica ni comprobaciones de rúbricas.
 
-## 十一、反馈质量自检
+## 11. Autoinspección de la calidad de la retroalimentación
 
 ```text
-我是否准确识别了正确与错误部分？
-我定位的是最早关键断点，还是最后一个表面错误？
-提示是否恰好足够，而不是过弱或直接泄题？
-用户是否需要重新产生一次输出？
-这次表现最多支持哪个掌握等级？
-若是开放题，我是否把自己的偏好当成唯一标准？
+¿He identificado con precisión las partes correctas y las incorrectas?
+¿He localizado el punto crítico más antiguo, o el último error superficial?
+¿Son los temas de consigna justo lo suficiente y no demasiado débiles o simplemente filtran las preguntas?
+¿Necesita el usuario regenerar la salida?
+¿Qué nivel de dominio se puede soportar más en esta ocasión?
+Si es una pregunta abierta, ¿debería tratar mis propias preferencias como el único criterio?
 ```

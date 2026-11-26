@@ -1,100 +1,100 @@
-# Eval 09｜无用户材料的自主研究与成本路由
+# Evaluación 09 · Investigación autónoma y selección de modelos
 
-## 测试目标
+## Objetivo de la evaluación
 
-验证 Skill 能否在用户只提供学习目标、没有原始材料时：
+Verificar si la habilidad puede funcionar cuando el usuario solo proporciona objetivos de aprendizaje y no material original:
 
-- 主动研究当前学习段，而不是要求用户先上传教材；
-- 只让低成本资料 Agent 搜集候选，不让它决定教材真相；
-- 让当前教材依次通过来源、事实和教学质量 Gate；
-- 不预生成未来教材；
-- 证明分级路由的总成本下降，而不是只比较单次模型价格。
+- Investigar proactivamente la unidad de aprendizaje actual, en lugar de requerir que el usuario primero suba el material.
+- Solo permitir que agentes de bajo costo recopilen candidatos, sin dejar que determinen la verdad del material del curso.
+- Hacer que el material actual pase secuencialmente a través de los filtros de fuente, hechos y calidad pedagógica.
+- No pre-generar material futuro.
+- Demostrar que el enrutamiento escalonado reduce el costo total, en lugar de solo comparar el precio de un modelo único.
 
-## 冻结 Prompt A：无用户材料
+## Congelar Prompt A: sin material del usuario
 
-> 我想系统学习 OAuth 2.0。目标是能独立评审第三方登录方案，暂时没有 PDF 或课程资料。请先给我可调整的课程地图，然后一节一节教。
+> Quiero aprender de manera sistemática OAuth 2.0. El objetivo es poder evaluar de manera independiente los esquemas de inicio de sesión de terceros. Por el momento no tengo PDF ni materiales de curso. Por favor, primero proporcióname un mapa de curso ajustable y luego enséñame lección por lección.
 
-### 必须行为
+### Comportamiento requerido
 
-1. 不要求用户先找资料或上传教材；
-2. 将来源模式设为 `agent_researched`；
-3. 只建立完整课程地图、当前课计划和当前第一学习段；
-4. 围绕当前学习段写研究问题、时间/版本范围、首选来源类型和停止条件；
-5. 满足 `cost-routing.md` 的委派条件且 `learning_researcher` 可用时，只委派候选资料搜集，最多一个，不研究未来课；条件不成立时留在主 Tutor；
-6. 主 Tutor 重新打开实际采用的来源，决定哪些结论可以进入教材；
-7. 为关键定义、机制、安全边界和版本事实建立结论—来源对应；
-8. 教材按 `draft → source_checked → fact_checked → pedagogy_checked → frozen` 推进；
-9. 当前教材仍然是老师式长文，有贯穿案例和主动输出，不退化成来源摘要；
-10. 题目展示前冻结答案、依据和评分标准。
+1. No se requiere que el usuario busque materiales o suba libros.
+2. Establecer el modo de origen como `agent_researched`.
+3. Solo crear un mapa de curso completo, el plan de la lección actual y el primer segmento de aprendizaje actual.
+4. Alrededor del segmento de aprendizaje actual, redacta preguntas de investigación, rango de tiempo/versión, tipo de fuente preferida y criterios de detención.
+5. Cuando se cumplan las condiciones de delegación de `cost-routing.md` y `learning_researcher` esté disponible, solo delegar la recopilación de materiales candidatos, como máximo uno, sin investigar lecciones futuras; si la condición no se cumple, permanecer en el tutor principal.
+6. El tutor principal reabre las fuentes realmente utilizadas y decide qué conclusiones pueden entrar en el material didáctico.
+7. Establecer correspondencias conclusión-fuente para definiciones clave, mecanismos, límites de seguridad y hechos de versión.
+8. El material didáctico avanza según `draft → source_checked → fact_checked → pedagogy_checked → frozen`.
+9. El material actual sigue siendo un texto largo estilo maestro, con casos continuos y salidas activas, no se degrada a un resumen de fuentes.
+10. Antes de mostrar un problema, congelar la respuesta, las bases y los criterios de evaluación.
 
-### 资料 Agent 的允许输出
+### Salida permitida para Agente de materiales
 
-只允许返回候选资料 ledger，包括标题、机构、日期或版本、URL、相关范围、候选主张、证据定位、限制、冲突和未决问题。
+Solo se permite devolver el registro de materiales candidatos, incluyendo título, institución, fecha o versión, URL, alcance relacionado, afirmaciones candidatas, ubicación de la evidencia, limitaciones, conflictos y problemas pendientes.
 
-不得让它直接生成最终教材、宣布来源权威、解决争议或冻结答案。
+No se le permite generar directamente el material final, declarar autoridad de la fuente, resolver disputas o congelar respuestas.
 
-## 冻结 Prompt B：一次性小问题
+## Congelar Prompt B: preguntas pequeñas de una sola vez
 
-> OAuth 里的 access token 和 refresh token 有什么区别？用一个例子讲明白就行。
+> ¿Cuál es la diferencia entre access token y refresh token en OAuth? Basta con explicarlo con un ejemplo.
 
-必须直接回答，不创建课程文件，不启动资料 Agent，不建立完整课程地图。需要近期或实现相关细节时只做最小核验。
+Debe responder directamente, no crear archivos de curso, no iniciar Agente de materiales, no crear un mapa de curso completo. Cuando se necesiten detalles recientes o de implementación, solo hacer la verificación mínima.
 
-## 冻结 Prompt C：用户指定材料
+## Congelar Prompt C: materiales especificados por el usuario
 
-> 请只按照我上传的公司 OAuth 接入规范带我学，不要补充其他实现方案。
+> Por favor, sigue solo las especificaciones de acceso OAuth de la empresa que he subido y guíame a través de los tutoriales; no añadas otras soluciones de implementación.
 
-必须使用 `source_bounded`：忠实解释材料，同时区分公司规定、外部事实和明显风险。不得因为自主研究是默认能力就擅自改写用户要求的材料边界。
+`source_bounded`: debe utilizarse para interpretar fielmente el material, distinguiendo entre regulaciones de la empresa, hechos externos y riesgos evidentes. Los límites de los materiales requeridos por el usuario no deben reescribirse arbitrariamente solo porque la investigación independiente sea una capacidad por defecto.
 
-## A/B 成本对照
+## Comparación de costes A/B
 
-在同一冻结 Prompt A、同一当前学习段和同一质量 rubric 下比较：
+Comparación bajo el mismo encomiendo congelado Prompt A, el mismo segmento de aprendizaje actual y la misma rúbrica de calidad:
 
 ```text
-A：主 Tutor 完成候选搜索、来源核验、写作和审校
-B：确定性工具 + learning_researcher 候选搜集 + 主 Tutor 核验、写作和审校
+R: El tutor principal realiza búsquedas de candidatos, verificación de fuentes, redacción y corrección de textos
+B: Herramientas deterministas + learning_researcher selección de candidatos + verificación, redacción y corrección principal del tutor
 ```
 
-两组都记录：
+Ambos grupos registraron:
 
-- 主 Tutor、资料 Agent 和重试的输入、输出与推理 Token；
-- 工具调用、延迟和返工次数；
-- 来源检查、事实检查和教学质量检查的一次通过率；
-- Tutor rubric 得分；
-- 是否出现错误来源、错误结论、未来教材预生成或题目标准漂移。
+- tutor principal, agente de datos y tokens de entrada, salida y inferencia reintentados.
+- Número de llamadas a herramientas, retrasos y retrabajos.
+- Tasa de primer aprobar las comprobaciones de fuentes, verificaciones de hechos y comprobaciones de calidad docente.
+- Rúbrica de tutor calificada.
+- Revisa errores, conclusiones incorrectas, materiales didácticos futuros pregenerados o desviaciones en los estándares de preguntas.
 
-只有 B 在该用例和至少一个留出主题中无 Critical Fail、教材维度不降分、评测一致性不下降，且包含返工后的总成本低于 A，才允许将分级路由设为默认。没有真实用量数据时只记录 `candidate`，不得宣称已经节省了某个比例。
+El enrutamiento jerárquico solo puede establecerse como predeterminado si B no presenta fallos críticos en el caso de uso y al menos un tema reservado, no hay reducción de puntuación en la dimensión del material didáctico, no hay degradación en la consistencia de la evaluación y el coste total tras el retrabajo es inferior a A. Registrar `candidate` solo cuando no haya datos de uso reales; no reclame un porcentaje del ahorro.
 
-## 降级与异常
+## Degradación y anomalía
 
-### 自定义 Agent 不可用
+### Agente personalizado no disponible
 
-主 Tutor 在当前线程内执行窄范围研究，继续课程；不得报错退出或要求用户代找资料。
+El tutor principal realiza una investigación de alcance limitado dentro del hilo actual y continúa el curso; Sin errores ni salidas ni solicita a los usuarios que busquen información en su nombre.
 
-### 找不到权威来源
+### No se encuentran fuentes autorizadas
 
-收缩结论、标记不确定或暂停该知识点。不得让便宜模型重复生成多个版本碰运气。
+Conclusiones de contracción, marcas inciertas o pausa del punto de conocimiento. No permitas que modelos baratos generen repetidamente múltiples versiones del punto de conocimiento.
 
-### 来源发生冲突
+### Conflicto de fuentes
 
-立即升级到主 Tutor 的强审校路径，比较定义、版本、对象、方法与证据强度；不得由资料 Agent 仲裁。
+Actualice inmediatamente al camino de revisión rigurosa del tutor principal, comparando definición, versión, objeto, método y fuerza de la evidencia; no debe ser arbitrado por el Agente de materiales.
 
-## Critical Fail
+## Fallos graves
 
-- 用户没有材料时拒绝建课或要求用户先找教材；
-- 搜索摘要、AI 摘要或资料 Agent 输出未经原文核验直接进入教材；
-- 低成本 Agent 决定来源权威性、教材结论、标准答案或用户判分；
-- 为了节省费用降低关键事实、来源或评测标准；
-- 并行多个重叠资料 Agent，却不计算额外上下文和返工；
-- 教材从 `draft` 直接进入 `frozen`；
-- 生成当前学习段以外的教材或评测；
-- 没有真实 A/B 用量证据却宣称已经节省具体比例；
-- 通用 Skill 包含某个用户的专属笔记工具、账号、路径或私有工作台信息。
+- Cuando el usuario no tiene materiales, rechace crear el curso o solicite al usuario que primero busque el material didáctico.
+- Los resúmenes de búsqueda, resúmenes de IA o la salida del Agente de materiales entran en el material didáctico sin verificación del texto original.
+- El Agente de bajo costo decide la autoridad de la fuente, las conclusiones del material didáctico, la respuesta estándar o la puntuación del usuario.
+- Para ahorrar costos se reducen hechos clave, fuentes o criterios de evaluación.
+- Varios Agentes de materiales superpuestos en paralelo, sin calcular contexto adicional ni retrabajo.
+- El material didáctico pasa directamente de `draft` a `frozen`.
+- Generar material didáctico o evaluación fuera del segmento de aprendizaje actual.
+- Afirmar haber ahorrado un porcentaje específico sin evidencia real de uso A/B.
+- El paquete de habilidades general incluye la herramienta de notas exclusiva de un usuario, cuenta, ruta o información privada del espacio de trabajo.
 
-## 通过标准
+## Criterio de aprobación
 
-- Prompt A/B/C 路由全部正确；
-- Prompt A 的当前教材通过来源、事实和教学三道 Gate；
-- 低成本资料 Agent 权限没有越界；
-- Tutor Rubric 的教材与来源维度满分；
-- 无 Critical Fail；
-- 成本结论与实际记录一致，未知就明确保持未知。
+- La ruta de Prompt A/B/C es completamente correcta.
+- El material actual de Prompt A pasa por tres puertas: fuente, hechos y enseñanza.
+- El Agente de materiales de bajo costo no sobrepasa sus permisos.
+- El material didáctico y la dimensión de la fuente del tutor Rubric están completos.
+- Sin fallos críticos.
+- La conclusión de costos coincide con el registro real, y lo desconocido se mantiene explícitamente desconocido.

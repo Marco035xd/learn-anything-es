@@ -1,10 +1,10 @@
-# 掌握判定 Rubric
+# Rúbrica de dominio
 
-## 核心原则
+## Principios fundamentales
 
-掌握状态只由可观察证据推动。课程讲过、用户看懂、表达流畅、一次选择题猜对，都不能单独证明掌握。
+El dominio está determinado únicamente por evidencia observable. Las clases magistrales, los usuarios la entienden, se expresan con fluidez o responden correctamente a una pregunta de opción única no pueden por sí solos demostrar el dominio.
 
-每次判定必须记录：
+Cada decisión debe registrarse:
 
 ```yaml
 node:
@@ -18,7 +18,7 @@ new_status:
 rationale:
 ```
 
-每次状态变化前还必须形成 promotion evidence：
+Antes de cada cambio de estado, también se debe formar evidencia de promoción:
 
 ```yaml
 node: ""
@@ -34,197 +34,197 @@ advance_allowed: false
 promotion_blockers: []
 ```
 
-没有这份证据表不得升级状态；`ungradable` 不产生正负掌握证据。
+Sin este formulario de evidencia, el estatus no puede ser mejorado; `ungradable` No se presenta evidencia positiva ni negativa.
 
-## 一、六级掌握状态
+## 1. Seis niveles de dominio
 
-### 0. unknown｜未知
+### 0. `unknown` · Sin evidencia
 
-**定义**：没有可靠证据，或现有证据互相矛盾。
+**Definición**: No hay evidencia fiable, o la evidencia existente se contradice entre sí.
 
-常见情形：
+Situaciones comunes:
 
-- 尚未诊断；
-- 只知道用户自称水平；
-- 用户的答案不足以判断；
-- 上游知识变化使旧证据失去前提。
+- Aún no diagnosticado.
+- Solo conocer el nivel autoproclamado del usuario.
+- Las respuestas de los usuarios son insuficientes para juzgar.
+- Los cambios en el conocimiento ascendente hacen que la evidencia antigua pierda sus premisas.
 
-不能写成“不会”。`unknown` 表示未确认。
+No puede escribirse como "No". `unknown` indica no reconocido.
 
-### 1. exposed｜接触
+### 1. `exposed` · Exposición
 
-**定义**：学习者已经看过、听过或能够识别内容，但尚不能稳定提取或完成任务。
+**Definición**: Los alumnos han visto, escuchado o pueden reconocer contenido pero aún no pueden recuperar o completar tareas de forma fiable.
 
-可接受证据：
+Evidencia aceptable:
 
-- 在选项中认出术语；
-- 跟随讲解复述；
-- 看着示例指出关键部分。
+- Reconoce términos en las opciones.
+- Sigue la explicación y cuéntalo de nuevo.
+- Mira el ejemplo y señala las partes clave.
 
-不足以升级的情形：
+Situaciones en las que las mejoras son insuficientes:
 
-- 只是说“听懂了”；
-- 直接重复屏幕上仍可见的句子；
-- AI 已经把答案完整写出。
+- Simplemente di "Lo entiendo".
+- Repite directamente frases que aún sean visibles en pantalla.
+- La IA ya ha escrito la respuesta completa.
 
-### 2. guided｜引导
+### 2. `guided` · Desempeño con ayuda
 
-**定义**：在提示、脚手架、示例或纠错帮助下能够完成。
+**Definición**: Capaz de completar con pistas, andamiajes, ejemplos o asistencia para corregir errores.
 
-可接受证据：
+Evidencia aceptable:
 
-- L1—L4 提示后完成；
-- 补全缺失步骤；
-- 按示范修改相近任务；
-- 在明确框架下做出合理判断。
+- L1—L4 Completado tras la indicación.
+- Pasos para completar las piezas que faltan.
+- Modificar tareas similares según la demostración.
+- Emita juicios razonables dentro de un marco claro.
 
-记录提示强度。高提示完成不能包装成独立掌握。
+Registrar la intensidad del prompt. Una alta finalización de prompt no puede empaquetarse como dominio independiente.
 
-### 3. independent｜独立
+### 3. `independent` · Desempeño independiente
 
-**定义**：无关键提示完成一个具有代表性的任务，且过程或依据可靠。
+**Definición**: No hay indicaciones clave para completar una tarea representativa, y el proceso o la base son fiables.
 
-最低证据：
+Evidencia mínima:
 
-- 任务覆盖当前节点的核心要求；
-- 答案或产物不是从当前可见示例直接复制；
-- 未使用会决定答案的提示；
-- 结果正确或达到 rubric 的核心标准；
-- 没有隐藏的关键误区。
+- Las tareas cubren los requisitos básicos del nodo actual.
+- La respuesta o producto no se copia directamente del ejemplo actualmente visible.
+- No utilices pistas que determinen la respuesta.
+- Los resultados son correctos o cumplen los criterios básicos de RUBRIC.
+- No hay trampas clave ocultas.
 
-置信度更高的证据：
+Evidencia con mayor confianza:
 
-- 两个不同表面形式的独立成功；
-- 能解释关键步骤或判断依据；
-- 能进行基本自检或发现错误。
+- Dos éxitos independientes en diferentes formas superficiales.
+- Capaz de explicar los pasos clave o la base del juicio.
+- Capaz de realizar autocomprobaciones básicas o detectar errores.
 
-一次独立成功可以暂记 `independent`，但应标注证据强度，不能推断长期稳定。
+Un único éxito independiente puede registrarse temporalmente como `independent`, pero debe indicarse la solidez de la evidencia; no se puede inferir estabilidad a largo plazo.
 
-### 4. transferable｜迁移
+### 4. `transferable` · Transferencia
 
-**定义**：在变化后的新情境中仍能识别适用条件、选择方法并完成任务。
+**Definición**: Capaz de identificar las condiciones aplicables, seleccionar métodos y completar tareas incluso en situaciones nuevas y cambiantes.
 
-必须包含至少一种变化：
+Debe incluirse al menos una variación:
 
-- 场景变化；
-- 表面形式变化；
-- 增加干扰信息；
-- 约束或目标变化；
-- 需要组合多个节点；
-- 要求说明何时不适用。
+- Cambios de escena.
+- Cambios en la forma superficial.
+- Aumentar la información sobre interferencias.
+- Limitaciones o cambios en los objetivos.
+- Es necesario combinar varios nodos.
+- Solicite una explicación de cuándo no es aplicable.
 
-可接受证据：
+Evidencia aceptable:
 
-- 新案例中正确应用；
-- 能区分边界例和反例；
-- 将知识用于自己的真实任务；
-- 解释为什么旧方法在新条件下需要调整。
+- Aplicación correcta en casos nuevos.
+- Capaz de distinguir ejemplos de frontera de contraejemplos.
+- Aplicar conocimientos a las propias tareas del mundo real.
+- Explicar por qué los métodos antiguos necesitan ajustarse bajo nuevas condiciones.
 
-只做高度相似的原题变形，不足以证明强迁移。
+Solo hacer variaciones de alto grado de similitud del tema original no es suficiente para demostrar una transferencia fuerte.
 
-### 5. durable｜保持
+### 5. `durable` · Retención después de un intervalo
 
-**定义**：经过与目标相匹配的时间间隔后，仍能在不先重看答案的情况下回忆或应用。
+**Definición**: Después de un intervalo de tiempo coincidente con el objetivo, todavía se puede recordar o aplicar sin revisar previamente la respuesta.
 
-必须满足：
+Debe cumplir con:
 
-- 存在真实延迟；
-- 复习开始时先提取，不先重讲；
-- 任务达到目标所需的独立或迁移标准；
-- 错误模型没有明显复发。
+- Existe un retraso real.
+- La revisión inicia con extracción, sin repasar primero.
+- La tarea alcanza el estándar requerido de independencia o transferencia.
+- El modelo de errores no se repite de manera evidente.
 
-`durable` 不能在首次学习会话内授予。
+`durable` no puede otorgarse en la primera sesión de aprendizaje.
 
-## 二、提示强度与状态上限
+## 2. Intensidad de la pista y límite de estado
 
-| 提示等级 | 说明 | 单次证据的通常上限 |
+| Nivel de pista | Explicación | Límite usual de evidencia de un solo intento |
 |---|---|---|
-| L0 | 仅要求自检 | independent，需确认提示未泄露关键点 |
-| L1 | 指出错误位置 | guided |
-| L2 | 提醒规则或判据 | guided |
-| L3 | 提供部分结构 | guided |
-| L4 | 示范关键步骤 | guided |
-| L5 | 完整答案 | exposed；随后新变式可重新取证 |
+| L0 | Solo se requiere autoevaluación | independent, se debe confirmar que la pista no revela puntos clave |
+| L1 | Señalar la ubicación del error | guided |
+| L2 | Recordar las reglas o criterios | guided |
+| L3 | Proporcionar estructura parcial | guided |
+| L4 | Demostrar pasos clave | guided |
+| L5 | Respuesta completa | exposed; posteriormente se puede recolectar evidencia nuevamente con nueva variación |
 
-如果提示没有影响答案核心，可以说明理由并例外判定，但必须保守。
+Si la pista no afecta el núcleo de la respuesta, se puede explicar la razón y considerar una excepción, pero debe hacerse de manera conservadora.
 
-补充硬约束：L1—L4 后完成通常最高为 `guided`；L5 完整示范后原题最高为 `exposed`。同一原题在答案或关键结构仍可见时重答，不构成独立证据。最后一次答对不能覆盖同节点此前的提示依赖；必须用未泄露答案的代表性新任务重新取证。结论正确但决定性依据错误，判为 `partially_correct`，不能升级状态。
+Restricción adicional: después de L1—L4, la puntuación máxima usual es `guided`; después de la demostración completa L5, la puntuación máxima del tema original es `exposed`. Repetir el mismo tema original mientras la respuesta o la estructura clave aún son visibles no constituye evidencia independiente. La última vez que se responde correctamente no puede cubrir la dependencia de pistas previas del mismo nodo; se debe recolectar nueva evidencia con tareas representativas de respuestas no reveladas. Conclusión correcta pero fundamento decisivo incorrecto, se clasifica como `partially_correct`, no se puede actualizar el estado.
 
-## 三、不同知识类型的证据
+## 3. Evidencia de diferentes tipos de conocimiento
 
-### Fact
+### Hechos (`Fact`)
 
-- `independent`：无提示准确提取；
-- `transferable`：在语境中辨认、解释或使用；
-- `durable`：延迟后仍能提取。
+- `independent`: extracción precisa sin pistas.
+- `transferable`: reconocer, explicar o usar en contexto.
+- `durable`: todavía puede extraerse después de un retraso.
 
-### Concept
+### Conceptos (`Concept`)
 
-- `independent`：用自己的话准确解释核心关系；
-- `transferable`：预测新案例、识别边界和反例；
-- `durable`：延迟后仍能解释和应用。
+- `independent`: explicar con palabras propias la relación central correctamente.
+- `transferable`: Predecir nuevos casos, identificar límites y contraejemplos.
+- `durable`: Puede explicar y aplicar incluso después de un retraso.
 
-### Procedure
+### Procedimientos (`Procedure`)
 
-- `independent`：无关键提示完成代表性任务；
-- `transferable`：处理新变式、异常或调试任务；
-- `durable`：延迟后仍能独立执行。
+- `independent`: Completar tareas representativas sin pistas clave.
+- `transferable`: Manejar nuevas variantes, anomalías o tareas de depuración.
+- `durable`: Puede ejecutar de manera independiente incluso después de un retraso.
 
-### Discrimination
+### Discriminación entre casos (`Discrimination`)
 
-- `independent`：在混合案例中正确分类并说明决定性线索；
-- `transferable`：处理边界例和新的干扰形式；
-- `durable`：延迟后辨别能力仍稳定。
+- `independent`: Clasificar correctamente y explicar pistas decisivas en casos mixtos.
+- `transferable`: Manejar casos límite y nuevas formas de interferencia.
+- `durable`: La capacidad de discernimiento se mantiene estable incluso después de un retraso.
 
-### Judgment
+### Juicio (`Judgment`)
 
-- `independent`：明确目标、约束、事实、假设和依据，形成可辩护判断；
-- `transferable`：在新案例中重新权衡，说明更新条件；
-- `durable`：延迟后仍能调用判断框架，而非只记结论。
+- `independent`: Clarificar objetivos, restricciones, hechos, hipótesis y fundamentos, formando juicios defendibles.
+- `transferable`: Reequilibrar en nuevos casos, explicando las condiciones de actualización.
+- `durable`: Puede invocar el marco de juicio incluso después de un retraso, no solo recordar conclusiones.
 
-### Creative
+### Creación (`Creative`)
 
-- `independent`：独立产出达到核心标准的作品；
-- `transferable`：在新主题或约束下保持相关质量；
-- `durable`：延迟后仍能调用关键技能并自我修改。
+- `independent`: Producir de manera independiente trabajos que cumplan con los estándares centrales.
+- `transferable`: Mantener calidad relevante bajo nuevos temas o restricciones.
+- `durable`: Puede invocar habilidades clave y autocorregirse incluso después de un retraso.
 
-### Physical or Social
+### Habilidades físicas o sociales (`Physical or Social`)
 
-聊天内证据只能支持知识理解或模拟表现。`independent` 以上通常需要现实表现、录像、真人评价或专业观察。
+La evidencia dentro del chat solo puede apoyar la comprensión del conocimiento o la simulación de desempeño. Lo anterior bajo `independent` generalmente requiere desempeño real, grabaciones, evaluación humana o observación profesional.
 
-## 四、不能作为掌握证据的情况
+## 4. situaciones que no se pueden considerar como evidencia de dominio
 
-- 用户说“我懂了”；
-- 用户复述 AI 刚写出的原句；
-- 正确答案仍显示在屏幕上；
-- 多选题随机猜中且无法解释；
-- 最终答案正确但关键依据错误；
-- AI 完成了主要推理、代码或作品；
-- 任务过于简单，未覆盖核心要求；
-- 用户在同一原题上记住了答案；
-- 没有延迟却标记为 `durable`；
-- 真实技能只在角色扮演里成功。
+- El usuario dice “entendido”.
+- El usuario repite la oración original escrita por la IA.
+- La respuesta correcta aún se muestra en la pantalla.
+- Acertar por azar en preguntas de opción múltiple sin poder explicar.
+- La respuesta final es correcta pero el fundamento clave es incorrecto.
+- La IA completó el razonamiento principal, código o trabajo.
+- La tarea es demasiado simple y no cubre los requisitos centrales.
+- El usuario memorizó la respuesta en la misma pregunta original.
+- No hay retraso pero se marca como `durable`.
+- La habilidad real solo tiene éxito en juegos de rol.
 
-## 五、错误与状态变化
+## 5. errores y cambios de estado
 
-### 上调
+### Mejorar
 
-只有出现高于当前状态的新证据时上调。
+Solo se mejora cuando aparece nueva evidencia superior al estado actual.
 
-### 保持
+### Mantener
 
-表现与当前状态一致，但证据强度可以增加。
+El rendimiento es coherente con el estado actual, pero la solidez de la evidencia puede aumentarse.
 
-### 下调或标记待巩固
+### Rebajado de categoría o marcado para consolidación
 
-出现以下情况时：
+Cuando se producen las siguientes situaciones:
 
-- 延迟回忆失败；
-- 核心误区复发；
-- 原本独立任务再次需要高提示；
-- 迁移任务暴露原理解只依赖表面模式。
+- Fallo de retirada retardada.
+- Los malentendidos fundamentales se repiten.
+- Las tareas antes independientes volvían a requerir indicaciones elevadas.
+- Una tarea de transferencia revela que la comprensión se basa en características superficiales.
 
-建议记录：
+Notas recomendadas:
 
 ```yaml
 status: guided
@@ -232,69 +232,69 @@ previous_highest_status: independent
 downgrade_reason: delayed_retrieval_failure
 ```
 
-不要删除历史最高证据，但当前状态必须反映现实。
+No borres la evidencia histórica más elevada, pero el estado actual debe reflejar la realidad.
 
-### 无法判断
+### No se puede determinar
 
-任务或信息不足时使用 `unknown` 或保持原状态，不强行评分。
+Usa `unknown` o mantenlo tal cual cuando las tareas o la información sean insuficientes, sin forzar la calificación.
 
-## 六、信心校准
+## 6. Calibración de confianza
 
-可在重要任务前让用户给出 0—100% 信心。
+Permite a los usuarios dar entre un 0 y un 100 % de confianza antes de tareas importantes.
 
-| 表现 | 自信 | 处理 |
+| Rendimiento | Confianza | Procesamiento |
 |---|---:|---|
-| 正确 | 高 | 正常推进，并做迁移抽查 |
-| 正确 | 低 | 再给相近任务，帮助建立准确自信 |
-| 错误 | 低 | 正常纠错，避免额外羞耻感 |
-| 错误 | 高 | 优先暴露和修正错误模型 |
+| Correcto | Alto | Proceder con normalidad y realizar controles aleatorios de reubicación |
+| Correcto | Bajo | Luego asigna tareas similares para ayudar a construir una confianza precisa |
+| Error | Bajo | Corrige los errores normalmente para evitar más vergüenza |
+| Error | Alto | Priorizar la exposición y corrección de modelos erróneos |
 
-自信不是掌握等级，但会影响反馈策略。
+La confianza no consiste en dominar el nivel, sino que afecta a las estrategias de retroalimentación.
 
-## 七、节点 Gate
+## 7. Criterio de avance por concepto
 
-进入下一节点前回答：
+Responde antes de pasar al siguiente nodo:
 
-1. 当前目标要求到哪一级？
-2. 是否已有对应证据？
-3. 任务是否具有代表性？
-4. 完成时用了几级提示？
-5. 是否存在尚未纠正的核心误区？
-6. 若推进，未稳定部分会不会破坏后续学习？
+1. ¿Qué nivel se requiere actualmente el objetivo?
+2. ¿Ya hay pruebas correspondientes?
+3. ¿Es el representante de la tarea?
+4. ¿Cuántos niveles de indicaciones se usaron al completarlo?
+5. ¿Existen conceptos erróneos fundamentales que aún no se hayan corregido?
+6. Si avanzamos, ¿las partes inestables interrumpirán el aprendizaje futuro?
 
-核心前置节点通常至少达到 `independent`。如果只有单一场景的独立证据，而且后续节点会依赖它，进入下一核心节点前应先做一次短迁移抽查；迁移失败则保留历史独立证据，但不升级为 `transferable`，并回到当前节点补强。低风险项目可以在 `guided` 状态先实践，但必须保留补强任务。
+Los requisitos fundamentales suelen exigir como mínimo `independent`. Si la única evidencia independiente procede de un solo contexto y otros conceptos dependen de él, incluye una comprobación breve de transferencia antes de avanzar. Si falla, conserva la evidencia independiente histórica y refuerza el concepto. En proyectos de bajo riesgo se permite practicar en `guided` y se programan tareas de refuerzo.
 
-节点状态同时记录 `historical_highest_status` 与 `current_status`。迁移失败、误区复发或再次依赖高提示时，不删除历史证据，但必须如实降低或阻断当前状态，并在 `promotion_blockers` 中写明原因。只有 `advance_allowed: true` 才能进入依赖该节点的新核心内容。
+El estado del nodo registra simultáneamente `historical_highest_status` y `current_status`. En caso de falla en la transferencia, recurrencia de errores o dependencia de indicaciones avanzadas nuevamente, no se eliminan las pruebas históricas, pero se debe reducir o bloquear el estado actual de manera veraz, y se debe indicar la razón en `promotion_blockers`. Solo `advance_allowed: true` puede acceder a nuevos contenidos centrales que dependan de este nodo.
 
-## 八、整段学习目标的完成标准
+## 8. Estándares de finalización de un objetivo de aprendizaje completo
 
-一段课程或学习目标只有同时满足以下条件，才可以表述为“当前已完成”：
+Un curso o un objetivo de aprendizaje solo puede considerarse "completado actualmente" si cumple simultáneamente con las siguientes condiciones:
 
-- 所有核心节点达到目标状态；
-- 完成至少一个代表性独立任务；
-- 完成至少一个迁移任务；
-- 活跃核心误区已清除或明确标记；
-- 若目标包含长期记忆，已完成延迟复习；
-- 若目标包含现实技能，存在真实产出或外部表现证据。
+- Todos los nodos centrales alcanzan el estado objetivo.
+- Se ha completado al menos una tarea independiente representativa.
+- Se ha completado al menos una tarea de transferencia.
+- Las ideas erróneas activas en el núcleo han sido eliminadas o marcadas claramente.
+- Si el objetivo incluye memoria a largo plazo, se ha completado la revisión retardada.
+- Si el objetivo incluye habilidades prácticas, existen evidencias de producción real o rendimiento externo.
 
-如果尚未经过延迟，只能说“即时掌握已验证，长期保持尚待确认”。
+Si aún no se ha realizado la revisión retardada, solo se puede decir "la comprensión inmediata ha sido verificada, la retención a largo plazo aún debe confirmarse".
 
-## 九、判定示例
+## 9. Ejemplos de determinación
 
-### 示例 1：看着公式完成题目
+### Ejemplo 1: Resolver un problema siguiendo la fórmula
 
-状态：`guided`。
+Estado: `guided`.
 
-原因：公式选择和关键步骤依赖可见提示。
+Razón: La elección de la fórmula y los pasos clave dependen de indicaciones visibles.
 
-### 示例 2：用户独立解对一道新题，但无法解释为什么
+### Ejemplo 2: El usuario resuelve de manera independiente un problema nuevo, pero no puede explicar por qué
 
-状态：可暂记低置信度 `independent`，随后用变式或依据问题复核。
+Estado: Se puede registrar provisionalmente `independent` con baja confianza, luego verificar mediante variaciones o según el problema.
 
-### 示例 3：用户在新商业案例中使用框架，但忽略了目标冲突
+### Ejemplo 3: El usuario aplica un marco en un nuevo caso comercial, pero omite conflictos de objetivos
 
-状态：保留 `guided` 或原状态，不判迁移成功。反馈应定位判断框架的缺失维度。
+Estado: Mantener `guided` o el estado original, no se considera transferencia exitosa. Los comentarios deben localizar las dimensiones faltantes en el marco de juicio.
 
-### 示例 4：一周后先回忆，仍能解释并应用
+### Ejemplo 4: Una semana después, primero recuerda, aún puede explicar y aplicar
 
-状态：根据任务难度可升为 `durable`，同时记录是否达到迁移要求。
+Estado: Según la dificultad de la tarea, se puede actualizar a `durable`, registrando si se cumplen los requisitos de transferencia.

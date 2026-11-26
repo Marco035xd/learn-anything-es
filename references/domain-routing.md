@@ -1,396 +1,396 @@
-# 领域与知识类型路由
+# Cómo adaptar la enseñanza al área y al tipo de conocimiento
 
-本文件回答两个问题：
+Este documento responde a dos preguntas:
 
-1. 当前要学的到底是哪一种能力？
-2. 哪种教学活动最可能产生可靠证据？
+1. ¿Qué habilidad se está aprendiendo actualmente?
+2. ¿Qué actividades docentes tienen más probabilidades de producir evidencia fiable?
 
-不要按学科名称直接套课程。一个领域通常同时包含事实、概念、程序、辨别、判断和实践技能。
+No apliques los cursos directamente a los nombres de las materias. Un campo suele incluir hechos, conceptos, procedimientos, discernimiento, juicio y habilidades prácticas simultáneamente.
 
-## 一、先从最终表现反推
+## 1. Parte del desempeño final esperado
 
-先完成这句话：
+Terminemos esta frase primero:
 
-> 学会之后，学习者能够在 ______ 场景中，独立完成 ______，达到 ______ 标准。
+> Tras dominarlo, los alumnos pueden completar ______ de forma independiente en ______ escenarios para cumplir con ______ estándares.
 
-再判断主知识类型。
+Luego evalúa el tipo de conocimiento principal.
 
-| 目标表现 | 主类型 |
+| Rendimiento objetivo | Tipo principal |
 |---|---|
-| 记住并准确说出 | `fact` |
-| 解释为什么、预测结果 | `concept` |
-| 按步骤完成、计算、操作 | `procedure` |
-| 从相似情况中选对类别或方法 | `discrimination` |
-| 在多个目标和约束中做取舍 | `judgment` |
-| 产出具有质量差异的作品 | `creative` |
-| 在身体或社交现场稳定表现 | `physical_or_social` |
+| Recuerda y dilo con precisión | `fact` |
+| Explique por qué y prediga el resultado | `concept` |
+| Completar los pasos, calcular y operar en consecuencia | `procedure` |
+| Selecciona la categoría o método correcto de situaciones similares | `discrimination` |
+| Hacer compensaciones entre múltiples objetivos y limitaciones | `judgment` |
+| Obras de productos con calidad variable | `creative` |
+| Rendimiento estable en entornos físicos o sociales | `physical_or_social` |
 
-如果目标同时包含多类，优先处理最早限制真实表现的那一类。
+Si el objetivo incluye varias categorías, priorice la categoría que primero restringe el rendimiento real.
 
-## 二、按知识类型选择学习活动
+## 2. Selecciona actividades de aprendizaje según el tipo de conocimiento
 
-### 1. Fact：事实、术语、定义
+### 1. Hecho: hechos, términos, definiciones
 
-适合：词汇、符号、时间、名称、规则要点、接口参数。
+Adecuado para: vocabulario, símbolos, tiempo, nombres, reglas clave, parámetros de la interfaz.
 
-推荐路径：
-
-```text
-理解最小含义
-→ 建立区分线索
-→ 主动回忆
-→ 间隔复习
-→ 放入实际语境
-```
-
-活动：
-
-- 看定义后合上材料复述；
-- 提示词到答案、答案到提示词的双向回忆；
-- 用例子说明术语；
-- 与易混词做最小对比；
-- 少量、多次复习。
-
-避免：
-
-- 只反复阅读或抄写；
-- 一次塞入大量孤立卡片；
-- 用选择题长期代替自由回忆。
-
-掌握证据：延迟后能够无提示准确提取，并在语境中辨认或使用。
-
-### 2. Concept：概念、原理、因果关系
-
-适合：经济学原理、物理概念、产品模型、历史机制、学习理论。
-
-推荐路径：
+Ruta recomendada:
 
 ```text
-暴露当前理解
-→ 最小定义或机制
-→ 正例 / 反例 / 边界例
-→ 自我解释
-→ 预测新情境
+Comprender el significado mínimo
+→ Establecer una pista distintiva
+→ Memoria activa
+→ Revisión de intervalos
+→ Llevado a contextos de la vida real
 ```
 
-活动：
+Actividades:
 
-- 让用户先解释或预测；
-- 画因果链、结构图或层级图；
-- 比较“属于”和“不属于”的案例；
-- 问“哪一个条件改变后结论不再成立”；
-- 用用户自己的工作或生活场景重述。
+- Después de leer la definición, cierra el material y reitera.
+- Recuerdo bidireccional de la pregunta a la respuesta, y de la respuesta a la pregunta.
+- Utilice ejemplos para ilustrar la terminología.
+- Minimiza la comparación con palabras fácilmente confusas.
+- Repasa en pequeñas cantidades y varias veces.
 
-避免：
+Evitar:
 
-- 只背一句定义；
-- 用更多抽象术语解释抽象术语；
-- 只问“懂了吗”。
+- Simplemente leer o copiar repetidamente.
+- Mete en un gran número de cartas aisladas a la vez.
+- Utiliza preguntas de opción múltiple para sustituir la llamada libre durante mucho tiempo.
 
-掌握证据：能用自己的话准确解释、识别边界，并预测一个新案例。
+Comprensión de la evidencia: Tras demora, puede extraerse con precisión sin indicaciones y reconocerse o utilizarse en contexto.
 
-### 3. Procedure：解题、编程、工具操作和流程
+### 2. Concepto: concepto, principio, relación causal
 
-适合：数学、代码、数据分析、软件操作、实验步骤、工作 SOP。
+Adecuado para: principios de economía, conceptos físicos, modelos de producto, mecanismos históricos, teorías del aprendizaje.
 
-推荐路径：
+Ruta recomendada:
 
 ```text
-任务拆解
-→ 完整示例
-→ 补全示例
-→ 带提示练习
-→ 独立完成
-→ 调试或异常变式
+Exponiendo la comprensión actual
+→ Definición o mecanismo mínimo
+→ Ejemplo positivo / Contraejemplo / Ejemplo de frontera
+→ Autoexplicación
+→ Anticipar nuevos escenarios
 ```
 
-活动：
+Actividades:
 
-- 新手先观察完整示范并解释每步作用；
-- 删除部分步骤让用户补全；
-- 逐渐降低提示强度；
-- 要求用户定位错误而不只是重做；
-- 最后完成一项真实任务。
+- Deja que los usuarios expliquen o predigan primero.
+- Dibujar cadenas causales, diagramas estructurales o diagramas jerárquicos.
+- Comparar casos donde "pertenece" a "no pertenece".
+- Pregunta: «¿Qué condición cambia antes de que la conclusión deje de cumplir?».
+- Recéntalo usando los escenarios laborales o personales del usuario.
 
-避免：
+Evitar:
 
-- 新手直接面对高复杂度整题；
-- AI 代替用户完成关键操作；
-- 因最终结果正确就忽略脆弱步骤。
+- Memoriza solo una definición.
+- Explica términos abstractos con términos más abstractos.
+- Solo pregunta: «¿Lo entiendes?»
 
-掌握证据：无关键提示完成代表性任务，能够诊断常见错误。
+Captar la evidencia: Sé capaz de explicar y identificar los límites con precisión con tus propias palabras, y predecir un nuevo caso.
 
-### 4. Discrimination：类别与方法辨别
+### 3. Procedimiento: resolución de problemas, programación, operación de herramientas y flujo de trabajo
 
-适合：语法辨析、病句、数学题型、设计模式、症状分类、商业模式辨别。
+Adecuado para: matemáticas, programación, análisis de datos, operaciones de software, pasos experimentales, SOP laboral.
 
-推荐路径：
+Ruta recomendada:
 
 ```text
-分别建立清晰原型
-→ 对比关键差异
-→ 边界例
-→ 混合分类
-→ 解释选择依据
+Desglose de tareas
+→ Ejemplo completo
+→ Ejemplo de completación
+→ Ejercicios con indicaciones
+→ Completado de forma independiente
+→ Variantes de depuración o excepción
 ```
 
-活动：
+Actividades:
 
-- 两栏或多栏对比；
-- 最小差异对；
-- 加入诱人但错误的干扰项；
-- 混合已经分别学会的类别；
-- 要求说明选择线索。
+- Los principiantes primero observan la demostración completa y explican la función de cada paso.
+- Eliminar algunos pasos que los usuarios deben completar.
+- Reducir gradualmente la intensidad del mensaje.
+- Exigir a los usuarios que lo extravien en lugar de simplemente volver a hacerlo.
+- Por último, completa una tarea real.
 
-避免：基础模式尚未形成就大量穿插，造成随机猜测。
+Evitar:
 
-掌握证据：面对混合新案例可以选对方法，并说出决定性线索。
+- Los principiantes se enfrentan directamente a problemas de alta complejidad.
+- La IA realiza operaciones críticas en nombre de los usuarios.
+- Ignora los pasos vulnerables porque el resultado final es correcto.
 
-### 5. Judgment：判断、策略和权衡
+Adquisición de evidencia: Completar tareas representativas sin indicaciones clave y diagnosticar errores comunes.
 
-适合：产品决策、商业战略、管理、伦理、历史解释、投资框架。
+### 4. Discriminación: Categorías y métodos distintivos
 
-这类任务通常没有唯一标准答案，但仍可以严格训练。
+Adecuado para: análisis gramatical, errores de oración, tipos de preguntas matemáticas, patrones de diseño, clasificación de síntomas, identificación de modelos de negocio.
 
-推荐路径：
+Ruta recomendada:
 
 ```text
-真实案例
-→ 学习者先判断
-→ 暴露目标、依据和假设
-→ 引入决策框架
-→ 比较替代方案与反例
-→ 新案例重新判断
-→ 事后校准
+Establecer prototipos claros por separado
+→ Comparar diferencias clave
+→ Ejemplo de límite
+→ Clasificación mixta
+→ Explique la base para la selección
 ```
 
-活动：
+Actividades:
 
-- 区分事实、观点、假设和价值取舍；
-- 让用户给出概率或信心范围；
-- 引入相反证据或反事实；
-- 比较两个都可辩护的方案；
-- 让用户明确何种新证据会改变判断；
-- 有真实结果时做决策复盘。
+- Comparación de dos o más columnas.
+- Par de diferencia mínima.
+- Añadiendo distracciones tentadoras pero erróneas.
+- Mezclar categorías que ya se han aprendido por separado.
+- Solicite instrucciones para seleccionar un contacto.
 
-避免：
+Evitar: Insertar grandes cantidades de patrones básicos antes de que se establezcan, lo que provoca conjeturas aleatorias.
 
-- 将 AI 偏好包装成标准答案；
-- 只教框架名，不训练选择和边界；
-- 用结果好坏简单倒推当初判断质量。
+Adquisición de pruebas: Al enfrentarte a casos nuevos y mixtos, puedes elegir el enfoque adecuado y presentar pistas decisivas.
 
-掌握证据：在新案例中识别目标与约束，做出有依据的选择，说明边界和更新条件。
+### 5. Sentencia: Juicio, estrategia y compensación
 
-### 6. Creative：写作、设计和开放创作
+Adecuado para: toma de decisiones sobre productos, estrategia empresarial, gestión, ética, interpretación histórica, marcos de inversión.
 
-推荐路径：
+Estas tareas suelen no tener una única respuesta estándar, pero aún así pueden formarse rigurosamente.
+
+Ruta recomendada:
 
 ```text
-明确作品标准
-→ 拆解高质量样本
-→ 受限模仿
-→ 独立产出
-→ 按 rubric 反馈
-→ 定向修改
-→ 新任务迁移
+Casos reales
+→ Los aprendices juzgan primero
+→ Exponer objetivos, bases y suposiciones
+→ Introducción de un marco de toma de decisiones
+→ Comparar alternativas con contraejemplos
+→ Los nuevos casos se reevalúan
+→ Verifica después
 ```
 
-活动：
+Actividades:
 
-- 比较样本为什么有效；
-- 只练一个子技能，例如开头、节奏或构图；
-- 用具体约束减少空泛创作；
-- 保存版本并比较改动；
-- 建立作品集证据。
+- Distinguir entre hechos, puntos de vista, suposiciones y compensaciones de valor.
+- Permitir a los usuarios proporcionar rangos de probabilidad o confianza.
+- Introducción de contrapruebas o contrafactuales.
+- Compara ambas opciones defendibles.
+- Permitir que los usuarios identifiquen qué nuevas pruebas cambiarán su juicio.
+- La revisión de decisiones se toma cuando hay resultados reales.
 
-避免：
+Evitar:
 
-- AI 直接替用户生成完整作品，再宣称用户学会；
-- 用纯主观好恶反馈；
-- 同时要求修改十个维度。
+- Empaquetar las preferencias de IA como respuestas estándar.
+- Solo enseñan nombres de marcos, no eligen ni limitan.
+- Simplemente haz ingeniería inversa de la calidad juzgando la calidad por la calidad de los resultados.
 
-掌握证据：学习者独立产出作品，并能依据标准修改和解释选择。
+Adquisición de evidencias: Identificar objetivos y limitaciones en nuevos casos, tomar decisiones informadas y explicar los límites y actualizar las condiciones.
 
-### 7. Physical or Social：动作、表达、沟通和现场表现
+### 6. Creativo: Escritura, diseño y creación abierta
 
-AI 可以支持：
-
-- 拆解动作或对话结构；
-- 角色扮演；
-- 生成演练场景；
-- 分析用户提供的记录、视频反馈或第三方评价；
-- 设计安全的练习计划。
-
-AI 不能独立替代：
-
-- 教练或专业人员现场观察；
-- 身体安全保护；
-- 真实受众反馈；
-- 专业资格认证。
-
-掌握证据必须包含现实表现，而不能只来自聊天回答。
-
-## 三、按学习者水平调整脚手架
-
-### Novice：新手
-
-特征：缺少知识结构，不知道什么重要，容易被表面特征带偏。
-
-策略：
-
-- 先给整体地图和最小术语；
-- 完整示例多于开放探索；
-- 一次少量新元素；
-- 高频、低风险反馈；
-- 明确正例、反例与常见错误。
-
-### Intermediate：进阶者
-
-特征：基础概念已建立，但调用不稳定，容易卡在组合和辨别。
-
-策略：
-
-- 压缩基础讲解；
-- 增加补全、混合和变式；
-- 练习解释选择依据；
-- 围绕弱点定向练习；
-- 开始真实项目。
-
-### Advanced：熟练者
-
-特征：能完成典型任务，需要复杂约束、速度、质量和判断校准。
-
-策略：
-
-- 直接使用真实或高保真任务；
-- 引入极端案例、反例和冲突目标；
-- 要求预测、复盘和模型更新；
-- 用专家 rubric 或领域结果反馈；
-- 减少冗余教学。
-
-不要按用户自称等级直接决定。用一两个高信息量任务校准。
-
-## 四、常见领域的组合路线
-
-### 数学与定量学科
+Ruta recomendada:
 
 ```text
-概念含义
-→ 完整例题
-→ 步骤补全
-→ 独立题
-→ 易混题型辨别
-→ 变式与证明 / 建模
+Aclarar las normas para las obras
+→ Desmontar muestras de alta calidad
+→ La imitación es limitada
+→ Producción independiente
+→ retroalimentación de la rúbrica de prensa
+→ Modificaciones específicas
+→ Nueva transferencia de tareas
 ```
 
-重点记录：错误发生在哪一步、使用了什么错误规则、需要几级提示。
+Actividades:
 
-### 编程与工具
+- comparar por qué las muestras son efectivas.
+- Practica solo una subhabilidad, como apertura, ritmo o composición.
+- Utilice restricciones específicas para reducir la creación vaga y genérica.
+- Guarda la versión y compara los cambios.
+- Elabora pruebas en el portafolio.
+
+Evitar:
+
+- La IA genera directamente obras completas para los usuarios y luego afirma que el usuario las ha aprendido.
+- Usar retroalimentación basada en preferencias puramente subjetivas.
+- Al mismo tiempo, se requiere modificar diez dimensiones.
+
+Evidencia de dominio: el aprendiz produce obras de manera independiente y puede modificarlas y explicar sus elecciones según los estándares.
+
+### 7. Físico o social: movimientos, expresiones, comunicación y desempeño en el lugar
+
+La IA puede ayudar a:
+
+- Descomponer movimientos o estructuras de diálogo.
+- Juego de roles.
+- Generar escenarios de práctica.
+- Analizar registros proporcionados por el usuario, retroalimentación en video o evaluaciones de terceros.
+- Diseñar un plan de ejercicios seguro.
+
+La IA no puede reemplazar de manera independiente:
+
+- La observación en el lugar por un entrenador o profesional.
+- Protección de la seguridad física.
+- Retroalimentación de audiencia real.
+- Certificación profesional.
+
+La evidencia de dominio debe incluir desempeño real y no solo respuestas de chat.
+
+## 3. ajustar el andamiaje según el nivel del aprendiz
+
+### Principiante: novato
+
+Características: carece de estructura de conocimiento, no sabe qué es importante, se deja desviar fácilmente por características superficiales.
+
+Estrategias:
+
+- Primero dar el mapa general y los términos mínimos.
+- Ejemplos completos más que exploración abierta.
+- Pocos elementos nuevos a la vez.
+- Retroalimentación frecuente y de bajo riesgo.
+- Clarificar ejemplos correctos, incorrectos y errores comunes.
+
+### Intermedio: aprendiz avanzado
+
+Características: los conceptos básicos ya están establecidos, pero su aplicación no es estable, y se dificulta al combinar y distinguir.
+
+Estrategias:
+
+- Comprimir la explicación básica.
+- Aumentar la práctica de completado, mezcla y variaciones.
+- Practicar explicando el fundamento de las elecciones.
+- Práctica dirigida en torno a debilidades.
+- Comenzar proyectos reales.
+
+### Avanzado: usuario competente
+
+Características: puede completar tareas típicas, necesita calibrar complejidad, velocidad, calidad y juicio.
+
+Estrategias:
+
+- Usar directamente tareas reales o de alta fidelidad.
+- Introducir casos extremos, ejemplos incorrectos y objetivos conflictivos.
+- Se requiere predecir, revisar y actualizar modelos.
+- Rúbrica de experto o retroalimentación de resultados de dominio.
+- Reducir la enseñanza redundante.
+
+No decidas directamente basándote en el nivel autoproclamado por el usuario. Calibra con una o dos tareas de alta información.
+
+## 4. Rutas combinadas en campos comunes
+
+### Matemáticas y Ciencias Cuantitativas
 
 ```text
-目标任务
-→ 最小可运行示例
-→ 解释关键结构
-→ 修改一处
-→ 独立实现
-→ 调试故障
-→ 放入真实项目
+Significado conceptual
+→ Problemas de ejemplo completos
+→ Finalización de pasos
+→ Pregunta independiente
+→ Identificación de tipos de preguntas fácilmente confusas
+→ Variantes y demostración/modelado
 ```
 
-不要把“看懂代码”当成“会写代码”。需要实际运行、测试或可检查产物。
+Notas clave: dónde se produjo el error, qué reglas de error se utilizaron y cuántos niveles de avisos son necesarios.
 
-### 自然科学
+### Programación y herramientas
 
 ```text
-现象预测
-→ 核心模型
-→ 图示或实验
-→ 计算 / 解释
-→ 反直觉案例
-→ 新条件下预测
+Tareas objetivo
+→ Ejemplo mínimo ejecutable
+→ Explique la estructura clave
+→ Modificar un lugar
+→ Implementación independiente
+→ Fallo de depuración
+→ Pone en proyectos reales
 ```
 
-区分模型、证据和适用范围。
+No confundas "entender código" con "ser capaz de escribir código". Requiere ejecución real, pruebas o entregables inspeccionables.
 
-### 历史与社会科学
+### Ciencias naturales
 
 ```text
-时间与事实骨架
-→ 多因素机制
-→ 来源和观点差异
-→ 案例比较
-→ 反事实 / 新案例解释
+Predicción de fenómenos
+→ Modelo central
+→ Ilustración o experimento
+→ Cálculo / Interpretación
+→ Casos contraintuitivos
+→ Previsiones bajo nuevas condiciones
 ```
 
-避免把单一叙事当成唯一事实。区分史料、解释和价值判断。
+Distingue entre modelos, evidencias y ámbito de aplicación.
 
-### 产品、商业与战略
+### Historia y Ciencias Sociales
 
 ```text
-真实决策场景
-→ 用户先判断
-→ 目标与约束
-→ 机制 / 框架
-→ 方案比较
-→ 决策条件
-→ 现实结果复盘
+El esqueleto del tiempo y los hechos
+→ Mecanismo multifactor
+→ Diferencias en fuentes y perspectivas
+→ Comparación de casos
+→ Explicación contrafactual / Nuevo caso
 ```
 
-重点训练：什么信息会改变判断、何时不使用该框架。
+Evita tratar una sola narrativa como el único hecho. Distingue entre fuentes históricas, interpretaciones y juicios de valor.
 
-### 语言学习
+### Producto, negocio y estrategia
 
 ```text
-可理解输入
-→ 词汇 / 语法最小讲解
-→ 主动提取
-→ 受控输出
-→ 真实表达
-→ 纠错与复用
-→ 间隔复习
+Escenarios reales de toma de decisiones
+→ Los usuarios juzgan primero
+→ Objetivos y limitaciones
+→ Mecanismo / Marco
+→ Comparación de soluciones
+→ Condiciones de decisión
+→ Revisión de los resultados reales
 ```
 
-发音和真实交流能力需要音频、真人或可靠语音反馈。不要只做翻译和选择题。
+Formación clave: Qué información cambia los juicios y cuándo no utilizar el marco.
 
-### 考试准备
+### Aprendizaje de idiomas
 
 ```text
-考试蓝图与时间约束
-→ 诊断测试
-→ 高频薄弱点
-→ 分类型练习
-→ 混合检索
-→ 限时模拟
-→ 错误复盘与复习队列
+Entrada comprensible
+→ Explicación mínima del vocabulario / gramática
+→ Extracción activa
+→ Salida controlada
+→ Expresión auténtica
+→ Corrección y reutilización
+→ Revisión de intervalos
 ```
 
-不要只刷题量。按错误模型和得分贡献安排优先级。
+La pronunciación y las habilidades de comunicación auténticas requieren audio, personas reales o retroalimentación de voz fiable. No te limites a hacer preguntas de traducción y de preguntas de opción múltiple.
 
-### 项目制学习
+### Preparación para el examen
 
 ```text
-定义可交付项目
-→ 识别最低必需知识
-→ 完成最小版本
-→ 遇到缺口即时学习
-→ 反馈与迭代
-→ 提炼可迁移能力
+Plan del examen y limitaciones de tiempo
+→ Pruebas diagnósticas
+→ Puntos débiles de alta frecuencia
+→ Práctica por tipo
+→ Búsqueda híbrida
+→ Simulación cronometrada
+→ Revisión de errores y lista de repasos
 ```
 
-项目不能替代所有基础学习，但能提供真实调用和反馈。
+No te centres solo en la cantidad de preguntas de práctica. Prioriza basándote en modelos de error y en las contribuciones de puntuación.
 
-## 五、领域地图生成规则
+### Aprendizaje basado en proyectos
 
-领域地图必须回答：
+```text
+Definir los entregables
+→ Identificar el conocimiento mínimo requerido
+→ Completar la versión mínima
+→ Aprende al instante cuando surjan lagunas
+→ Retroalimentación e iteración
+→ Extraer capacidades transferibles
+```
 
-1. 最终能力是什么？
-2. 哪些前置知识真的是必要的？
-3. 哪几个核心模型覆盖大多数任务？
-4. 代表性任务是什么？
-5. 最常见的误区和失败模式是什么？
-6. 最终用什么作品、测试或现实表现验收？
+Los proyectos no pueden reemplazar todo el aprendizaje fundamental, pero proporcionan llamadas y retroalimentación auténticas.
 
-建议结构：
+## 5. Reglas para generar mapas de dominio
+
+El mapa de dominio debe responder:
+
+1. ¿Cuál es la habilidad definitiva?
+2. ¿Qué conocimiento previo es realmente necesario?
+3. ¿Qué modelos básicos cubren la mayoría de las tareas?
+4. ¿Cuál es la tarea representativa?
+5. ¿Cuáles son los errores y patrones de fallo más comunes?
+6. ¿Qué obras, pruebas o actuaciones del mundo real se utilizarán finalmente para ser aceptadas?
+
+Estructura recomendada:
 
 ```yaml
 domain:
@@ -403,20 +403,20 @@ capstone:
 out_of_scope:
 ```
 
-### 压缩原则
+### Principios de compresión
 
-- 优先覆盖高频、高杠杆节点。
-- 先达到“可用”，再扩展“完整”。
-- 不因知识重要就默认先学；必须与目标表现相关。
-- 每个阶段定义一项掌握证据。
-- 路线允许根据诊断结果跳过、回退或重排。
+- Cobertura prioritaria para nodos de alta frecuencia y alto apalancamiento.
+- Primero llega a "Disponible" y luego expande "Completado".
+- No des por hecho que el conocimiento es importante y aprende primero; Debe estar relacionado con el cumplimiento del objetivo.
+- Cada etapa define una prueba de agarre.
+- Las rutas permiten omitir, retroceder o reorganizar según los resultados diagnósticos.
 
-## 六、路由自检
+## 6. Autocomprobación de rutas
 
 ```text
-当前活动是否真的对应最终表现？
-用户是在记事实、理解机制、执行程序、辨别类别、做判断还是创作？
-当前脚手架是否匹配实际水平？
-是否存在更接近真实任务的练习？
-这项能力是否需要聊天之外的反馈来源？
+¿Corresponde realmente el evento actual a la actuación final?
+¿Los usuarios memorizan hechos, comprenden mecanismos, ejecutan programas, distinguen categorías, hacen juicios o crean?
+¿El andamiaje actual coincide con el nivel real?
+¿Hay ejercicios más cercanos a tareas reales?
+¿Esta habilidad requiere fuentes de retroalimentación más allá del chat?
 ```

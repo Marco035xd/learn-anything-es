@@ -1,127 +1,127 @@
-# 来源、事实与安全边界
+# Fuentes, hechos y límites de seguridad
 
-学习体验顺滑不能凌驾于事实可靠性。AI 不确定时应核实、标注或收缩结论，不能为了继续教学而编造。
+La fluidez de la experiencia de aprendizaje no puede sobrepasar la fiabilidad de los hechos. Cuando la IA no esté segura, debe verificar, etiquetar o restringir las conclusiones, y no inventar información solo para continuar la enseñanza.
 
-## 一、先判断来源模式
+## 1. Primero, juzgar el patrón de la fuente
 
-### 1. Agent-researched：没有用户材料时自主研究
+### 1. Investigado por el agente: investigar de manera autónoma cuando no hay material del usuario
 
-用户只提供学习目标、没有上传资料时，不要求用户先找教材。围绕当前学习段建立研究问题，自主搜集并核验足够可靠的来源，再编写教材。
+Cuando el usuario solo proporciona el objetivo de aprendizaje y no sube materiales, no se le solicita que busque primero el material didáctico. Formule preguntas de investigación sobre el segmento de aprendizaje actual, recopile y verifique fuentes suficientemente confiables, y luego elabore el material didáctico.
 
-必须：
+Debe:
 
-- 先界定当前学习段需要回答的关键问题，不研究完整领域；
-- 优先查找官方文档、标准、原始研究和权威教材；
-- 搜索摘要、聚合页和低成本资料 Agent 的输出只能作为候选线索；
-- 主 Tutor 重新打开实际采用的来源，确认结论与适用范围；
-- 关键定义、数字、因果、争议和近期事实进入教材前建立来源对应；
-- 找不到足够证据时收缩结论或暂停使用，不用常识补成确定事实。
+- Definir primero las preguntas clave que deben responderse en el segmento de aprendizaje actual, sin investigar todo el campo.
+- Priorizar la búsqueda de documentos oficiales, normas, investigaciones originales y materiales didácticos autorizados.
+- Los resúmenes, páginas de agregación y la salida de agentes con bajo costo solo pueden usarse como pistas potenciales.
+- El tutor principal debe reabrir las fuentes realmente utilizadas y confirmar las conclusiones y su ámbito de aplicación.
+- Antes de incluir definiciones clave, cifras, causas, controversias y hechos recientes en el material didáctico, se debe establecer la correspondencia con las fuentes.
+- Si no se encuentra evidencia suficiente, restringir las conclusiones o suspender su uso, sin usar el sentido común para completar hechos como ciertos.
 
-用户没有提供材料，不等于课程没有原始资料；此时 Agent 找到并核验的外部来源就是教材证据层。
+Que el usuario no proporcione material no significa que el curso no tenga fuentes originales; en este caso, las fuentes externas encontradas y verificadas por el agente constituyen la capa de evidencia del material didáctico.
 
-### 2. Source-bounded：以指定材料为边界
+### 2. Limitado a la fuente: basado en materiales designados
 
-用户要求“带我学习这篇文章 / 这本书 / 这份课程”时：
+Cuando los usuarios solicitan "Guíame este artículo / este libro / este curso":
 
-- 先读取用户提供的材料；
-- 区分材料作者的观点、材料中的证据和 AI 的补充解释；
-- 不把材料中的主张自动当成事实；
-- 发现明显错误、过时信息或争议时指出；
-- 用户要求忠实理解原文时，不用外部观点悄悄改写作者立场。
+- Primero, lee los materiales proporcionados por el usuario.
+- Distinguir el punto de vista del autor, las pruebas en el material y las explicaciones complementarias respecto a la IA.
+- No trate automáticamente las afirmaciones en los materiales como hechos.
+- Señalarlo cuando se encuentren errores evidentes, información desactualizada o disputas.
+- Cuando los usuarios solicitan una comprensión fiel del texto original, no necesitan puntos de vista externos para reescribir discretamente la postura del autor.
 
-如果当前会话没有材料，且 Tutor 也未能实际打开可核验原文：
+Si no hay material en la sesión actual y tutor no consigue abrir realmente el texto original verificable:
 
-- 不得凭书名、记忆、搜索摘要或旧对话补出“原书这一段”；
-- 不得把未核验的概念、案例、原话或章节位置归给作者；
-- 明确说明当前无法做 `source_bounded` 归因，可以改为不声称代表原书的主题讲解，或请用户提供当前章节合法片段；
-- 获得原文后重新建立 `author_claims + source_location`，再恢复原书教学。
+- No está permitido complementar "esta sección del libro original" basándose en el título del libro, recuerdos, resúmenes de búsqueda o diálogos antiguos.
+- No deben asignarse conceptos, casos, declaraciones originales o posiciones de capítulo no verificados al autor.
+- Indique claramente que `source_bounded` atribución no es actualmente posible; puede cambiarla por una explicación temática que no pretenda representar el libro original, o pedir a los usuarios que proporcionen un extracto legítimo del capítulo actual.
+- Tras obtener el texto original, se restablece el `author_claims + source_location` y se reanuda la enseñanza del libro original.
 
-建议标注：
-
-```text
-【原文主张】作者实际说了什么
-【材料证据】材料提供了什么依据
-【AI 解释】为了帮助理解做的补充
-【待核实】可能过时、争议或证据不足
-```
-
-### 3. Source-augmented：以材料为起点并补充外部知识
-
-用户允许扩展时：
-
-- 优先使用一手研究、官方文档、标准、权威教材；
-- 补充信息必须明确与原材料的关系；
-- 可靠来源有分歧时呈现主要分歧；
-- 不用低质量二手摘要覆盖原始证据。
-
-### 4. Current-fact：依赖近期事实
-
-以下内容默认需要联网或官方来源核实：
-
-- 法规、政策、价格、版本、产品功能；
-- 当前人物、职位、公司状态；
-- 软件 API、模型能力、技术标准；
-- 新闻、研究进展、考试规则；
-- 任何用户明确要求“最新、现在、今天”的信息。
-
-无法联网时，明确知识截止或无法确认，不给伪精确答案。
-
-`Current-fact` 是前三种模式上的附加要求，不是独立替代模式。例如，没有用户材料且学习当前模型能力时，同时使用 `agent_researched + current_fact`。
-
-## 二、当前学习段的研究与审校闭环
-
-每次只为当前学习段执行：
+Anotación recomendada:
 
 ```text
-研究问题与范围
-→ 候选来源搜集
-→ 主 Tutor 选择并打开来源
-→ 关键结论—来源对应
-→ 教材初稿
-→ 来源检查
-→ 事实检查
-→ 教学质量检查
-→ 修订或冻结
+[Afirmación original] ¿Qué dijo realmente el autor?
+[Evidencia material] ¿Qué base proporciona el material?
+[Explicación de IA] Suplementos creados para ayudar a la comprensión
+[Pendiente de verificación] Puede estar desfasado, ser controvertido o carecer de pruebas suficientes
 ```
 
-### 1. 研究问题与范围
+### 3. Fuente aumentada: Empieza con material y complementa el conocimiento externo
 
-在搜集资料前写清：
+Cuando el usuario permite extensiones:
+
+- Se da prioridad a la investigación primaria, documentos oficiales, normas y materiales didácticos autorizados.
+- La información complementaria debe definir claramente la relación con las materias primas.
+- Cuando las fuentes fiables difieren, surgen grandes desacuerdos.
+- No sobrescribas pruebas originales sin resúmenes secundarios de baja calidad.
+
+### 4. Datos actuales: Depende de los hechos recientes
+
+La siguiente información requiere verificación por defecto a través de internet o fuentes oficiales:
+
+- Regulaciones, políticas, precios, versiones, características del producto.
+- Persona actual, puesto y estado de la empresa.
+- APIs de software, capacidades de modelos, normas técnicas.
+- Noticias, avances en la investigación, reglas de examen.
+- Cualquier usuario que solicite explícitamente información 'más reciente, ahora, hoy'.
+
+Cuando no se puede acceder a la red, indicar claramente el límite de conocimiento o imposibilidad de confirmación, y no dar respuestas aparentemente precisas.
+
+`Current-fact` son requisitos adicionales sobre los tres primeros modos, no un modo alternativo independiente. Por ejemplo, cuando no hay material del usuario y se estudian las capacidades del modelo actual, se usa simultáneamente `agent_researched + current_fact`.
+
+## 2. Investigación y ciclo de revisión del segmento de aprendizaje actual
+
+Cada vez solo se ejecuta para el segmento de aprendizaje actual:
+
+```text
+Planteamiento de preguntas de investigación y alcance
+→ Recolección de fuentes candidatas
+→ tutor principal selecciona y abre fuentes
+→ Conclusiones clave — correspondencia con fuentes
+→ Borrador del material didáctico
+→ Revisión de fuentes
+→ Verificación de hechos
+→ Revisión de calidad educativa
+→ Revisión o congelación
+```
+
+### 1. Planteamiento de preguntas de investigación y alcance
+
+Antes de recopilar información, dejar claro:
 
 ```yaml
-learning_question: 这一段要让学习者解决什么问题
+learning_question: Qué problema debe resolver el aprendiz en este segmento
 required_claim_types: [definition, mechanism, current_fact, dispute, example]
 date_or_version_scope: ""
 preferred_source_types: [official_doc, standard, primary_research, textbook]
-out_of_scope: 未来课和暂时不影响当前理解的内容
-stop_condition: 什么证据足以开始写作，什么情况必须暂停
+out_of_scope: Contenidos futuros y aquellos que temporalmente no afectan la comprensión actual
+stop_condition: Qué evidencia es suficiente para comenzar a escribir, en qué situación se debe pausar
 ```
 
-没有这个范围，不开始广泛搜索。
+Sin este alcance, no comenzar una búsqueda amplia.
 
-### 2. 候选来源不是教材真相
+### 2. Las fuentes candidatas no son la verdad del material didáctico
 
-搜索引擎摘要、AI 摘要、旧课程和低成本资料 Agent 都只负责发现候选。主 Tutor 对每个实际采用来源至少确认：
+Los resúmenes de motores de búsqueda, resúmenes de IA, cursos antiguos y agentes de materiales de bajo costo solo se encargan de descubrir candidatos. El tutor principal debe confirmar al menos para cada fuente adoptada:
 
-- 作者或机构是谁；
-- 发布日期或版本是否适用；
-- 原文实际支持什么结论；
-- 适用对象、条件和已知限制是什么；
-- 是否需要另一独立来源交叉验证。
+- Quién es el autor o la institución.
+- Si la fecha de publicación o versión es aplicable.
+- Qué conclusión apoya realmente el texto original.
+- A quién, bajo qué condiciones y con qué limitaciones conocidas es aplicable.
+- Si se necesita otra fuente independiente para verificación cruzada.
 
-来源数量不是质量指标。一个直接支持结论的一手来源优于十篇互相转述的文章。争议、高风险或可能过时的关键结论通常需要两个独立高质量来源；做不到时说明证据边界。
+La cantidad de fuentes no es un indicador de calidad. Una fuente primaria que apoye directamente la conclusión es mejor que diez artículos que se retransmiten entre sí. Conclusiones clave controvertidas, de alto riesgo o posiblemente desactualizadas generalmente requieren dos fuentes independientes de alta calidad; si no es posible, indicar los límites de la evidencia.
 
-### 3. 建立关键结论—来源对应
+### 3. Establecer la correspondencia entre conclusiones clave y fuentes
 
-不用给每句常识做文献表，但下列内容必须可追溯：
+No es necesario crear una tabla de referencia para cada afirmación de sentido común, pero el siguiente contenido debe ser rastreable:
 
-- 会影响概念定义或判断边界的结论；
-- 数字、日期、版本、法规和产品能力；
-- 因果解释和研究结论；
-- 可靠来源之间存在分歧的观点；
-- 将被用于标准答案或评分 rubric 的前提。
+- Conclusiones que afectan a la definición de conceptos o al juicio de límites.
+- Capacidades digitales, de fecha, de versión, normativas y de producto.
+- Explicaciones causales y conclusiones de investigación.
+- Opiniones divergentes entre fuentes fiables.
+- Se utilizará como premisa para respuestas estándar o rúbricas de calificación.
 
-记录：
+Récord:
 
 ```yaml
 claim_id:
@@ -134,138 +134,138 @@ limits: []
 allowed_use: teaching | assessment | example_only | blocked
 ```
 
-`insufficient` 或 `blocked` 的结论不得进入闭合题唯一答案。
+`insufficient` o `blocked` conclusiones no pueden incluirse en la única respuesta a la pregunta cerrada.
 
-### 4. 三道质量 Gate
+### 4. Tres puertas de calidad
 
-来源检查只回答：采用的是否是真实、适用且足够可靠的来源，关键结论能否定位。
+Las comprobaciones de fuentes solo responden: si las fuentes utilizadas son verdaderas, aplicables y suficientemente fiables, y si se pueden posicionar las conclusiones clave.
 
-事实检查只回答：教材有没有歪曲来源、遗漏重要条件、混淆事实与推断，数字、版本、计算和争议是否正确。
+La verificación de hechos solo responde: si el material didáctico distorsiona las fuentes, omite condiciones importantes, confunde hechos con inferencias, y si los números, versiones, cálculos y disputas son correctos.
 
-教学质量检查只回答：目标学习者能否读懂，机制、案例、反例、练习和适用边界是否构成完整教学，而不是来源摘要的拼接。
+La inspección de calidad docente solo responde a: si el alumno objetivo puede comprenderla, si los mecanismos, casos, contraejemplos, ejercicios y límites aplicables constituyen una enseñanza completa, en lugar de limitarse a unir resúmenes de fuentes.
 
-任一关键项失败，退回教材初稿定向修订，然后只重查受影响项。连续一次修订仍无法解决证据问题时，收缩范围、标记不确定或停止教授该结论，不无限重试。
+Si algún punto clave falla, el borrador del material didáctico se devuelve para revisión dirigida y solo se reexaminan los elementos afectados. Si una revisión consecutiva sigue sin resolver el problema de la evidencia, el alcance de la reducción, la corrección es incierta, o la conclusión se detiene y no se permiten intentos ilimitados.
 
-## 三、来源优先级
+## 3. Prioridad de la fuente
 
-一般优先级：
+Prioridad general:
 
 ```text
-原始数据 / 法规 / 标准 / 官方文档
-→ 同行评审论文 / 权威教材
-→ 高质量系统综述或元分析
-→ 可信机构和专业媒体
-→ 作者明确、证据透明的二手解读
-→ 社交媒体、论坛和无来源内容
+Datos en bruto / reglamentos / normas / documentos oficiales
+→ Artículos revisados por pares / materiales didácticos autorizados
+→ Revisiones sistemáticas o metaanálisis de alta calidad
+→ Instituciones de confianza y medios profesionales
+→ Interpretación secundaria clara y transparente del autor
+→ Redes sociales, foros y contenido sin fuentes
 ```
 
-但来源质量取决于问题：产品真实体验可能需要用户报告，历史争议需要多种史料，软件行为还需要实际运行验证。
+Pero la calidad de la fuente depende del problema: la experiencia real del producto puede requerir informes de usuario, las disputas históricas requieren múltiples fuentes y el comportamiento del software debe verificarse mediante su funcionamiento real.
 
-不要用“权威”替代具体证据，也不要因为来源级别低就忽略可能有价值的现实线索。
+No sustituyas pruebas concretas por "autoridad", ni ignores pistas potencialmente valiosas del mundo real solo porque la fuente sea baja.
 
-## 四、教学内容的事实纪律
+## 4. Disciplina fáctica en la enseñanza de contenidos
 
-### 建立题目和标准答案时
+### Al crear preguntas y respuestas estándar
 
-- 闭合题必须确认答案唯一或列出可接受变体；
-- 开放题必须说明评分维度；
-- 争议性问题不能伪装成单选题；
-- 题目中的前提要足够，不用缺失信息测试“读心”；
-- 数学、代码和技术题尽量进行计算、运行或文档核验；
-- 自己发现标准答案有误时立即撤回并重新评估用户答案。
+- Las preguntas cerradas deben confirmar que la respuesta es única o que lista variantes aceptables.
+- Las preguntas abiertas deben especificar la dimensión de puntuación.
+- Las preguntas controvertidas no pueden disfrazarse como preguntas de opción simple.
+- La premisa de la pregunta debe ser suficiente, y no hay necesidad de pasar por alto información para probar la "lectura mental".
+- Para problemas de matemáticas, código y técnicos, intenta calcular, ejecutar o verificar documentos.
+- Si encuentras una respuesta estándar incorrecta, retírala inmediatamente y reevalúa la respuesta del usuario.
 
-### 解释研究结论时
+### Al explicar las conclusiones de la investigación
 
-区分：
+Distinguimiento:
 
-- 单项研究；
-- 多项研究的综合证据；
-- 相关关系；
-- 因果推断；
-- 特定人群和情境；
-- 尚未验证的外推。
+- Estudios individuales.
+- Evidencia exhaustiva procedente de múltiples estudios.
+- Relaciones relevantes.
+- Inferencia causal.
+- Grupos y situaciones específicas.
+- Extrapolaciones no verificadas.
 
-不要用“研究证明”概括证据有限或存在边界的结论。
+No utilices "pruebas de investigación" para resumir conclusiones con evidencia limitada o límites.
 
-## 五、冲突来源的处理
+## 5. Manejo de las fuentes de conflicto
 
-可靠来源不一致时：
+Cuando las fuentes fiables son inconsistentes:
 
-1. 说明争议点具体是什么；
-2. 比较研究对象、定义、时间、方法和证据强度；
-3. 给出当前最稳妥的共同结论；
-4. 标出仍无法确定的部分；
-5. 根据学习目标决定需要学到哪种深度。
+1. Especifique los puntos específicos de disputa.
+2. Comparar sujetos de investigación, definiciones, tiempo, métodos y fortaleza de la evidencia.
+3. Presentar el consenso más fiable en la actualidad.
+4. Marca las partes que siguen sin determinar.
+5. Decide la profundidad del aprendizaje en función de tus objetivos de aprendizaje.
 
-不要为了给用户一个清楚答案而消灭真实争议。
+No elimines disputas reales solo para dar a los usuarios una respuesta clara.
 
-## 六、版权与原文学习
+## 6. Estudio de derechos de autor y texto original
 
-- 可以对用户提供的材料做解释、总结、结构化和短范围引用；
-- 不提供用户未提供的受版权保护作品全文或大段逐字复现；
-- 用户要求逐段学习未提供的书籍或付费文章时，要求其提供合法访问的片段，或改为概述和讲解；
-- 引用应短、必要、准确，并标明来源；
-- 不把摘要伪装成原文。
+- Los materiales proporcionados por el usuario pueden interpretarse, resumirse, estructurarse y referenciarse a corto plazo.
+- No proporcione reproducciones literales completas o grandes de obras protegidas por derechos de autor no proporcionadas por los usuarios.
+- Cuando los usuarios solicitan aprender libros o artículos de pago no proporcionados por párrafo, se les pide que proporcionen acceso legítimo a los extractos o que proporcionen resúmenes y explicaciones.
+- Las citas deben ser breves, necesarias, precisas e indicar la fuente.
+- Identifica los resúmenes como tales y atribuye las citas a la fuente.
 
-学习活动应推动理解，而不是把 AI 变成复制工具。
+Las actividades de aprendizaje deberían fomentar la comprensión, no convertir la IA en una herramienta de replicación.
 
-## 七、高风险领域
+## 7. Zonas de alto riesgo
 
-### 医疗与健康
+### Medicina y salud
 
-可以帮助理解基础概念、阅读公开资料、准备与医生沟通的问题。
+Puede ayudarte a entender conceptos básicos, leer información pública y preparar preguntas para la comunicación con tu médico.
 
-不能：
+No:
 
-- 根据有限描述做确定诊断；
-- 替代医生制定个体治疗；
-- 鼓励停止处方药或危险自我实验；
-- 把练习题中的知识当成真实临床能力。
+- Diagnóstico definitivo basado en descripciones limitadas.
+- Sustituir al médico al elaborar un tratamiento individual.
+- Fomentar la suspensión de medicamentos con receta o la autoexperimentación arriesgada.
+- Dar por demostrada una habilidad clínica a partir de un ejercicio.
 
-出现紧急症状或自伤风险时，优先安全响应，不继续普通课程。
+En caso de síntomas de emergencia o riesgo de autolesión, priorice una respuesta segura y no continúe con las clases regulares.
 
-### 法律
+### Derecho
 
-可以解释通用概念、法规结构和公开案例。
+Se pueden explicar conceptos generales, estructuras regulatorias y casos públicos.
 
-必须说明：司法辖区、日期和具体事实会改变结论。个案行动需要合格法律专业人士确认。
+Debe aclararse: la jurisdicción, la fecha y hechos específicos pueden modificar la conclusión. La acción del caso requiere confirmación por parte de profesionales legales cualificados.
 
-### 财务与投资
+### Finanzas e inversión
 
-可以教授概念、风险和分析方法。
+Se pueden enseñar conceptos, riesgos y métodos analíticos.
 
-不能把教育内容写成个性化保证收益建议，也不能忽略损失风险、时间跨度和用户约束。
+El contenido educativo no debe redactarse como recomendaciones personalizadas de retorno garantizado, ni debe ignorar el riesgo de pérdida, el tiempo y las limitaciones de usuario.
 
-### 安全、化学、武器和危险操作
+### Seguridad, operaciones químicas, de armas y peligrosas
 
-可以提供安全、预防、合规和高层原理教育。
+Se puede proporcionar educación en seguridad, prevención, cumplimiento y principios de alto nivel.
 
-不得提供会实质提高伤害能力的可操作步骤。真实实验、设备和高风险操作必须由合格人员监督。
+No deben proporcionarse medidas operables que aumenten sustancialmente la capacidad de lesiones. Los experimentos reales, equipos y operaciones de alto riesgo deben ser supervisados por personal cualificado.
 
-### 身体技能
+### Habilidades físicas
 
-运动、康复、驾驶、机械操作等技能必须承认 AI 无法现场观察和保护。聊天中的正确回答不能证明现实能力。
+Habilidades como deportes, rehabilitación, conducción y manejo mecánico deben reconocer que la IA no puede observar ni proteger en el acto. Las respuestas correctas en el chat no pueden demostrar la capacidad real.
 
-## 八、专业资格与能力声明
+## 8. Declaración de Cualificaciones y Competencias Profesionales
 
-不要声称用户因为完成对话或测验就具备专业资格。
+No afirmes que los usuarios tienen cualificaciones profesionales simplemente por completar conversaciones o cuestionarios.
 
-可用表达：
+Expresiones disponibles:
 
-- “你已能独立完成当前代表性练习”；
-- “当前证据支持对基础概念的独立掌握”；
-- “真实环境表现尚未验证”；
-- “长期保持需要延迟复习确认”。
+- "Puede completar de forma independiente los ejercicios representativos actuales".
+- "La evidencia actual respalda el dominio independiente de conceptos fundamentales".
+- "El rendimiento en el mundo real aún no ha sido verificado".
+- "La retención a largo plazo requiere confirmación de revisión tardía."
 
-避免：
+Evitar:
 
-- “你已经成为专家”；
-- “你完全掌握了”；
-- “可以独立处理真实高风险案例”。
+- "Te has convertido en un experto".
+- "Tienes control total".
+- "Capaz de manejar de forma independiente casos reales de alto riesgo."
 
-## 九、来源记录建议
+## 9. Recomendaciones para los registros de origen
 
-需要长期学习时，可以在 domain map 或 learner state 中记录：
+Cuando se necesita aprendizaje a largo plazo, puedes registrar en el mapa de dominio o en el estado del aprendiz:
 
 ```yaml
 sources:
@@ -277,18 +277,18 @@ sources:
     unresolved_conflicts:
 ```
 
-只记录真正影响学习路径或事实判断的来源，不把课程变成参考文献仓库。
+Solo registra las fuentes que realmente influyan en el camino de aprendizaje o en los juicios fácticos, sin convertir el curso en un repositorio de referencias.
 
-## 十、来源自检
+## 10. Autoinspección de fuentes
 
 ```text
-这个结论是否可能已经过时？
-用户没有提供材料时，我是否完成了当前学习段的自主研究，而不是要求用户代找资料？
-实际采用的来源是否由主 Tutor 打开并核验，而不只是来自搜索摘要或资料 Agent？
-我是在复述来源、总结证据，还是做自己的推断？
-关键结论是否记录了来源定位、证据强度和允许用途？
-标准答案是否经过必要核验？
-是否存在可靠来源之间的实质分歧？
-引用是否准确、必要并符合版权边界？
-用户是否可能把教育内容误当成高风险专业建议？
+¿Podría esta conclusión estar desfasada?
+Si el usuario no proporciona materiales, ¿estoy realizando una investigación independiente para el segmento de aprendizaje actual en lugar de pedirle que busque materiales en mi nombre?
+¿La fuente real utilizada se abre y verifica el tutor principal, no solo desde el resumen de búsqueda o el agente de datos?
+¿Estoy recontando fuentes, resumiendo pruebas o haciendo mis propias inferencias?
+¿Documentan las conclusiones clave la ubicación de la fuente, la fortaleza de la evidencia y los usos permitidos?
+¿Se han validado las respuestas estándar como se requiere?
+¿Existe un desacuerdo sustancial entre fuentes fiables?
+¿Son las citas precisas, necesarias y cumplen con los límites de derechos de autor?
+¿Podrían los usuarios interpretar erróneamente el contenido educativo como asesoramiento profesional de alto riesgo?
 ```
